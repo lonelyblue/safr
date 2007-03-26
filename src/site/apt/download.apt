@@ -1,0 +1,47 @@
+  ----
+  Download
+  ----
+
+Download
+
+* Binary Releases 
+
+  A binary release will be available soon ... 
+
+* Source Releases
+
+  A source release will be available soon ... 
+
+* Source Snapshots  
+
+** Checkout
+
+  To check out the latest SAF sources from Subversion run the command
+  
++---
+svn co https://safr.svn.sourceforge.net/svnroot/safr/trunk/safr safr  
++---
+
+  This creates a <<<safr>>> folder in the current working directory which contains the sources of all SAF modules. The SAF project is a Maven 2 multi-module project with the following modules:
+  
+    * {{{safr-core/index.html}<<<safr-core>>>}}. The policy enforcement component.
+  
+    * {{{safr-jaas/index.html}<<<safr-jaas>>>}}. The policy decision component.
+  
+    * {{{safr-sample-hellosaf/index.html}<<<safr-sample-hellosaf>>>}}. The Hello SAF sample application.
+  
+    * {{{safr-sample-notebook/index.html}<<<safr-sample-notebook>>>}}. The Notebook sample application.
+  
+    []
+  
+** Compile
+  
+ To compile the sources go to the project's root directory (<<<safr>>>) and type
+ 
++---  
+mvn install 
++---  
+  
+  This compiles all modules and installs the generated artifacts to your local Maven 2 repository.
+
+ 

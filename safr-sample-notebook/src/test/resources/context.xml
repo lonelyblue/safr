@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:sec="http://safr.sourceforge.net/schema/core"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://safr.sourceforge.net/schema/core 
+http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
+
+    <!-- ================================================================ -->
+    <!-- SAF Core                                                         -->
+    <!-- ================================================================ -->
+
+    <sec:annotation-driven access-manager="accessManager" />
+
+    <!-- ================================================================ -->
+    <!-- SAF JAAS                                                         -->
+    <!-- ================================================================ -->
+
+    <bean id="instancePolicy" name="permissionManager"
+        class="net.sourceforge.safr.jaas.policy.InstancePolicy" />
+
+    <!-- ================================================================ -->
+    <!-- Access Manager                                                   -->
+    <!-- ================================================================ -->
+
+    <bean id="accessManager"
+        class="net.sourceforge.safr.sample.provider.SampleAccessManager">
+        <property name="permissionManager" ref="permissionManager" />
+    </bean>
+
+    <!-- ================================================================ -->
+    <!-- Sample Services                                                  -->
+    <!-- ================================================================ -->
+
+    <bean id="notebookService"
+        class="net.sourceforge.safr.sample.notebook.service.NotebookServiceImpl" />
+    <bean id="userService"
+        class="net.sourceforge.safr.sample.usermgnt.service.UserServiceImpl" />
+
+</beans>

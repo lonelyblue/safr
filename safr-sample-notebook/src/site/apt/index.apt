@@ -1,0 +1,19 @@
+  ----
+  Notebook Sample
+  ----
+
+Notebook Sample
+
+  <<This page is work in progress ...>>
+
+* Download and Compile
+
+  For instructions how to check out and compile the latest SAF sources from Subversion refer to the Source Snapshots section on the {{{../download.html}Download}} page. You should now be in the project's root directory (<<<safr>>>). Go to the <<<safr-sample-notebook>>> sub-directory and type
+  
++---
+mvn test 
++---  
+  
+  This will run the sample application.
+  
+  
