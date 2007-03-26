@@ -22,7 +22,7 @@ Download
 svn co https://safr.svn.sourceforge.net/svnroot/safr/trunk/safr safr  
 +---
 
-  This creates a <<<safr>>> folder in the current working directory which contains the sources of all SAF modules. The SAF project is a Maven 2 multi-module project with the following modules:
+  This creates a <<<safr>>> folder in the current working directory which contains the sources of all SAF modules. The SAF project is a {{{http://maven.apache.org}Maven 2}} multi-module project with the following modules:
   
     * {{{safr-core/index.html}<<<safr-core>>>}}. The policy enforcement component.
   
@@ -36,8 +36,8 @@ svn co https://safr.svn.sourceforge.net/svnroot/safr/trunk/safr safr
   
 ** Compile
   
- To compile the sources go to the project's root directory (<<<safr>>>) and type
- 
+ If you haven't installed Maven 2 yet download it now from the Maven 2 {{{http://maven.apache.org/download.html}download page}} and follow the installation instructions. Then go to the project's root directory (<<<safr>>>) and type
+
 +---  
 mvn install 
 +---  
