@@ -8,6 +8,7 @@
     <version>0.9-SNAPSHOT</version>
     <name>safr</name>
     <url>http://safr.sourceforge.net</url>
+    <inceptionYear>2006</inceptionYear>
     <modules>
         <module>safr-core</module>
         <module>safr-jaas</module>
@@ -31,6 +32,10 @@
             <timezone>+1</timezone>
         </developer>
     </developers>
+    <organization>
+        <name>InterComponentWare AG</name>
+        <url>http://www.icw-global.com</url>
+    </organization>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
