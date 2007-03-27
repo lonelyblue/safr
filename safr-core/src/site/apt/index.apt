@@ -8,4 +8,16 @@ SAF Core Module
   
   For an introduction to the Security Annotation Framework (SAF) go to the {{{../index.html}SAF Overview}} page. 
 
+* Browse Sources
+ 
+  * {{{xref/index.html}Main source cross-references}}
+    
+  * {{{xref-test/index.html}Test source cross-references}} 
+   
+  []      
 
+* Browse Javadocs
+
+  * {{{apidocs/index.html}Javadocs}} 
+
+  []
