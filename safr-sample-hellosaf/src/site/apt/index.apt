@@ -6,9 +6,17 @@ Hello SAF Sample
 
   This tutorial shows the basic steps for setting up the {{{../safr-core/index.html}SAF Core}} module in {{{http://www.springframework.org}Spring}} applications. It shows how to configure the module within a Spring application context XML file and how to apply security annotations to domain objects and Spring beans. The sample application defines an <<<AccessManager>>> with very simple, static authorization decision rules that do not considers users or roles. For setting up an application with the {{{../safr-jaas/index.html}SAF JAAS}} authorization provider refer to the {{{../safr-sample-notebook/index.html}Notebook}} sample.
 
+* Browse Sources
+ 
+  * {{{xref/index.html}Main source cross-references}}
+    
+  * {{{xref-test/index.html}Test source cross-references}} 
+   
+  []      
+  
 * Download and Compile
 
-  For instructions how to check out and compile the latest SAF sources from Subversion refer to the Source Snapshots section on the {{{../download.html}Download}} page. You should now be in the project's root directory (<<<safr>>>). Go to the <<<safr-sample-hellosaf>>> sub-directory and type
+  To check out and compile the latest SAF sources from Subversion refer to the Source Snapshots section on the {{{../download.html}Download}} page and follow the instructions. You should now be in the project's root directory (<<<safr>>>). Go to the <<<safr-sample-hellosaf>>> sub-directory and type
   
 +---
 mvn test 

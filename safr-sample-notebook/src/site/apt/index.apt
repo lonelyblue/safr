@@ -4,16 +4,25 @@
 
 Notebook Sample
 
-  <<This page is work in progress ...>>
+  <<This page is work in progress ...>>. 
+  
+  For an introduction to the Security Annotation Framework (SAF) go to the {{{../index.html}SAF Overview}} page. 
 
+* Browse Sources
+ 
+  * {{{xref/index.html}Main source cross-references}}
+    
+  * {{{xref-test/index.html}Test source cross-references}} 
+   
+  []      
+  
 * Download and Compile
 
-  For instructions how to check out and compile the latest SAF sources from Subversion refer to the Source Snapshots section on the {{{../download.html}Download}} page. You should now be in the project's root directory (<<<safr>>>). Go to the <<<safr-sample-notebook>>> sub-directory and type
+  To check out and compile the latest SAF sources from Subversion refer to the Source Snapshots section on the {{{../download.html}Download}} page and follow the instructions. You should now be in the project's root directory (<<<safr>>>). Go to the <<<safr-sample-notebook>>> sub-directory and type
   
 +---
 mvn test 
 +---  
   
   This will run the sample application.
-  
   
