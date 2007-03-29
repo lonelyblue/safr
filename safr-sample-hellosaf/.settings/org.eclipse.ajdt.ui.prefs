@@ -2,4 +2,4 @@
 eclipse.preferences.version=1
 org.eclipse.ajdt.ui.aspectPath.contentKind1=BINARY
 org.eclipse.ajdt.ui.aspectPath.entryKind1=VARIABLE
-org.eclipse.ajdt.ui.aspectPath1=MAVEN_REPO/net/sourceforge/safr/safr-core/0.9-SNAPSHOT/safr-core-0.9-SNAPSHOT.jar
+org.eclipse.ajdt.ui.aspectPath1=MAVEN_REPO/net/sourceforge/safr/safr-core/0.8-SNAPSHOT/safr-core-0.8-SNAPSHOT.jar
