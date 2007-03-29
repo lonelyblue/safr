@@ -18,7 +18,7 @@ Notebook Sample
   
 * Download and Compile
 
-  To check out and compile the latest SAF sources from Subversion refer to the Source Snapshots section on the {{{../download.html}Download}} page and follow the instructions. You should now be in the project's root directory (<<<safr>>>). Go to the <<<safr-sample-notebook>>> sub-directory and type
+  To run the sample application {{{../download.html}download}} first the latest SAF source release and {{{../build.html}build}} it with Maven 2. You should now be in the project's root directory (<<<safr-\<version\>>>> where <<<\<version\>>>> is the version number of the source release you downloaded). Then go to the <<<safr-sample-notebook>>> sub-directory and run the command
   
 +---
 mvn test 

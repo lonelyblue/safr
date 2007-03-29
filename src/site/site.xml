@@ -13,6 +13,7 @@
         <menu name="SAF">
             <item name="Overview" href="index.html" />
             <item name="Download" href="download.html" />
+            <item name="Build" href="build.html" />
         </menu>
         <menu name="Modules">
             <item name="SAF Core" href="safr-core/index.html" />

@@ -16,7 +16,7 @@ Hello SAF Sample
   
 * Download and Compile
 
-  To check out and compile the latest SAF sources from Subversion refer to the Source Snapshots section on the {{{../download.html}Download}} page and follow the instructions. You should now be in the project's root directory (<<<safr>>>). Go to the <<<safr-sample-hellosaf>>> sub-directory and type
+  To run the sample application {{{../download.html}download}} first the latest SAF source release and {{{../build.html}build}} it with Maven 2. You should now be in the project's root directory (<<<safr-\<version\>>>> where <<<\<version\>>>> is the version number of the source release you downloaded). Then go to the <<<safr-sample-hellosaf>>> sub-directory and run the command
   
 +---
 mvn test 
@@ -124,7 +124,7 @@ public class AccessManagerImpl implements AccessManager {
 
 * Spring Configuration
 
-  In the Spring application context XML file, we activate the {{{../safr-core/index.html}SAF Core}} module with the <<<\<sec:annotation-driven\>>>> element. The <<<access-manager>>> attribute references the <<<accessManagerImpl>>> bean. We also define <<<ServiceImpl>>> as a bean.
+  In the Spring application context XML file, we activate the {{{../safr-core/index.html}SAF Core}} module with the <<<\<sec:annotation-driven\>>>> element. The <<<access-manager>>> attribute references the <<<accessManager>>> bean. We also define <<<ServiceImpl>>> as a bean.
 
 +---
 <?xml version="1.0" encoding="UTF-8"?>
@@ -162,7 +162,7 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 
 * Dependencies
 
-  In the <<<pom.xml>>> add a dependency to the <<<safr-core-0.9-SNAPSHOT>>> jar file.   
+  In the <<<pom.xml>>> add a dependency to the <<<safr-core-0.8.jar>>> jar file.   
 
 +---
   <dependencies>
@@ -170,16 +170,14 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
       <dependency>
           <groupId>net.sourceforge.safr</groupId>
           <artifactId>safr-core</artifactId>
-          <version>0.9-SNAPSHOT</version>
+          <version>0.8</version>
       </dependency>
   </dependencies>
 +---
 
-  In your own project you may also replace the <<<0.9-SNAPSHOT>>> version number by that of a released <<<safr-core>>> component. 
-  
 * AspectJ Settings
 
-  Before we can test our sample application we have to tell the AspectJ compiler to use the <<<safr-core>>> jar file as aspect library. With the {{{http://mojo.codehaus.org/aspectj-maven-plugin/}AspectJ Maven 2 plugin}} this can be done via the following configuration in the <<<pom.xml>>> file.
+  Before we can test our sample application we have to tell the AspectJ compiler to use the <<<safr-core-0.8.jar>>> file as aspect library. With the {{{http://mojo.codehaus.org/aspectj-maven-plugin/}AspectJ Maven 2 plugin}} this can be done via the following configuration in the <<<pom.xml>>> file.
 
 +---
   <build>
@@ -210,7 +208,7 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 +---
 
 
-  To use AspectJ directly in Eclipse you must install the {{{http://www.eclipse.org/ajdt/}AspectJ Development Tools}} (AJDT). After installation, convert the Eclipse project you are working on to an AspectJ project and open the project properties. Under the <AspectJ Build> menu add the <<<safr-core-0.9-SNAPSHOT>>> file to the <Aspect Path> list.
+  To use AspectJ directly in Eclipse you must install the {{{http://www.eclipse.org/ajdt/}AspectJ Development Tools}} (AJDT). After installation, convert the Eclipse project you are working on to an AspectJ project and open the project properties. Under the <AspectJ Build> menu add the <<<safr-core-0.8.jar>>> file to the <Aspect Path> list.
 
 [images/safr-sample-hellosaf-1.jpg] Eclipse AspectJ Settings
 
