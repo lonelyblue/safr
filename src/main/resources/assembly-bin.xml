@@ -3,20 +3,24 @@
   <formats>
     <format>zip</format>
   </formats>
-  <includeBaseDirectory>false</includeBaseDirectory>
+  <includeBaseDirectory>true</includeBaseDirectory>
   <moduleSets>
     <moduleSet>
       <includes>
         <include>net.sourceforge.safr:safr-core</include>
         <include>net.sourceforge.safr:safr-jaas</include>
-        <include>net.sourceforge.safr:safr-sample-hellosaf</include>
-        <include>net.sourceforge.safr:safr-sample-notebook</include>
       </includes>
       <binaries>
-        <outputDirectory>modules/${artifactId}</outputDirectory>
         <includeDependencies>false</includeDependencies>
         <unpack>false</unpack>
       </binaries>
     </moduleSet>
   </moduleSets>
+  <fileSets>
+    <fileSet>
+      <includes>
+        <include>license.txt</include>
+      </includes>
+    </fileSet>
+  </fileSets>
 </assembly>
