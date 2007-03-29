@@ -16,6 +16,20 @@
     <scm>
         <connection>scm:svn:https://safr.svn.sourceforge.net/svnroot/safr</connection>
     </scm>
+    <issueManagement>
+        <system>sourceforge.net</system>
+        <url>https://sourceforge.net/tracker/?group_id=192147</url>
+    </issueManagement>
+  	<mailingLists>
+ 		    <mailingList>
+ 			      <name>safr-user</name>
+ 			      <subscribe>http://lists.sourceforge.net/mailman/listinfo/safr-user</subscribe>
+ 		    </mailingList>
+ 		    <mailingList>
+ 			      <name>safr-developer</name>
+ 			      <subscribe>http://lists.sourceforge.net/mailman/listinfo/safr-developer</subscribe>
+ 		    </mailingList>
+ 	  </mailingLists>    
     <developers>
         <developer>
             <id>mrt1nz</id>
