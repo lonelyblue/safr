@@ -3,13 +3,13 @@
     <groupId>net.sourceforge.safr</groupId>
     <artifactId>safr-core</artifactId>
     <packaging>jar</packaging>
-    <version>0.8</version>
+    <version>0.9-SNAPSHOT</version>
     <name>safr-core</name>
     <url>http://safr.sourceforge.net</url>
     <parent>
         <groupId>net.sourceforge.safr</groupId>
         <artifactId>safr</artifactId>
-        <version>0.8</version>
+        <version>0.9-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>

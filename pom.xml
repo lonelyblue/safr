@@ -3,7 +3,7 @@
     <groupId>net.sourceforge.safr</groupId>
     <artifactId>safr</artifactId>
     <packaging>pom</packaging>
-    <version>0.8</version>
+    <version>0.9-SNAPSHOT</version>
     <name>safr</name>
     <url>http://safr.sourceforge.net</url>
     <inceptionYear>2006</inceptionYear>
@@ -14,7 +14,7 @@
         <module>safr-sample-notebook</module>
     </modules>
     <scm>
-        <connection>scm:svn:https://safr.svn.sourceforge.net/svnroot/safr/tags/safr-0.8</connection>
+        <connection>scm:svn:https://safr.svn.sourceforge.net/svnroot/safr</connection>
     </scm>
     <developers>
         <developer>
