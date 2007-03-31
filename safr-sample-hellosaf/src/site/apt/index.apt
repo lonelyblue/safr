@@ -4,7 +4,7 @@
 
 Hello SAF Sample 
 
-  This tutorial shows the basic steps for setting up the {{{../safr-core/index.html}SAF Core}} module in {{{http://www.springframework.org}Spring}} applications. It shows how to configure the module within a Spring application context XML file and how to apply security annotations to domain objects and Spring beans. The sample application defines an <<<AccessManager>>> with very simple, static authorization decision rules that do not considers users or roles. For setting up an application with the {{{../safr-jaas/index.html}SAF JAAS}} authorization provider refer to the {{{../safr-sample-notebook/index.html}Notebook}} sample.
+  This tutorial shows the basic steps for setting up the {{{../safr-core/index.html}SAF Core}} module in {{{http://www.springframework.org}Spring}} applications. It shows how to configure the module within a Spring application context XML file and how to apply security annotations to domain objects and Spring beans. The sample application defines an <<<AccessManager>>> with very simple, static authorization decision rules that do not consider users or roles. For setting up an application with the {{{../safr-jaas/index.html}SAF JAAS}} authorization provider refer to the {{{../safr-sample-notebook/index.html}Notebook}} sample.
 
 * Browse Sources
  
@@ -88,7 +88,7 @@ public class ServiceImpl implements Service {
 
   For <<<findObject()>>> the SAF calls <<<AccessManager.checkRead()>>>. It passes the object returned by <<<findObject()>>> as argument to <<<checkRead()>>>. If <<<checkRead()>>> throws an <<<AccessControlException>>> null will be returned from a <<<findObject()>>> call otherwise a domain object is returned. For <<<findDomainObjects()>>> the SAF calls <<<AccessManager.checkRead()>>> for every domain object in the result list. If <<<checkRead()>>> throws an <<<AccessControlException>>> the SAF will not add the affected object to the result. For <<<deleteDomainObject()>>> we want to check whether the caller has permissions to delete the domain object instance that is passed as argument to this method. When the method is invoked the SAF calls <<<AccessManager.checkDelete()>>>. It passes the <<<deleteDomainObject()>>> call-argument as argument to <<<checkDelete()>>>. An <<<AccessControlException>>> thrown by <<<checkDelete()>>> will not be handled by the SAF; this must be done by the caller. The SAF only handles <<<AccessControlException>>>s with <<<@Filter>>> annotations.
 
-  Let’s look at the <<<AccessManagerImpl>>> class. It implements authorization decision logic that only allows read, update and delete actions on domain objects with <<<id>>>s less than 10. For all other <<<id>>>s <<<AccessControlException>>>s will be thrown.
+  Let’s look at the <<<AccessManagerImpl>>> class. It implements authorization decision logic that only allows create, read, update and delete actions on domain objects with <<<id>>>s less than 10. For all other <<<id>>>s <<<AccessControlException>>>s will be thrown.
 
 +---
 public class AccessManagerImpl implements AccessManager {
