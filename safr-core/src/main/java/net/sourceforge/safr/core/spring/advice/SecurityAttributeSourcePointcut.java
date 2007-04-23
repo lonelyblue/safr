@@ -33,6 +33,9 @@ class SecurityAttributeSourcePointcut extends StaticMethodMatcherPointcut {
     }
     
     public boolean matches(Method method, Class targetClass) {
+        if (source == null) {
+            return false;
+        }
         return source.isAnySecurityAttributeDefined(method, targetClass);
     }
 
