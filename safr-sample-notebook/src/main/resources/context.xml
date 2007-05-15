@@ -36,7 +36,7 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 
     <bean id="notebookService"
         class="net.sourceforge.safr.sample.notebook.service.NotebookServiceImpl" />
-    <bean id="userService"
+    <bean id="userService" name="authenticationService"
         class="net.sourceforge.safr.sample.usermgnt.service.UserServiceImpl" />
 
 </beans>
