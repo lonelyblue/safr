@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.safr</groupId>
     <artifactId>safr-sample-notebook</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <version>0.3-SNAPSHOT</version>
     <name>safr-sample-notebook</name>
     <url>http://safr.sourceforge.net</url>
@@ -21,6 +21,18 @@
             <groupId>net.sourceforge.safr</groupId>
             <artifactId>safr-jaas</artifactId>
             <version>0.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.12</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>
@@ -45,6 +57,13 @@
                         </goals>
                     </execution>
                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <configuration>
+                    <server>tomcat</server>
+                </configuration>
             </plugin>
         </plugins>
     </build>
