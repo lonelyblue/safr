@@ -15,12 +15,14 @@
  */
 package net.sourceforge.safr.jaas.principal;
 
+import java.io.Serializable;
 import java.security.Principal;
 
 /**
  * @author Martin Krasser
  */
-public class UserPrincipal implements Principal {
+@SuppressWarnings("serial")
+public class UserPrincipal implements Principal, Serializable {
 
     private String userId;
     

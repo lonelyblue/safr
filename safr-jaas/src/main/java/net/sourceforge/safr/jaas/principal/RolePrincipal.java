@@ -15,12 +15,14 @@
  */
 package net.sourceforge.safr.jaas.principal;
 
+import java.io.Serializable;
 import java.security.Principal;
 
 /**
  * @author Martin Krasser
  */
-public class RolePrincipal implements Principal {
+@SuppressWarnings("serial")
+public class RolePrincipal implements Principal, Serializable {
 
     private String roleId;
     
