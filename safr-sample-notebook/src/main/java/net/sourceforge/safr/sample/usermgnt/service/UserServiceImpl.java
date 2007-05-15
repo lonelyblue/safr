@@ -20,17 +20,23 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.security.auth.Subject;
+import javax.security.auth.login.LoginException;
 
+import net.sourceforge.safr.jaas.login.AuthenticationService;
+import net.sourceforge.safr.jaas.principal.RolePrincipal;
 import net.sourceforge.safr.jaas.principal.UserPrincipal;
+import net.sourceforge.safr.sample.usermgnt.domain.Role;
 import net.sourceforge.safr.sample.usermgnt.domain.User;
 
 /**
  * @author Martin Krasser
  */
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, AuthenticationService {
 
     private Map<String, User> users;
     
@@ -53,6 +59,22 @@ public class UserServiceImpl implements UserService {
         return Collections.unmodifiableCollection(users.values());
     }
 
+    public Set<Principal> authenticate(String username, char[] password) throws LoginException {
+        User user = findUser(username);
+        if (user == null) {
+            throw new LoginException("user " + username + " doesn't exist");
+        }
+        if (!user.getId().equals(String.valueOf(password))) {
+            throw new LoginException("wrong password for user " + username);
+        }
+        Set<Principal> principals = new HashSet<Principal>();
+        principals.add(new UserPrincipal(user.getId()));
+        for (Role role : user.getRoles()) {
+            principals.add(new RolePrincipal(role.getId()));
+        }
+        return principals;
+    }
+    
     private void createUser(String id) {
         users.put(id, new User(id));
     }
@@ -61,5 +83,5 @@ public class UserServiceImpl implements UserService {
         Subject s = Subject.getSubject(AccessController.getContext());
         return s.getPrincipals(UserPrincipal.class).iterator().next();
     }
-    
+
 }
