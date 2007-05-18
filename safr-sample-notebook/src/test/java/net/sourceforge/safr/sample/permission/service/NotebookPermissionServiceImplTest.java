@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.sourceforge.safr.sample.permission.service;
 
 import static org.junit.Assert.*;
@@ -35,31 +50,31 @@ public class NotebookPermissionServiceImplTest {
         assignment = new NotebookPermissionAssignment("u1", "o1", "1", Action.WRITE);
         notebookPermissionService.applyNotebookPermissionAssignments(assignment);
         assertEquals("wrong number of permissions", 1, 
-                permissionManager.getPermissions(assignment.getUserPrincipal()).size());
+                permissionManager.getPermissions(assignment.createUserPrincipal()).size());
         assertTrue("wrong permissions content", 
-                permissionManager.getPermissions(assignment.getUserPrincipal()).contains(assignment.createInstancePermission()));
+                permissionManager.getPermissions(assignment.createUserPrincipal()).contains(assignment.createInstancePermission()));
         
         // upgrade assignment 
         assignment = new NotebookPermissionAssignment("u1", "o1", "1", Action.MANAGE);
         notebookPermissionService.applyNotebookPermissionAssignments(assignment);
         assertEquals("wrong number of permissions", 1, 
-                permissionManager.getPermissions(assignment.getUserPrincipal()).size());
+                permissionManager.getPermissions(assignment.createUserPrincipal()).size());
         assertTrue("wrong permissions content", 
-                permissionManager.getPermissions(assignment.getUserPrincipal()).contains(assignment.createInstancePermission()));
+                permissionManager.getPermissions(assignment.createUserPrincipal()).contains(assignment.createInstancePermission()));
         
         // same assignment
         assignment = new NotebookPermissionAssignment("u1", "o1", "1", Action.MANAGE);
         notebookPermissionService.applyNotebookPermissionAssignments(assignment);
         assertEquals("wrong number of permissions", 1, 
-                permissionManager.getPermissions(assignment.getUserPrincipal()).size());
+                permissionManager.getPermissions(assignment.createUserPrincipal()).size());
         assertTrue("wrong permissions content", 
-                permissionManager.getPermissions(assignment.getUserPrincipal()).contains(assignment.createInstancePermission()));
+                permissionManager.getPermissions(assignment.createUserPrincipal()).contains(assignment.createInstancePermission()));
         
         // cancel assignment
         assignment = new NotebookPermissionAssignment("u1", "o1", "1", null);
         notebookPermissionService.applyNotebookPermissionAssignments(assignment);
         assertEquals("wrong number of permissions", 0, 
-                permissionManager.getPermissions(assignment.getUserPrincipal()).size());
+                permissionManager.getPermissions(assignment.createUserPrincipal()).size());
         
     }
     

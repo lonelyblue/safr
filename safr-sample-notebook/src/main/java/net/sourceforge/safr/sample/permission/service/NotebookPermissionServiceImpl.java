@@ -1,3 +1,18 @@
+/*
+ * Copyright 2007 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.sourceforge.safr.sample.permission.service;
 
 import java.util.ArrayList;
@@ -25,7 +40,7 @@ public class NotebookPermissionServiceImpl implements NotebookPermissionService 
         ArrayList<NotebookPermissionAssignment> result = new ArrayList<NotebookPermissionAssignment>();
         UserPrincipal up = new UserPrincipal(userId);
         for (InstancePermission ip : permissionManager.getPermissions(up)) {
-            result.add(new NotebookPermissionAssignment(up, ip));
+            result.add(new NotebookPermissionAssignment(up.getName(), ip));
         }
         return null;
     }
@@ -46,26 +61,26 @@ public class NotebookPermissionServiceImpl implements NotebookPermissionService 
         if (ipCurrent == null) {
             if (ipDefined != null) {
                 // grant new permission
-                log.addGrantTask(npa.getUserPrincipal(), ipDefined);
+                log.addGrantTask(npa.createUserPrincipal(), ipDefined);
             }
         } else {
             if (ipDefined == null) {
                 // revoke existing permission
-                log.addRevokeTask(npa.getUserPrincipal(), ipCurrent);
+                log.addRevokeTask(npa.createUserPrincipal(), ipCurrent);
             } else if (ipCurrent.equals(ipDefined)) {
                 // nothing to do
             } else {
                 // revoke existing permission
-                log.addRevokeTask(npa.getUserPrincipal(), ipCurrent);
+                log.addRevokeTask(npa.createUserPrincipal(), ipCurrent);
                 // and grant new permission
-                log.addGrantTask(npa.getUserPrincipal(), ipDefined);
+                log.addGrantTask(npa.createUserPrincipal(), ipDefined);
             }
         }
     }
     
     private InstancePermission getInstancePermission(NotebookPermissionAssignment npa) {
         Collection<InstancePermission> ips = null; 
-        String userId = npa.getUserId();
+        String userId = npa.getAssigneeId();
         String ntbkId = npa.getNotebookId();
         ips = permissionManager.getPermissions(new UserPrincipal(userId));
         if (ips == null) {
