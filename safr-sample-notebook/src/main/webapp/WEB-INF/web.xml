@@ -4,16 +4,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <context-param>
-        <param-name>contextLocation</param-name>
-        <param-value>context-service.xml</param-value>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:context-service.xml /WEB-INF/notebook-servlet-config.xml /WEB-INF/notebook-webflow-config.xml</param-value>
     </context-param>
     <context-param>
         <param-name>authenticationServiceName</param-name>
         <param-value>authenticationService</param-value>
     </context-param>
     <listener>
-        <listener-class>net.sourceforge.safr.jaas.web.spring.ApplicationContextLoader</listener-class>
+        <listener-class>net.sourceforge.safr.jaas.web.spring.SecureContextLoaderListener</listener-class>
     </listener>
+    
     <filter>
         <filter-name>form-login-filter</filter-name>
         <filter-class>net.sourceforge.safr.jaas.web.form.FormLoginFilter</filter-class>
@@ -44,7 +45,27 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
+
+	<servlet>
+		<servlet-name>notebook</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/notebook-servlet-config.xml
+				/WEB-INF/notebook-webflow-config.xml
+			</param-value>
+		</init-param>		
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>notebook</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
 </web-app>
