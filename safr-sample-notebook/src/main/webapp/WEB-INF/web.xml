@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <context-param>
         <param-name>contextLocation</param-name>
-        <param-value>context.xml</param-value>
+        <param-value>context-service.xml</param-value>
     </context-param>
     <context-param>
         <param-name>authenticationServiceName</param-name>

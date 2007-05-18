@@ -45,7 +45,7 @@ public class SampleTest {
     
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("context.xml");
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("context-service.xml");
         sample = new Sample();
         sample.setUserService((UserService)ctx.getBean("userService"));
         sample.setNotebookService((NotebookService)ctx.getBean("notebookService"));
