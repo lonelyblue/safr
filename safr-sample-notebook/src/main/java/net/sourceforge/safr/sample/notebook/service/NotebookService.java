@@ -33,6 +33,9 @@ public interface NotebookService {
     Notebook findNotebook(String id);
     
     @Filter
+    Collection<Notebook> findNotebooks();
+    
+    @Filter
     Collection<Notebook> findNotebooksByUserId(String userId);
 
     void createNotebook(@Secure(SecureAction.CREATE)Notebook notebook);

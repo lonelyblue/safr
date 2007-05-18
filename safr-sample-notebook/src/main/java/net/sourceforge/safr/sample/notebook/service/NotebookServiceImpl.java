@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sourceforge.safr.core.annotation.Filter;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 
 /**
@@ -51,7 +52,15 @@ public class NotebookServiceImpl implements NotebookService {
         return notebooks.get(id);
     }
 
+    public Collection<Notebook> findNotebooks() {
+        return notebooks.values();
+    }
+        
+    @Filter(copyResultCollection=false)
     public Collection<Notebook> findNotebooksByUserId(String userId) {
+        // Override annotation defined on interface for this method. Since 
+        // we're creating a new result collection here, there's no need that 
+        // the security filter creates a copy again.
         ArrayList<Notebook> result = new ArrayList<Notebook>(1);
         for (Notebook notebook : notebooks.values()) {
             if (notebook.getOwner().getId().equals(userId)) {
