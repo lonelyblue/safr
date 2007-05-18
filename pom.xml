@@ -43,6 +43,17 @@
             </roles>
             <timezone>+1</timezone>
         </developer>
+        <developer>
+            <id>ohr</id>
+            <name>Christian Ohr</name>
+            <email>christian.ohr@icw.de</email>
+            <organization>InterComponentWare AG</organization>
+            <organizationUrl>http://www.icw-global.com/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
     </developers>
     <organization>
         <name>InterComponentWare AG</name>
