@@ -39,7 +39,7 @@ public interface NotebookService {
     Collection<Notebook> findNotebooksByUserId(String userId);
 
     void createNotebook(@Secure(SecureAction.CREATE)Notebook notebook);
-    
+ 
     void deleteNotebook(@Secure(SecureAction.DELETE)Notebook notebook);
 
 }
