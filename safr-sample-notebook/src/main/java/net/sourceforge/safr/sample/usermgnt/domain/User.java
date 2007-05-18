@@ -40,6 +40,7 @@ public class User {
     public User(String id) {
         this.id = id;
         this.roles = new HashSet<Role>();
+        bootstrap();
     }
 
     public String getId() {
@@ -76,4 +77,8 @@ public class User {
         this.lastname = lastname;
     }
 
+    private void bootstrap() {
+        this.roles.add(new Role("customer"));
+    }
+    
 }

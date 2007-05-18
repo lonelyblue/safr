@@ -42,9 +42,7 @@ public class UserServiceImpl implements UserService, AuthenticationService {
     
     public UserServiceImpl() {
         this.users = new HashMap<String, User>();
-        createUser("root");
-        createUser("user1");
-        createUser("user2");
+        bootstrap();
     }
     
     public User currentUser() {
@@ -84,4 +82,11 @@ public class UserServiceImpl implements UserService, AuthenticationService {
         return s.getPrincipals(UserPrincipal.class).iterator().next();
     }
 
+    private void bootstrap() {
+        createUser("root");
+        createUser("user1");
+        createUser("user2");
+        createUser("user3");
+    }
+    
 }

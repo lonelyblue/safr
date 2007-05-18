@@ -61,7 +61,10 @@ public class SampleTest {
     @Test
     public void testScenarios() throws Exception {
         runSampleMethodAs("root", "initializeCustomerRole");
-        runSampleMethodAs("root", "addUsersToCustomerRole");
+        
+        // Not needed any more because part of bootstrap (see User) 
+        //runSampleMethodAs("root", "addUsersToCustomerRole");
+        
         runSampleMethodAs("root", "assignPermissionsToUsers");
         runSampleMethodAs("user1", "createNotebook", "nb1");
         runSampleMethodAs("user2", "createNotebook", "nb2");
