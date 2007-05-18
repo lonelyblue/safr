@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:context-service.xml /WEB-INF/notebook-servlet-config.xml /WEB-INF/notebook-webflow-config.xml</param-value>
+        <param-value>classpath:context-service.xml</param-value>
     </context-param>
     <context-param>
         <param-name>authenticationServiceName</param-name>

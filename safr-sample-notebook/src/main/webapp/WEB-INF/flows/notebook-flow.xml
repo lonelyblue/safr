@@ -27,7 +27,10 @@
 
 		<!-- Creating a notebook: create notebook with current user as owner. -->		
 		<transition on="create" to="notebookDetails">
-			<bean-action bean="notebookService" method="newNotebook">
+			<bean-action bean="notebookService" method="createNotebook">
+				<method-arguments>
+					<argument expression="flowScope.notebook-id"/>
+				</method-arguments>
 				<method-result name="notebook"/>
 			</bean-action>				
 		</transition>
