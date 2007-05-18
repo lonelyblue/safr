@@ -31,4 +31,6 @@ public interface PermissionManager {
 
     public void revokePermission(Principal principal, InstancePermission permission);
 
+    public PermissionManagementLog newPermissionManagementLog();
+
 }

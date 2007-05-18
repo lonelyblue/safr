@@ -26,7 +26,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.permission.InstancePermission;
@@ -76,16 +78,28 @@ public class InstancePolicy extends Policy implements PermissionManager {
     }
 
     public Collection<InstancePermission> getPermissions(Principal principal) {
-        return Collections.unmodifiableList(getPermissionMap(principal).get(principal.getName()));
+        return Collections.unmodifiableList(getPermissionMap(principal).getEager(principal.getName()));
+    }
+    
+    public PermissionManagementLog newPermissionManagementLog() {
+        return new PermissionManagementLogImpl(this);
     }
     
     public void grantPermission(Principal principal, InstancePermission permission) {
-        AccessController.checkPermission(permission.createAuthorizationPermission());
-        getPermissionMap(principal).getEager(principal.getName()).add(permission);
+        checkPermission(permission);
+        grantPermissionNoCheck(principal, permission);
     }
     
     public void revokePermission(Principal principal, InstancePermission permission) {
-        AccessController.checkPermission(permission.createAuthorizationPermission());
+        checkPermission(permission);
+        revokePermissionNoCheck(principal, permission);
+    }
+    
+    private void grantPermissionNoCheck(Principal principal, InstancePermission permission) {
+        getPermissionMap(principal).getEager(principal.getName()).add(permission);
+    }
+    
+    private void revokePermissionNoCheck(Principal principal, InstancePermission permission) {
         getPermissionMap(principal).getEager(principal.getName()).remove(permission);
     }
     
@@ -118,6 +132,10 @@ public class InstancePolicy extends Policy implements PermissionManager {
     
     private void bootstrap() {
         userPermissions.getEager("root").add(new InstancePermission(new Target(), Action.AUTH));
+    }
+    
+    private static void checkPermission(InstancePermission permission) {
+        AccessController.checkPermission(permission.createAuthorizationPermission());
     }
     
     private static String getUserId(ProtectionDomain domain) {
@@ -180,6 +198,68 @@ public class InstancePolicy extends Policy implements PermissionManager {
             return false;
         }
 
+    }
+
+    private static class PermissionManagementLogImpl implements PermissionManagementLog {
+
+        private InstancePolicy manager;
+
+        private Set<LogEntry> entries;
+        
+        public PermissionManagementLogImpl(InstancePolicy manager) {
+            this.manager = manager;
+            this.entries = new HashSet<LogEntry>();
+        }
+
+        public void addGrantTask(Principal principal, InstancePermission permission) {
+            entries.add(new LogEntry(true, principal, permission));
+        }
+
+        public void addRevokeTask(Principal principal, InstancePermission permission) {
+            entries.add(new LogEntry(false, principal, permission));
+        }
+
+        public void commit() {
+            for (LogEntry entry : entries) {
+                checkPermission(entry.getPermission());
+            }
+            for (LogEntry entry : entries) {
+                if (entry.isGrant()) {
+                    manager.grantPermissionNoCheck(entry.getPrincipal(), entry.getPermission());
+                } else {
+                    manager.revokePermissionNoCheck(entry.getPrincipal(), entry.getPermission());
+                }
+            }
+        }
+        
+    }
+    
+    private static class LogEntry {
+        
+        private boolean grant;
+        
+        private Principal principal;
+        
+        private InstancePermission permission;
+
+        public LogEntry(boolean grant, Principal principal, InstancePermission permission) {
+            this.grant = grant;
+            this.principal = principal;
+            this.permission = permission;
+        }
+
+        public boolean isGrant() {
+            return grant;
+        }
+
+        public Principal getPrincipal() {
+            return principal;
+        }
+     
+        public InstancePermission getPermission() {
+            return permission;
+        }
+        
     }
 
 }
