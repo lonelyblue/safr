@@ -1,6 +1,5 @@
 <%@ include file="top.jsp" %>
 
-
 <div id="content">
 	<div id="insert">
 		<img src="images/webflow-logo.jpg"/>
@@ -25,9 +24,9 @@
 					</tr>
 					<c:forEach var="notebook" items="${notebooks}">
 						<tr>
-							<td><a href="notebook.htm?_flowExecutionKey=${flowExecutionKey}&_eventId=view&notebook-id=${notebook.id}">${notebook.id}</a> }</td>				
-							<td>${notebook.owner}</td>				
-							<td><a href="notebook.htm?_flowExecutionKey=${flowExecutionKey}&_eventId=delete&notebook-id=${notebook.id}">Delete</a></td>				
+							<td><a href="detail.htm?id=${notebook.id}">${notebook.id}</a></td>				
+							<td>${notebook.owner.id}</td>				
+							<td><a href="remove.htm?id=${notebook.id}">Delete</a></td>				
 						</tr>
 					</c:forEach>
 				</table>
@@ -36,8 +35,7 @@
 		<tr>
 			<td class="buttonBar">
 				<input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}">
-				<a href="notebook.htm?_flowExecutionKey=${flowExecutionKey}&_eventId=create">Create</a>
-				<a href="notebook.htm?_flowExecutionKey=${flowExecutionKey}&_eventId=logout">Exit</a>
+				<a href="create.htm">Create</a>
 			</td>
 		</tr>
 	</table>

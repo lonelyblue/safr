@@ -57,7 +57,6 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
 				/WEB-INF/notebook-servlet-config.xml
-				/WEB-INF/notebook-webflow-config.xml
 			</param-value>
 		</init-param>		
 		<load-on-startup>1</load-on-startup>

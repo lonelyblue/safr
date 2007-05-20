@@ -5,7 +5,7 @@
 	<HEAD>
 	</HEAD>
 	<BODY>
-		<DIV align="left"><A href="notebook.htm?_flowId=notebook-flow">Notebook</A> demo - A Security Annotation Framework Sample</DIV>
+		<DIV align="left"><A href="list.htm">Notebook</A> demo - A Security Annotation Framework Sample</DIV>
 		<HR>
 		<DIV align="right"></DIV>
 	</BODY>
