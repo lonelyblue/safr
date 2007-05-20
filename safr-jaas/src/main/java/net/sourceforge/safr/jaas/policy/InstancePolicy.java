@@ -28,11 +28,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
-import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.permission.InstancePermission;
-import net.sourceforge.safr.jaas.permission.Target;
 import net.sourceforge.safr.jaas.principal.RolePrincipal;
 import net.sourceforge.safr.jaas.principal.UserPrincipal;
 
@@ -45,15 +44,29 @@ public class InstancePolicy extends Policy implements PermissionManager {
     private PermissionMap rolePermissions;
 
     private Policy defaultPolicy;
+
+    private PermissionSource permissionSource;
     
     public InstancePolicy() {
         this.userPermissions = new PermissionMap();
         this.rolePermissions = new PermissionMap();
-        bootstrap();
+    }
+    
+    public Policy getDefaultPolicy() {
+        return defaultPolicy;
     }
     
     public void setDefaultPolicy(Policy defaultPolicy) {
         this.defaultPolicy = defaultPolicy;
+    }
+    
+    public void setPermissionSource(PermissionSource permissionSource) {
+        this.permissionSource = permissionSource;
+    }
+    
+    public void initialize() {
+        userPermissions.putPermissions(permissionSource.getUserPermissions());
+        rolePermissions.putPermissions(permissionSource.getRolePermissions());
     }
     
     @Override
@@ -130,10 +143,6 @@ public class InstancePolicy extends Policy implements PermissionManager {
         return false;
     }
     
-    private void bootstrap() {
-        userPermissions.getEager("root").add(new InstancePermission(new Target(), Action.AUTH));
-    }
-    
     private static void checkPermission(InstancePermission permission) {
         AccessController.checkPermission(permission.createAuthorizationPermission());
     }
@@ -160,11 +169,12 @@ public class InstancePolicy extends Policy implements PermissionManager {
     @SuppressWarnings("serial")
     private static class PermissionMap extends HashMap<String, PermissionList> {
 
-        @Override
-        public synchronized void clear() {
-            super.clear();
+        public void putPermissions(Map<? extends Principal, ? extends Collection<InstancePermission>> map) {
+            for (Principal p : map.keySet()) {
+                put(p.getName(), new PermissionList(map.get(p)));
+            }
         }
-
+        
         public synchronized PermissionList getEager(String userId) {
             PermissionList result = get(userId);
             if (result == null) {
@@ -174,11 +184,24 @@ public class InstancePolicy extends Policy implements PermissionManager {
             return result;
         }
         
+        @Override
+        public synchronized void clear() {
+            super.clear();
+        }
+
     }
     
     @SuppressWarnings("serial")
     private static class PermissionList extends ArrayList<InstancePermission> {
 
+        public PermissionList() {
+            super();
+        }
+        
+        public PermissionList(Collection<InstancePermission> c) {
+            super(c);
+        }
+        
         @Override
         public synchronized boolean add(InstancePermission o) {
             return super.add(o);
