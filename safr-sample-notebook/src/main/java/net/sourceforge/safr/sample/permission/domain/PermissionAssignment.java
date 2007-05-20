@@ -22,11 +22,14 @@ import net.sourceforge.safr.jaas.principal.UserPrincipal;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 
 /**
- * Defines a user's (permission assignee's) access to a notebook instance.
+ * Defines a user's (i.e. permission assignee's) assignment to a
+ * notebook-specific {@link InstancePermission}.
+ * 
+ * @see InstancePermission
  * 
  * @author Martin Krasser
  */
-public class NotebookPermissionAssignment {
+public class PermissionAssignment {
 
     private String assigneeId;
     
@@ -37,15 +40,15 @@ public class NotebookPermissionAssignment {
     private Action action;
 
     /**
-     * Creates a new NotebookPermission instance.
+     * Creates a new PermissionAssignment instance.
      * 
-     * @param assigneeId assignee identifier of the permission assignment.
-     * @param ownerId owner identifier (target context) of the permission assignment.
-     * @param notebookId notebook identifier (target identifier) of the permission assignment.
+     * @param assigneeId user identifier of the permission assignee.
+     * @param ownerId user identifier of the notebook owner (permission target context)
+     * @param notebookId instance identifier of the notebook (permission target identifier).
      * @param action access action or <code>null</code> if access shall be
      *        denied.
      */
-    public NotebookPermissionAssignment(String assigneeId, String ownerId, String notebookId, Action action) {
+    public PermissionAssignment(String assigneeId, String ownerId, String notebookId, Action action) {
         this.assigneeId = assigneeId;
         this.ownerId = ownerId;
         this.notebookId = notebookId;
@@ -53,12 +56,12 @@ public class NotebookPermissionAssignment {
     }
 
     /**
-     * Creates a new NotebookPermission instance.
+     * Creates a new PermissionAssignment instance.
      * 
-     * @param assigneeId assignee identifier of the permission assignment.
-     * @param instancePermission notebook instance permission.
+     * @param assigneeId user identifier of the permission assignee.
+     * @param instancePermission notebook-specific instance permission.
      */
-    public NotebookPermissionAssignment(String assigneeId, InstancePermission instancePermission) {
+    public PermissionAssignment(String assigneeId, InstancePermission instancePermission) {
         String classifier = instancePermission.getTarget().getClassifier();
         if (!classifier.equals(Notebook.class.getName())) {
             throw new IllegalArgumentException(
@@ -90,7 +93,7 @@ public class NotebookPermissionAssignment {
 
     /**
      * Creates a {@link UserPrincipal} from the <code>assigneeId</code> of
-     * this assignment.
+     * this permission assignment.
      * 
      * @return a {@link UserPrincipal} instance.
      */
@@ -99,10 +102,11 @@ public class NotebookPermissionAssignment {
     }
     
     /**
-     * Creates a new {@link InstancePermission} out of this permission assignment.
+     * Creates a new {@link InstancePermission} from this permission assignment.
      * 
-     * @return a new {@link InstancePermission} object or null if this
-     *         permission's <code>action</code> property is <code>null</code>.
+     * @return a new {@link InstancePermission} object or <code>null</code> if
+     *         this permission's <code>action</code> property is
+     *         <code>null</code>.
      */
     public InstancePermission createInstancePermission() {
         if (action == null) {

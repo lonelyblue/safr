@@ -42,7 +42,6 @@ public class Sample {
     
     private static final String WILDCARD = Target.WILDCARD;
     private static final String NOTEBOOK = Notebook.class.getName();
-    private static final String PUBLIC_ID = NotebookService.PUBLIC_NOTEBOOK_ID;
 
     private UserService userService;
     private NotebookService notebookService;
@@ -58,28 +57,6 @@ public class Sample {
 
     public void setPermissionManager(PermissionManager permissionManager) {
         this.permissionManager = permissionManager;
-    }
-
-    public void initializeCustomerRole() {
-        Target t = new Target(WILDCARD, NOTEBOOK, PUBLIC_ID);
-        // grant "customer" role read/write access to public notebook
-        // (granting write access also implies read access)
-        permissionManager.grantPermission(
-                new RolePrincipal("customer"), 
-                new InstancePermission(t, Action.WRITE));
-    }
-    
-    public void addUsersToCustomerRole() {
-        Role customer = new Role("customer");
-        // add user1 to customer role
-        userService.findUser("user1").addToRole(customer);
-        // add user2 to customer role
-        userService.findUser("user2").addToRole(customer);
-    }
-    
-    public void assignPermissionsToUsers() {
-        assignNotebookPermission("user1");
-        assignNotebookPermission("user2");
     }
 
     public void createNotebook(String notebookId) {
@@ -124,7 +101,7 @@ public class Sample {
                 new InstancePermission(t, Action.AUTH));
     }
     
-    public Subject createSubjectForUser(String userId) {
+    Subject createSubjectForUser(String userId) {
         User user = userService.findUser(userId);
         Subject subject = new Subject();
         addUserPrincipal(subject, user);

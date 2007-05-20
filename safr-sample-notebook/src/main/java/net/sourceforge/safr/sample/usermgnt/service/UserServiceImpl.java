@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService, AuthenticationService {
     
     public UserServiceImpl() {
         this.users = new HashMap<String, User>();
-        bootstrap();
     }
     
     public User currentUser() {
@@ -73,8 +72,17 @@ public class UserServiceImpl implements UserService, AuthenticationService {
         return principals;
     }
     
-    private void createUser(String id) {
-        users.put(id, new User(id));
+    public void bootstrap() {
+        createUser("root").bootstrap();
+        createUser("user1").bootstrap();
+        createUser("user2").bootstrap();
+        createUser("user3").bootstrap();
+    }
+    
+    private User createUser(String id) {
+        User user = new User(id);
+        users.put(id, user);
+        return user;
     }
     
     private static Principal currentUserPrincipal() {
@@ -82,11 +90,4 @@ public class UserServiceImpl implements UserService, AuthenticationService {
         return s.getPrincipals(UserPrincipal.class).iterator().next();
     }
 
-    private void bootstrap() {
-        createUser("root");
-        createUser("user1");
-        createUser("user2");
-        createUser("user3");
-    }
-    
 }

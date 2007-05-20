@@ -5,11 +5,15 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:context-service.xml</param-value>
+        <param-value>classpath:notebook-service-config.xml</param-value>
     </context-param>
     <context-param>
         <param-name>authenticationServiceName</param-name>
         <param-value>authenticationService</param-value>
+    </context-param>
+    <context-param>
+        <param-name>instancePolicyName</param-name>
+        <param-value>instancePolicy</param-value>
     </context-param>
     <listener>
         <listener-class>net.sourceforge.safr.jaas.web.spring.SecureContextLoaderListener</listener-class>

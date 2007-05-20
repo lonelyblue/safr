@@ -18,8 +18,10 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
     <!-- SAF JAAS                                                         -->
     <!-- ================================================================ -->
 
-    <bean id="instancePolicy" name="permissionManager"
-        class="net.sourceforge.safr.jaas.policy.InstancePolicy" />
+    <bean id="instancePolicy" name="permissionManager" init-method="initialize"
+        class="net.sourceforge.safr.jaas.policy.InstancePolicy">
+        <property name="permissionSource" ref="permissionSource" />
+    </bean>
 
     <!-- ================================================================ -->
     <!-- Access Manager                                                   -->
@@ -34,9 +36,15 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
     <!-- Sample Services                                                  -->
     <!-- ================================================================ -->
 
-    <bean id="notebookService"
-        class="net.sourceforge.safr.sample.notebook.service.NotebookServiceImpl" />
-    <bean id="userService" name="authenticationService"
-        class="net.sourceforge.safr.sample.usermgnt.service.UserServiceImpl" />
+    <bean id="notebookService" init-method="bootstrap"
+        class="net.sourceforge.safr.sample.notebook.service.NotebookServiceImpl">
+        <property name="userService" ref="userService"/>
+    </bean>
+    <bean id="userService" name="authenticationService" init-method="bootstrap"
+        class="net.sourceforge.safr.sample.usermgnt.service.UserServiceImpl">
+    </bean>
+    <bean id="permissionService" name="permissionSource"
+        class="net.sourceforge.safr.sample.permission.service.PermissionServiceImpl">
+    </bean>
 
 </beans>

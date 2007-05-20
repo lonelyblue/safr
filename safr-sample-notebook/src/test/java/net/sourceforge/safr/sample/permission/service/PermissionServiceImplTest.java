@@ -19,21 +19,21 @@ import static org.junit.Assert.*;
 
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.policy.InstancePolicy;
-import net.sourceforge.safr.sample.permission.domain.NotebookPermissionAssignment;
+import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class NotebookPermissionServiceImplTest {
+public class PermissionServiceImplTest {
 
-    private NotebookPermissionServiceImpl notebookPermissionService;
+    private PermissionServiceImpl notebookPermissionService;
     
     private InstancePolicy permissionManager;
     
     @Before
     public void setUp() throws Exception {
-        notebookPermissionService = new NotebookPermissionServiceImpl();
+        notebookPermissionService = new PermissionServiceImpl();
         permissionManager = new InstancePolicy();
         notebookPermissionService.setPermissionManager(permissionManager);
     }
@@ -43,36 +43,36 @@ public class NotebookPermissionServiceImplTest {
     }
 
     @Test
-    public void testApplyNotebookPermissionAssignments() {
-        NotebookPermissionAssignment assignment = null;
+    public void testApplyPermissionAssignments() {
+        PermissionAssignment assignment = null;
 
         // create new assignment
-        assignment = new NotebookPermissionAssignment("u1", "o1", "1", Action.WRITE);
-        notebookPermissionService.applyNotebookPermissionAssignments(assignment);
+        assignment = new PermissionAssignment("u1", "o1", "1", Action.WRITE);
+        notebookPermissionService.applyPermissionAssignments(assignment);
         assertEquals("wrong number of permissions", 1, 
                 permissionManager.getPermissions(assignment.createUserPrincipal()).size());
         assertTrue("wrong permissions content", 
                 permissionManager.getPermissions(assignment.createUserPrincipal()).contains(assignment.createInstancePermission()));
         
         // upgrade assignment 
-        assignment = new NotebookPermissionAssignment("u1", "o1", "1", Action.MANAGE);
-        notebookPermissionService.applyNotebookPermissionAssignments(assignment);
+        assignment = new PermissionAssignment("u1", "o1", "1", Action.MANAGE);
+        notebookPermissionService.applyPermissionAssignments(assignment);
         assertEquals("wrong number of permissions", 1, 
                 permissionManager.getPermissions(assignment.createUserPrincipal()).size());
         assertTrue("wrong permissions content", 
                 permissionManager.getPermissions(assignment.createUserPrincipal()).contains(assignment.createInstancePermission()));
         
         // same assignment
-        assignment = new NotebookPermissionAssignment("u1", "o1", "1", Action.MANAGE);
-        notebookPermissionService.applyNotebookPermissionAssignments(assignment);
+        assignment = new PermissionAssignment("u1", "o1", "1", Action.MANAGE);
+        notebookPermissionService.applyPermissionAssignments(assignment);
         assertEquals("wrong number of permissions", 1, 
                 permissionManager.getPermissions(assignment.createUserPrincipal()).size());
         assertTrue("wrong permissions content", 
                 permissionManager.getPermissions(assignment.createUserPrincipal()).contains(assignment.createInstancePermission()));
         
         // cancel assignment
-        assignment = new NotebookPermissionAssignment("u1", "o1", "1", null);
-        notebookPermissionService.applyNotebookPermissionAssignments(assignment);
+        assignment = new PermissionAssignment("u1", "o1", "1", null);
+        notebookPermissionService.applyPermissionAssignments(assignment);
         assertEquals("wrong number of permissions", 0, 
                 permissionManager.getPermissions(assignment.createUserPrincipal()).size());
         

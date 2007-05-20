@@ -45,7 +45,7 @@ public class SampleTest {
     
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("context-service.xml");
+        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("notebook-service-config.xml");
         sample = new Sample();
         sample.setUserService((UserService)ctx.getBean("userService"));
         sample.setNotebookService((NotebookService)ctx.getBean("notebookService"));
@@ -60,12 +60,6 @@ public class SampleTest {
 
     @Test
     public void testScenarios() throws Exception {
-        runSampleMethodAs("root", "initializeCustomerRole");
-        
-        // Not needed any more because part of bootstrap (see User) 
-        //runSampleMethodAs("root", "addUsersToCustomerRole");
-        
-        runSampleMethodAs("root", "assignPermissionsToUsers");
         runSampleMethodAs("user1", "createNotebook", "nb1");
         runSampleMethodAs("user2", "createNotebook", "nb2");
         runSampleMethodAs("user1", "createNotebookEntry", "nb1", "entry1");

@@ -22,6 +22,7 @@ import java.util.Map;
 
 import net.sourceforge.safr.core.annotation.Filter;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
+import net.sourceforge.safr.sample.usermgnt.service.UserService;
 
 /**
  * @author Martin Krasser
@@ -32,9 +33,15 @@ public class NotebookServiceImpl implements NotebookService {
     
     private Notebook publicNotebook;
     
+    private UserService userService; 
+    
     public NotebookServiceImpl() {
         this.notebooks = new HashMap<String, Notebook>();
         this.publicNotebook = new Notebook(PUBLIC_NOTEBOOK_ID, null);
+    }
+    
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
     
     public void createNotebook(Notebook notebook) {
@@ -70,4 +77,11 @@ public class NotebookServiceImpl implements NotebookService {
         return result;
     }
 
+    public void bootstrap() {
+        // local createNotebook() calls are not intercepted by security proxy 
+        createNotebook(new Notebook("nb1-user1", userService.findUser("user1")));
+        createNotebook(new Notebook("nb1-user2", userService.findUser("user2")));
+        createNotebook(new Notebook("nb1-user3", userService.findUser("user3")));
+    }
+    
 }

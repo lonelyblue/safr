@@ -18,17 +18,18 @@ package net.sourceforge.safr.sample.permission.service;
 import java.util.Collection;
 
 import net.sourceforge.safr.jaas.policy.PermissionManager;
-import net.sourceforge.safr.sample.permission.domain.NotebookPermissionAssignment;
+import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
 
 /**
- * A {@link PermissionManager} facade for managing NotebookPermissions. 
+ * A {@link PermissionManager} facade for managing notebook-specific
+ * {@link PermissionAssignment}s.
  * 
  * @author Martin Krasser
  */
-public interface NotebookPermissionService {
+public interface PermissionService {
 
-    Collection<NotebookPermissionAssignment> getNotebookPermissionAssignments(String userId);
+    Collection<PermissionAssignment> getPermissionAssignments(String assigneeId);
     
-    void applyNotebookPermissionAssignments(NotebookPermissionAssignment... notebookPermissions);
+    void applyPermissionAssignments(PermissionAssignment... notebookPermissions);
     
 }
