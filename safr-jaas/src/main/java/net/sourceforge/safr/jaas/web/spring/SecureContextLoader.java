@@ -15,20 +15,28 @@
  */
 package net.sourceforge.safr.jaas.web.spring;
 
+import java.security.Policy;
+
 import javax.servlet.ServletContext;
 
 import net.sourceforge.safr.jaas.login.AuthenticationService;
 import net.sourceforge.safr.jaas.login.AuthenticationServiceHolder;
+import net.sourceforge.safr.jaas.policy.InstancePolicy;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
  * @author Christian Ohr
+ * @author Martin Krasser
  */
 public class SecureContextLoader extends ContextLoader {
 
+    private static final Log log = LogFactory.getLog(SecureContextLoader.class);
+    
     @Override
     public WebApplicationContext initWebApplicationContext(ServletContext sc)
             throws IllegalStateException, BeansException {
@@ -36,10 +44,43 @@ public class SecureContextLoader extends ContextLoader {
 
         // identify authentication service and put into holder class
         String authenticationServiceName = sc.getInitParameter("authenticationServiceName");
-        AuthenticationService service = (AuthenticationService) context
-                .getBean(authenticationServiceName);
+        AuthenticationService service = (AuthenticationService) context.getBean(authenticationServiceName);
         AuthenticationServiceHolder.getInstance().setAuthenticationService(service);
+        
+        // identify instance policy and set as global policy
+        String instancePolicyName = sc.getInitParameter("instancePolicyName");
+        InstancePolicy policy = (InstancePolicy) context.getBean(instancePolicyName);
+        installInstancePolicy(sc, policy);
+        
         return context;
     }
 
+    @Override
+    public void closeWebApplicationContext(ServletContext sc) {
+        uninstallInstancePolicy(sc);
+        super.closeWebApplicationContext(sc);
+    }
+
+    private static void installInstancePolicy(ServletContext sc, InstancePolicy ip) {
+        Policy current = Policy.getPolicy();
+        if (current instanceof InstancePolicy) {
+            log.info("instance policy already installed");
+        } else {
+            ip.setDefaultPolicy(current);
+            Policy.setPolicy(ip);
+            log.info("instance policy installed");
+        }
+    }
+    
+    private static void uninstallInstancePolicy(ServletContext sc) {
+        Policy current = Policy.getPolicy();
+        if (current instanceof InstancePolicy) {
+            InstancePolicy ip = (InstancePolicy)current;
+            Policy.setPolicy(ip.getDefaultPolicy());
+            log.info("instance policy uninstalled");
+        } else {
+            log.info("instance policy not installed");
+        }
+    }
+    
 }
