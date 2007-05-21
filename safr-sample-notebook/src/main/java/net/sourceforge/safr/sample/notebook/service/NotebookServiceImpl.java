@@ -22,7 +22,6 @@ import java.util.Map;
 
 import net.sourceforge.safr.core.annotation.Filter;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
-import net.sourceforge.safr.sample.usermgnt.domain.User;
 import net.sourceforge.safr.sample.usermgnt.service.UserService;
 
 /**
