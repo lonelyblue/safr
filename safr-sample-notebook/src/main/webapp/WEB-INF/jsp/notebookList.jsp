@@ -1,10 +1,6 @@
 <%@ include file="top.jsp" %>
 
 <div id="content">
-	<div id="insert">
-		<img src="images/webflow-logo.jpg"/>
-	</div>
-	<form action="notebook.htm" method="post">
 	<table>
 		<tr>
 			<td>Notebook list</td>
@@ -34,12 +30,10 @@
 		</tr>
 		<tr>
 			<td class="buttonBar">
-				<input type="hidden" name="_flowExecutionKey" value="${flowExecutionKey}">
 				<a href="create.htm">Create</a>
 			</td>
 		</tr>
 	</table>
-	</form>
 </DIV>
 
 <%@ include file="bottom.jsp" %>

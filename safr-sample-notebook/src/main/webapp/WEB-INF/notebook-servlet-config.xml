@@ -14,11 +14,26 @@
         <property name="mappings">
             <props>
                 <prop key="/list.htm">listNotebooksController</prop>
+                <prop key="/delete.htm">deleteNotebookController</prop>
+                <prop key="/detail.htm">detailNotebookController</prop>
             </props>
         </property>
     </bean>
     
     <bean id="listNotebooksController" class="net.sourceforge.safr.sample.web.ListNotebooksController">
     	<property name="service" ref="notebookService"/>
+    </bean>
+
+    <bean id="deleteNotebookController" class="net.sourceforge.safr.sample.web.DeleteNotebookController">
+    	<property name="service" ref="notebookService"/>
+    </bean>
+    
+    <bean id="detailNotebookController" class="net.sourceforge.safr.sample.web.DetailNotebookController">
+    	<property name="commandClass" value="net.sourceforge.safr.sample.notebook.domain.Entry"/>
+    	<property name="commandName" value="currentEntry"/>
+    	<property name="service" ref="notebookService"/>
+    	<property name="formView" value="notebookDetails"/>
+    	<property name="successView" value="notebookDetails"/>
+    	<property name="sessionForm" value="false"/>
     </bean>
 </beans>

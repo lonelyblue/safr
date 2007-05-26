@@ -20,25 +20,36 @@ package net.sourceforge.safr.sample.notebook.domain;
  */
 public class Entry {
 
-    private String category;
-    
-    private String text;
-    
-    public Entry(String text) {
-        this(text, null);
-    }
-    
-    public Entry(String text, String category) {
-        this.text = text;
-        this.category = category;
-    }
+	private String category;
 
-    public String getText() {
-        return text;
-    }
+	private String text;
 
-    public String getCategory() {
-        return category;
-    }
+	public Entry() {
+	}
+
+	public Entry(String text) {
+		this(text, null);
+	}
+
+	public Entry(String text, String category) {
+		this.text = text;
+		this.category = category;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
 
 }
