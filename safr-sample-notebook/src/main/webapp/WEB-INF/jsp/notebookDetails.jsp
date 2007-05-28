@@ -41,19 +41,15 @@
 				<th></th>
 			</tr>
 			<tr>
-				<spring:bind path="currentEntry.category">				
 				<td width="20%">
 					<input type="text" name="category" value="<c:out value="${currentEntry.category}"/>">
 				</td>
-				</spring:bind>
-				<spring:bind path="currentEntry.text">				
 				<td width="70%">
 					<input type="text" name="text" width=50 height=3 value="<c:out value="${currentEntry.text}"/>">
 				</td>
 				<td width="10%">
 					<input type="submit" value="Save">
 				</td>
-				</spring:bind>		
 				<input type="hidden" name="id" value="${notebook.id}"/>
 			</tr>
 		</table>

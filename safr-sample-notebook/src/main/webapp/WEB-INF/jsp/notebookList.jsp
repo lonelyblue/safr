@@ -22,7 +22,7 @@
 						<tr>
 							<td><a href="detail.htm?id=${notebook.id}">${notebook.id}</a></td>				
 							<td>${notebook.owner.id}</td>				
-							<td><a href="remove.htm?id=${notebook.id}">Delete</a></td>				
+							<td><a href="delete.htm?id=${notebook.id}">Delete</a></td>				
 						</tr>
 					</c:forEach>
 				</table>

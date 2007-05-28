@@ -7,6 +7,6 @@
 	<BODY>
 		<DIV align="left"><A href="list.htm">Notebook</A> demo - A Security Annotation Framework Sample</DIV>
 		<HR>
-		<DIV align="right"></DIV>
+		<DIV align="right"><a href="logout">Logout</a></DIV>
 	</BODY>
 </HTML>

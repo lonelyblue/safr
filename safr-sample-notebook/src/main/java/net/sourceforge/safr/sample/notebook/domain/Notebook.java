@@ -62,6 +62,7 @@ public class Notebook {
     
     @Secure(SecureAction.UPDATE)
     public void removeEntry(Entry entry) {
+        // FIXME: remove entry by position in list
         entries.remove(entry);
     }
 
