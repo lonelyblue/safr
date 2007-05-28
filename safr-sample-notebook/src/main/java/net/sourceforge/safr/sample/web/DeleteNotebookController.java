@@ -19,7 +19,7 @@ public class DeleteNotebookController extends AbstractController {
 		String id = request.getParameter("id");
 		Notebook notebook = service.findNotebook(id);
 		service.deleteNotebook(notebook);
-		return new ModelAndView("list");
+		return new ModelAndView("notebookList");
 	}
 
 	/**
