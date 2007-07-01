@@ -72,7 +72,7 @@ public class PrivilegedActionFilter implements Filter {
         return (request instanceof RequestWrapper) && (response instanceof ResponseWrapper);
     }
     
-    private static class FilterAction implements PrivilegedExceptionAction {
+    private static class FilterAction implements PrivilegedExceptionAction<Object> {
 
         private RequestWrapper request;
         private ResponseWrapper response;
