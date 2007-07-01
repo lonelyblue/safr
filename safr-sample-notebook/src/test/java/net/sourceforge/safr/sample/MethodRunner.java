@@ -21,7 +21,7 @@ import java.security.PrivilegedExceptionAction;
 /**
  * @author Martin Krasser
  */
-public class MethodRunner implements PrivilegedExceptionAction {
+public class MethodRunner implements PrivilegedExceptionAction<Object> {
 
     private Object target;
     private String methodName;
@@ -42,11 +42,11 @@ public class MethodRunner implements PrivilegedExceptionAction {
         return method.invoke(target, args);
     }
 
-    private static Class[] createArgumentTypeArray(Object... args) {
+    private static Class<?>[] createArgumentTypeArray(Object... args) {
         if (args == null) {
             return new Class[] {};
         }
-        Class[] types = new Class[args.length];
+        Class<?>[] types = new Class<?>[args.length];
         for (int i = 0; i < args.length; i++) {
             types[i] = args[i].getClass();
         }
