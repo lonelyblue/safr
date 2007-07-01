@@ -31,23 +31,23 @@ public abstract class SecurityAttributeSourceSupport implements SecurityAttribut
         this.cache = new SecurityAttributeContainerCache(); 
     }
     
-    public FilterAttribute getMethodFilterAttribute(Method method, Class targetClass) {
+    public FilterAttribute getMethodFilterAttribute(Method method, Class<?> targetClass) {
         return getSecurityAttributeContainer(method, targetClass).getMethodFilterAttribute();
     }
 
-    public SecureAttribute getMethodSecureAttribute(Method method, Class targetClass) {
+    public SecureAttribute getMethodSecureAttribute(Method method, Class<?> targetClass) {
         return getSecurityAttributeContainer(method, targetClass).getMethodSecureAttribute();
     }
 
-    public SecureAttribute[] getParameterSecureAttributes(Method method, Class targetClass) {
+    public SecureAttribute[] getParameterSecureAttributes(Method method, Class<?> targetClass) {
         return getSecurityAttributeContainer(method, targetClass).getParameterSecureAttributes();
     }
     
-    public boolean isAnySecurityAttributeDefined(Method method, Class targetClass) {
+    public boolean isAnySecurityAttributeDefined(Method method, Class<?> targetClass) {
         return getSecurityAttributeContainer(method, targetClass).isAnySecurityAttributeDefined();
     }
 
-    private SecurityAttributeContainer getSecurityAttributeContainer(Method method, Class targetClass) {
+    private SecurityAttributeContainer getSecurityAttributeContainer(Method method, Class<?> targetClass) {
         String key = generateKey(method, targetClass);
         SecurityAttributeContainer container = cache.get(key);
         if (container != null) {
@@ -62,7 +62,7 @@ public abstract class SecurityAttributeSourceSupport implements SecurityAttribut
         return container;
     }
 
-    private SecurityAttributeContainer computeSecurityAttributes(Method method, Class targetClass) {
+    private SecurityAttributeContainer computeSecurityAttributes(Method method, Class<?> targetClass) {
         SecurityAttributeHierarchy hierarchy = new SecurityAttributeHierarchy(getMostSpecificMethod(method, targetClass));
         SecurityAttributeCollector collector = createSecurityAttributeCollector();
         hierarchy.accept(collector);
@@ -71,17 +71,17 @@ public abstract class SecurityAttributeSourceSupport implements SecurityAttribut
     
     protected abstract SecurityAttributeCollector createSecurityAttributeCollector();
     
-    private static String generateKey(Method method, Class targetClass) {
+    private static String generateKey(Method method, Class<?> targetClass) {
         return targetClass + "." + method;
     }
 
-    private static Method getMostSpecificMethod(Method method, Class targetClass) {
+    private static Method getMostSpecificMethod(Method method, Class<?> targetClass) {
         if (method == null || targetClass == null) {
             return method;
         }
         try {
             String name = method.getName();
-            Class[] types = method.getParameterTypes();
+            Class<?>[] types = method.getParameterTypes();
             method = targetClass.getMethod(name, types);
         } catch (NoSuchMethodException ex) {
             // use original method

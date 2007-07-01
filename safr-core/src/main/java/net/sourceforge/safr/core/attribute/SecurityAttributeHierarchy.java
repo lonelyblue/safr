@@ -24,7 +24,7 @@ class SecurityAttributeHierarchy {
 
     private Method leaf;
     private String name;
-    private Class[] types;
+    private Class<?>[] types;
     
     private boolean done;
     
@@ -39,7 +39,7 @@ class SecurityAttributeHierarchy {
         accept(leaf.getDeclaringClass(), collector);
     }
 
-    private void accept(Class clazz, SecurityAttributeCollector collector) {
+    private void accept(Class<?> clazz, SecurityAttributeCollector collector) {
         if (done || clazz == null) {
             return;
         }
@@ -51,7 +51,7 @@ class SecurityAttributeHierarchy {
         if (!clazz.isInterface()) {
             accept(clazz.getSuperclass(), collector);
         }
-        for (Class elem : clazz.getInterfaces()) {
+        for (Class<?> elem : clazz.getInterfaces()) {
             accept(elem, collector);
         }
         

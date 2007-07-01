@@ -22,12 +22,12 @@ import java.lang.reflect.Method;
  */
 public interface SecurityAttributeSource {
 
-    FilterAttribute getMethodFilterAttribute(Method method, Class targetClass);
+    FilterAttribute getMethodFilterAttribute(Method method, Class<?> targetClass);
 
-    SecureAttribute getMethodSecureAttribute(Method method, Class targetClass);
+    SecureAttribute getMethodSecureAttribute(Method method, Class<?> targetClass);
 
-    SecureAttribute[] getParameterSecureAttributes(Method method, Class targetClass);
+    SecureAttribute[] getParameterSecureAttributes(Method method, Class<?> targetClass);
 
-    boolean isAnySecurityAttributeDefined(Method method, Class targetClass);
+    boolean isAnySecurityAttributeDefined(Method method, Class<?> targetClass);
     
 }
