@@ -23,7 +23,7 @@ import net.sourceforge.safr.jaas.principal.RolePrincipal;
 import net.sourceforge.safr.jaas.principal.UserPrincipal;
 
 /**
- * Allows for commiting grant and remove tasks as a unit of work.
+ * Allows for committing grant- and remove tasks as a unit of work.
  * 
  * @author Martin Krasser
  */
