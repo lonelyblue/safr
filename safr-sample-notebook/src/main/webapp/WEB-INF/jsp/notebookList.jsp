@@ -1,39 +1,27 @@
 <%@ include file="top.jsp" %>
 
+<div id="navigation">
+    <a href="logout">Logout</a>
+</div>
+
 <div id="content">
-	<table>
+    <p>
+    Notebook List
+    <p>
+	<table border="1"/>
 		<tr>
-			<td>Notebook list</td>
+			<th>Identifier</th>
+			<th>Owner</th>
+			<th>Action</th>
 		</tr>
-		<tr>
-			<td>
-				<hr>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<table border="1"/>
-					<tr>
-						<th>Notebook ID</th>
-						<th>Owner</th>
-						<th>Action</th>
-					</tr>
-					<c:forEach var="notebook" items="${notebooks}">
-						<tr>
-							<td><a href="detail.htm?id=${notebook.id}">${notebook.id}</a></td>				
-							<td>${notebook.owner.id}</td>				
-							<td><a href="delete.htm?id=${notebook.id}">Delete</a></td>				
-						</tr>
-					</c:forEach>
-				</table>
-			</td>		
-		</tr>
-		<tr>
-			<td class="buttonBar">
-				<a href="create.htm">Create</a>
-			</td>
-		</tr>
+		<c:forEach var="notebook" items="${notebooks}">
+			<tr>
+				<td><a href="detailNotebook.htm?notebookId=${notebook.id}">${notebook.id}</a></td>				
+				<td>${notebook.owner.id}</td>				
+				<td><a href="deleteNotebook.htm?notebookId=${notebook.id}">Delete</a></td>				
+			</tr>
+		</c:forEach>
 	</table>
-</DIV>
+</div>
 
 <%@ include file="bottom.jsp" %>

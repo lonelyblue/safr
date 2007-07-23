@@ -17,8 +17,8 @@ package net.sourceforge.safr.sample.usermgnt.service;
 
 import java.security.AccessController;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService, AuthenticationService {
     }
 
     public Collection<User> findUsers() {
-        return Collections.unmodifiableCollection(users.values());
+        return new ArrayList<User>(users.values());
     }
 
     public Set<Principal> authenticate(String username, char[] password) throws LoginException {

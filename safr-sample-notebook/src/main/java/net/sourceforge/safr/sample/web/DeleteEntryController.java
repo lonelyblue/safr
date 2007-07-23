@@ -13,26 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.sample.permission.service;
+package net.sourceforge.safr.sample.web;
 
-import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import net.sourceforge.safr.jaas.policy.PermissionManager;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
-import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
+
+import org.springframework.web.servlet.ModelAndView;
 
 /**
- * A {@link PermissionManager} facade for managing notebook-specific
- * {@link PermissionAssignment}s.
- * 
  * @author Martin Krasser
  */
-public interface PermissionService {
+public class DeleteEntryController extends DetailNotebookController {
 
-    Collection<PermissionAssignment> getPermissionAssignments(String assigneeId);
-    
-    PermissionAssignment getPermissionAssignment(String assigneeId, Notebook notebook);
-    
-    void applyPermissionAssignments(PermissionAssignment... permissionAssignments);
-    
+    @Override
+    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String notebookId = request.getParameter("notebookId");
+        String entryId = request.getParameter("entryId");
+        Notebook notebook = getService().findNotebook(notebookId);
+        notebook.removeEntry(entryId);
+        return super.handleRequestInternal(request, response);
+    }
+
 }

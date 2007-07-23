@@ -39,6 +39,14 @@ public class PermissionAssignment {
     
     private Action action;
 
+    public PermissionAssignment() {
+        this(null);
+    }
+    
+    public PermissionAssignment(String assigneId) {
+        this(assigneId, null, null, null);
+    }
+    
     /**
      * Creates a new PermissionAssignment instance.
      * 
@@ -91,6 +99,52 @@ public class PermissionAssignment {
         return assigneeId;
     }
 
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public void setNotebookId(String notebookId) {
+        this.notebookId = notebookId;
+    }
+
+    public void setAssigneeId(String assigneeId) {
+        this.assigneeId = assigneeId;
+    }
+
+    public boolean isNotebookIdWildcard() {
+        return Target.WILDCARD.equals(notebookId);
+    }
+    
+    public String getActionString() {
+        if (action == null) {
+            return "NONE";
+        } else {
+            return action.toString();
+        }
+    }
+
+    public void setActionString(String actionString) {
+        if (actionString.equals("NONE")) {
+            action = null;
+        } else {
+            action = Action.valueOf(actionString);
+        }
+    }
+    
+    public String[] getActionStrings() {
+        return new String[] {
+            "NONE",
+            Action.READ.toString(),
+            Action.WRITE.toString(),
+            Action.MANAGE.toString(),
+            Action.AUTH.toString(),
+        };
+    }
+    
     /**
      * Creates a {@link UserPrincipal} from the <code>assigneeId</code> of
      * this permission assignment.

@@ -65,8 +65,41 @@ public class Notebook {
         entries.remove(entry);
     }
 
+    public void removeEntry(String entryId) {
+        Entry entry = getEntry(entryId);
+        if (entry != null) {
+            removeEntry(entry);
+        }
+    }
+
+    public Entry getEntry(String entryId) {
+        for (Entry entry : entries) {
+            if (entry.getId().equals(entryId)) {
+                return entry;
+            }
+        }
+        return null;
+    }
+    
     public List<Entry> getEntries() {
         return Collections.unmodifiableList(entries);
     }
     
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Notebook)) {
+            return false;
+        }
+        Notebook n = (Notebook)obj;
+        return id.equals(n.id); 
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
 }

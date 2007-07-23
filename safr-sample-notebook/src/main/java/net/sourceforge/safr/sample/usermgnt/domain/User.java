@@ -80,4 +80,21 @@ public class User {
         this.roles.add(new Role("customer"));
     }
     
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        User u = (User)obj;
+        return id.equals(u.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+    
 }

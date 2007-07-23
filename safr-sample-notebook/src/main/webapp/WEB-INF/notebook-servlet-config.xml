@@ -4,6 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 			    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+    <bean id="exceptionResolver" class="net.sourceforge.safr.sample.web.SecurityExceptionResolver" />
+
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
 		<property name="prefix" value="/WEB-INF/jsp/"/>
@@ -13,27 +15,56 @@
 	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-                <prop key="/list.htm">listNotebooksController</prop>
-                <prop key="/delete.htm">deleteNotebookController</prop>
-                <prop key="/detail.htm">detailNotebookController</prop>
+                <prop key="/listNotebooks.htm">listNotebooksController</prop>
+                <prop key="/listPermissions.htm">listPermissionsController</prop>
+                <prop key="/deleteNotebook.htm">deleteNotebookController</prop>
+                <prop key="/deleteEntry.htm">deleteEntryController</prop>
+                <prop key="/detailNotebook.htm">detailNotebookController</prop>
+                <prop key="/detailPermission.htm">detailPermissionController</prop>
             </props>
         </property>
     </bean>
     
-    <bean id="listNotebooksController" class="net.sourceforge.safr.sample.web.ListNotebooksController">
+    <bean id="listNotebooksController" 
+        class="net.sourceforge.safr.sample.web.ListNotebooksController">
     	<property name="service" ref="notebookService"/>
     </bean>
 
-    <bean id="deleteNotebookController" class="net.sourceforge.safr.sample.web.DeleteNotebookController">
+    <bean id="listPermissionsController" 
+        class="net.sourceforge.safr.sample.web.ListPermissionsController">
+        <property name="permissionService" ref="permissionService"/>
+        <property name="userService" ref="userService"/>
+        <property name="notebookService" ref="notebookService"/>
+    </bean>
+
+    <bean id="deleteNotebookController" 
+        class="net.sourceforge.safr.sample.web.DeleteNotebookController">
     	<property name="service" ref="notebookService"/>
     </bean>
     
-    <bean id="detailNotebookController" class="net.sourceforge.safr.sample.web.DetailNotebookController">
+    <bean id="deleteEntryController" parent="detailNotebookController" 
+        class="net.sourceforge.safr.sample.web.DeleteEntryController" >
+    </bean>
+    
+    <bean id="detailNotebookController" 
+        class="net.sourceforge.safr.sample.web.DetailNotebookController">
     	<property name="commandClass" value="net.sourceforge.safr.sample.notebook.domain.Entry"/>
-    	<property name="commandName" value="currentEntry"/>
+    	<property name="commandName" value="entry"/>
     	<property name="service" ref="notebookService"/>
     	<property name="formView" value="notebookDetails"/>
     	<property name="successView" value="notebookDetails"/>
     	<property name="sessionForm" value="false"/>
     </bean>
+
+    <bean id="detailPermissionController" 
+        class="net.sourceforge.safr.sample.web.DetailPermissionController">
+        <property name="commandName" value="assignment"/>
+        <property name="permissionService" ref="permissionService"/>
+        <property name="userService" ref="userService"/>
+        <property name="notebookService" ref="notebookService"/>
+        <property name="formView" value="permissionDetails"/>
+        <property name="successView" value="permissionList"/>
+        <property name="sessionForm" value="false"/>
+    </bean>
+
 </beans>

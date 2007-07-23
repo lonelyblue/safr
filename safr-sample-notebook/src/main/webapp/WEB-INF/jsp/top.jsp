@@ -7,16 +7,13 @@
 
 <html>
 <head>
-<title>Notebook demo</title>
+<title>Notebook Demo</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
 
 <div id="logo">
-	<img src="images/notebook-logo.jpg" height="73" alt="Logo" border="0"> 
+	<img src="images/notebook-logo.gif" height="73" alt="Logo" border="0"> 
 </div>
 
-<div id="navigation">
-
-</div>

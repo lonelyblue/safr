@@ -45,6 +45,7 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
     </bean>
     <bean id="permissionService" name="permissionSource"
         class="net.sourceforge.safr.sample.permission.service.PermissionServiceImpl">
+        <property name="permissionManager" ref="permissionManager" />
     </bean>
 
 </beans>

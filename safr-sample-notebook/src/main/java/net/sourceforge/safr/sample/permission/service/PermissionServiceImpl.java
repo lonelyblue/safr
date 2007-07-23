@@ -58,9 +58,21 @@ public class PermissionServiceImpl implements PermissionService, PermissionSourc
         return null;
     }
     
-    public void applyPermissionAssignments(PermissionAssignment... npas) {
+    public PermissionAssignment getPermissionAssignment(String assigneeId, Notebook notebook) {
+        UserPrincipal up = new UserPrincipal(assigneeId);
+        for (InstancePermission ip : permissionManager.getPermissions(up)) {
+            Target t = new Target(notebook.getOwner().getId(), NOTEBOOK, notebook.getId());
+            if (!ip.getTarget().implies(t)) {
+                continue;
+            }
+            return new PermissionAssignment(up.getName(), ip);
+        }
+        return null;
+    }
+    
+    public void applyPermissionAssignments(PermissionAssignment... permissionAssignments) {
         PermissionManagementLog log = permissionManager.newPermissionManagementLog();
-        for (PermissionAssignment npa : npas) {
+        for (PermissionAssignment npa : permissionAssignments) {
             applyPermissionAssignment(npa, log);
         }
         log.commit();
@@ -103,6 +115,7 @@ public class PermissionServiceImpl implements PermissionService, PermissionSourc
         // define permissions for user2
         permissions = new HashSet<InstancePermission>();
         permissions.add(new InstancePermission(new Target("user2", NOTEBOOK, WILDCARD), Action.AUTH));
+        permissions.add(new InstancePermission(new Target("user1", NOTEBOOK, "nb1-user1"), Action.READ));
         result.put(new UserPrincipal("user2"), permissions);
         
         // define permissions for user3

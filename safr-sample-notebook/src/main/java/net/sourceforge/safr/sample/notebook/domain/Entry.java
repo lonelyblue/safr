@@ -15,41 +15,57 @@
  */
 package net.sourceforge.safr.sample.notebook.domain;
 
+import java.util.UUID;
+
 /**
  * @author Martin Krasser
  */
 public class Entry {
 
-	private String category;
-
-	private String text;
+    private String id;
+    
+    private String text;
 
 	public Entry() {
+	    this(null);
 	}
 
 	public Entry(String text) {
-		this(text, null);
+		this(UUID.randomUUID().toString(), text);
 	}
 
-	public Entry(String text, String category) {
-		this.text = text;
-		this.category = category;
+	public Entry(String id, String text) {
+		this.id = id;
+	    this.text = text;
 	}
 
-	public String getText() {
+	public String getId() {
+        return id;
+    }
+
+    public String getText() {
 		return text;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
 	}
 
 	public void setText(String text) {
 		this.text = text;
 	}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Entry)) {
+            return false;
+        }
+        Entry e = (Entry)obj;
+        return id.equals(e.id); 
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 
 }

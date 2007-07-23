@@ -12,9 +12,9 @@ div#logo {
 
 div#navigation {
 	width: 720px;
-	height: 15px;
+	height: 22px;
 	background: #E2F3B8;
-	text-align: right;
+	text-align: left;
 }
 
 div#content {
@@ -38,7 +38,7 @@ div#copyright {
 }
 
 div#copyright p {
-	text-align: center;
+	text-align: left;
 	font-family: Tahoma, sans-serif;  
 	font-size: 75%; 
 	color: div#336633; 
