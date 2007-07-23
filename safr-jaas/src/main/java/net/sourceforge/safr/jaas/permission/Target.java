@@ -77,8 +77,8 @@ public class Target {
         }
         Target t = (Target)obj;
         return context.equals(t.context) 
-            && classifier.equals(classifier)
-            && identifier.equals(identifier);
+            && classifier.equals(t.classifier)
+            && identifier.equals(t.identifier);
     }
 
     @Override
