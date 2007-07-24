@@ -115,7 +115,6 @@ public class PermissionServiceImpl implements PermissionService, PermissionSourc
         // define permissions for user2
         permissions = new HashSet<InstancePermission>();
         permissions.add(new InstancePermission(new Target("user2", NOTEBOOK, WILDCARD), Action.AUTH));
-        permissions.add(new InstancePermission(new Target("user1", NOTEBOOK, "nb1-user1"), Action.READ));
         result.put(new UserPrincipal("user2"), permissions);
         
         // define permissions for user3

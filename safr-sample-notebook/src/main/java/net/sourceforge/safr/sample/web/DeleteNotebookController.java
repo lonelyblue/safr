@@ -19,38 +19,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
-import net.sourceforge.safr.sample.notebook.service.NotebookService;
 
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 /**
  * @author Martin Krasser
  */
-public class DeleteNotebookController extends AbstractController {
-
-	private NotebookService service;
-
-    /**
-     * @return the service
-     */
-    public NotebookService getService() {
-        return service;
-    }
-
-    /**
-     * @param service the service to set
-     */
-    public void setService(NotebookService service) {
-        this.service = service;
-    }
+public class DeleteNotebookController extends ListNotebooksController {
 
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String id = request.getParameter("notebookId");
-		Notebook notebook = getService().findNotebook(id);
-		service.deleteNotebook(notebook);
-		return new ModelAndView("notebookList", "notebooks", getService().findNotebooks());
+		Notebook notebook = getNotebookService().findNotebook(id);
+		getNotebookService().deleteNotebook(notebook);
+		return super.handleRequestInternal(request, response);
 	}
 
 }

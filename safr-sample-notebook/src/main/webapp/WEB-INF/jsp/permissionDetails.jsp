@@ -11,7 +11,7 @@
     notebook <a href="detailNotebook.htm?notebookId=${notebook.id}">${notebook.id}</a> of ${notebook.owner.id}
     <p>
     <form:form commandName="assignment">
-      Change Permission: 
+      Change permission: 
       <form:select 
         path="actionString" 
         items="${assignment.actionStrings}" 

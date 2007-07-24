@@ -25,35 +25,40 @@
         </property>
     </bean>
     
-    <bean id="listNotebooksController" 
-        class="net.sourceforge.safr.sample.web.ListNotebooksController">
-    	<property name="service" ref="notebookService"/>
-    </bean>
-
-    <bean id="listPermissionsController" 
-        class="net.sourceforge.safr.sample.web.ListPermissionsController">
-        <property name="permissionService" ref="permissionService"/>
-        <property name="userService" ref="userService"/>
-        <property name="notebookService" ref="notebookService"/>
-    </bean>
-
-    <bean id="deleteNotebookController" 
+    <bean id="deleteNotebookController" parent="listNotebooksController"
         class="net.sourceforge.safr.sample.web.DeleteNotebookController">
-    	<property name="service" ref="notebookService"/>
     </bean>
     
     <bean id="deleteEntryController" parent="detailNotebookController" 
         class="net.sourceforge.safr.sample.web.DeleteEntryController" >
     </bean>
     
+    <bean id="listNotebooksController" 
+        class="net.sourceforge.safr.sample.web.ListNotebooksController">
+        <property name="commandClass" value="net.sourceforge.safr.sample.web.support.NotebookIdContainer"/>
+        <property name="commandName" value="nbid"/>
+        <property name="notebookService" ref="notebookService"/>
+        <property name="userService" ref="userService"/>
+        <property name="formView" value="notebookList"/>
+        <property name="successView" value="notebookList"/>
+        <property name="sessionForm" value="false"/>
+    </bean>
+
     <bean id="detailNotebookController" 
         class="net.sourceforge.safr.sample.web.DetailNotebookController">
-    	<property name="commandClass" value="net.sourceforge.safr.sample.notebook.domain.Entry"/>
-    	<property name="commandName" value="entry"/>
-    	<property name="service" ref="notebookService"/>
-    	<property name="formView" value="notebookDetails"/>
-    	<property name="successView" value="notebookDetails"/>
-    	<property name="sessionForm" value="false"/>
+        <property name="commandClass" value="net.sourceforge.safr.sample.notebook.domain.Entry"/>
+        <property name="commandName" value="entry"/>
+        <property name="service" ref="notebookService"/>
+        <property name="formView" value="notebookDetails"/>
+        <property name="successView" value="notebookDetails"/>
+        <property name="sessionForm" value="false"/>
+    </bean>
+
+    <bean id="listPermissionsController"
+        class="net.sourceforge.safr.sample.web.ListPermissionsController">
+        <property name="permissionService" ref="permissionService"/>
+        <property name="userService" ref="userService"/>
+        <property name="notebookService" ref="notebookService"/>
     </bean>
 
     <bean id="detailPermissionController" 

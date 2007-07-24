@@ -24,7 +24,7 @@
     </table>
     <p>
     <form:form commandName="entry">
-        New Entry: 
+        New entry: 
         <form:input path="text" /> 
         <input type="submit" value="Save" />
     </form:form>

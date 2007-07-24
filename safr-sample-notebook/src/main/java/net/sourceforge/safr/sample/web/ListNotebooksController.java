@@ -15,39 +15,66 @@
  */
 package net.sourceforge.safr.sample.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.notebook.service.NotebookService;
+import net.sourceforge.safr.sample.usermgnt.domain.User;
+import net.sourceforge.safr.sample.usermgnt.service.UserService;
+import net.sourceforge.safr.sample.web.support.NotebookIdContainer;
 
+import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.web.servlet.mvc.SimpleFormController;
 
 /**
  * @author Martin Krasser
  */
-public class ListNotebooksController extends AbstractController {
+public class ListNotebooksController extends SimpleFormController {
 
-	private NotebookService service;
+	private NotebookService notebookService;
+
+	private UserService userService;
 	
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) {
-		return new ModelAndView("notebookList", "notebooks", getService().findNotebooks());
-	}
+    public NotebookService getNotebookService() {
+        return notebookService;
+    }
 
-	/**
-	 * @return the service
-	 */
-	public NotebookService getService() {
-		return service;
-	}
+    public void setNotebookService(NotebookService service) {
+        this.notebookService = service;
+    }
 
-	/**
-	 * @param service the service to set
-	 */
-	public void setService(NotebookService service) {
-		this.service = service;
-	}
+    public UserService getUserService() {
+        return userService;
+    }
 
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
+    @Override
+    protected Map<String, Object> referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>(1);
+        map.put("notebooks", getNotebookService().findNotebooks());
+        return map;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+        NotebookIdContainer container = ((NotebookIdContainer)command);
+        User current = getUserService().currentUser();
+        Notebook notebook = new Notebook(container.getIdentifier(), current);
+        getNotebookService().createNotebook(notebook);
+        Map map = new HashMap();
+        map.putAll(errors.getModel());
+        map.put("notebooks", getNotebookService().findNotebooks());
+        return new ModelAndView(getSuccessView(), map);
+    }
 
 }

@@ -22,6 +22,14 @@
 			</tr>
 		</c:forEach>
 	</table>
+    <p>
+    <form:form commandName="nbid">
+        New notebook for current user. Notebook ID*:  
+        <form:input path="identifier" /> 
+        <input type="submit" value="Save" />
+    </form:form>
+    <p>
+    * If you enter the id of an existing notebook then that notebook will be replaced with the created one (sufficient privileges provided).
 </div>
 
 <%@ include file="bottom.jsp" %>

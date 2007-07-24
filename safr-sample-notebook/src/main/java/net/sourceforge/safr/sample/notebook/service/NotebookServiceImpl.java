@@ -49,7 +49,9 @@ public class NotebookServiceImpl implements NotebookService {
     }
 
     public void deleteNotebook(Notebook notebook) {
-        notebooks.remove(notebook.getId());
+        if (notebook != null) {
+            notebooks.remove(notebook.getId());
+        }
     }
 
     public Notebook findNotebook(String id) {
@@ -80,7 +82,6 @@ public class NotebookServiceImpl implements NotebookService {
     public void bootstrap() {
         // local createNotebook() calls are not intercepted by security proxy 
         createNotebook(new Notebook("nb1-user1", userService.findUser("user1")));
-        createNotebook(new Notebook("nb2-user1", userService.findUser("user1")));
         createNotebook(new Notebook("nb1-user2", userService.findUser("user2")));
         createNotebook(new Notebook("nb1-user3", userService.findUser("user3")));
     }
