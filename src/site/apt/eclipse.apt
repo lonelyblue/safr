@@ -4,6 +4,10 @@
 
 Eclipse Setup
 
+* Version
+
+  {{{http://www.eclipse.org}Eclipse}} version 3.3 is recommended for working with the SAF sources version 0.8.1 and higher.
+
 * Plugins
   
   The SAF depends on the following Eclipse plugins
@@ -11,6 +15,12 @@ Eclipse Setup
     * {{{http://www.eclipse.org/ajdt/downloads/}AspectJ Development Tools (AJDT) Eclipse plugin}}.
         
     * {{{http://m2eclipse.codehaus.org/}Maven2 Eclipse plugin}}. Configure the plugin to point to your local Maven2 repository.
+
+    []
+
+  Also, you might want to install a Subversion plugin. There are several Subversion plugins available for Eclipse, a nice one is
+
+    * {{{http://subclipse.tigris.org/}Subclipse}} Subversion plugin. 
   
     []
 
