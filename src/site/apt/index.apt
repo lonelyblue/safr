@@ -116,7 +116,7 @@ nb1 = new Notebook(...) // id == 1
 
   * The {{{safr-sample-hellosaf/index.html}Hello SAF}} sample shows the basic steps for setting up the {{{safr-core/index.html}SAF Core}} module in {{{http://www.springframework.org}Spring}} applications.
      
-  * The {{{safr-sample-notebook/index.html}Notebook}} sample demonstrates how to set up {{{safr-core/index.html}SAF Core}} with the JAAS authorization provider from the {{{safr-jaas/index.html}SAF JAAS}} module. This sample is a simple web application for managing and sharing notebooks and addresses the following topics:  
+  * The {{{safr-sample-notebook/index.html}Notebook}} sample demonstrates how to set up {{{safr-core/index.html}SAF Core}} with the JAAS authorization provider from the {{{safr-jaas/index.html}SAF JAAS}} module. This sample is a web application for managing and sharing notebooks and addresses the following topics:  
      
     * Instance-level access control with SAF and JAAS.
     
