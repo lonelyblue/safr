@@ -10,7 +10,7 @@
             img="http://sflogo.sourceforge.net/sflogo.php?group_id=192147&amp;type=1" />
     </poweredBy>
     <body>
-        <menu name="SAF">
+        <menu name="Project">
             <item name="Overview" href="index.html" />
             <item name="Resources" href="resources.html" />
             <item name="Download" href="download.html" />
