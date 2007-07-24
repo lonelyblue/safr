@@ -3,19 +3,19 @@
     <groupId>net.sourceforge.safr</groupId>
     <artifactId>safr-sample-hellosaf</artifactId>
     <packaging>jar</packaging>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.8.1-SNAPSHOT</version>
     <name>safr-sample-hellosaf</name>
     <url>http://safr.sourceforge.net</url>
     <parent>
         <groupId>net.sourceforge.safr</groupId>
         <artifactId>safr</artifactId>
-        <version>0.9-SNAPSHOT</version>
+        <version>0.8.1-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>
             <groupId>net.sourceforge.safr</groupId>
             <artifactId>safr-core</artifactId>
-            <version>0.9-SNAPSHOT</version>
+            <version>0.8.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
