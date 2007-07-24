@@ -12,6 +12,7 @@
     <body>
         <menu name="SAF">
             <item name="Overview" href="index.html" />
+            <item name="Resources" href="resources.html" />
             <item name="Download" href="download.html" />
             <item name="Eclipse" href="eclipse.html" />
             <item name="Build" href="build.html" />
