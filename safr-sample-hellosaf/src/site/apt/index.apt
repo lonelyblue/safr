@@ -162,7 +162,7 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 
 * Dependencies
 
-  In the <<<pom.xml>>> add a dependency to the <<<safr-core-0.8.jar>>> jar file.   
+  In the <<<pom.xml>>> add a dependency to the <<<safr-core-\<version\>.jar>>> jar file where <<<\<version\>>>> is the version number of the source release you downloaded. In this example it is <<<0.8.1>>>.
 
 +---
   <dependencies>
@@ -170,14 +170,14 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
       <dependency>
           <groupId>net.sourceforge.safr</groupId>
           <artifactId>safr-core</artifactId>
-          <version>0.8</version>
+          <version>0.8.1</version>
       </dependency>
   </dependencies>
 +---
 
 * AspectJ Settings
 
-  Before we can test our sample application we have to tell the AspectJ compiler to use the <<<safr-core-0.8.jar>>> file as aspect library. With the {{{http://mojo.codehaus.org/aspectj-maven-plugin/}AspectJ Maven 2 plugin}} this can be done via the following configuration in the <<<pom.xml>>> file.
+  Before we can test our sample application we have to tell the AspectJ compiler to use the <<<safr-core-0.8.1.jar>>> file as aspect library. With the {{{http://mojo.codehaus.org/aspectj-maven-plugin/}AspectJ Maven 2 plugin}} this can be done via the following configuration in the <<<pom.xml>>> file.
 
 +---
   <build>
@@ -208,7 +208,7 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 +---
 
 
-  To use AspectJ directly in Eclipse you must install the {{{http://www.eclipse.org/ajdt/}AspectJ Development Tools}} (AJDT). After installation, convert the Eclipse project you are working on to an AspectJ project and open the project properties. Under the <AspectJ Build> menu add the <<<safr-core-0.8.jar>>> file to the <Aspect Path> list.
+  To use AspectJ directly in Eclipse you must install the {{{http://www.eclipse.org/ajdt/}AspectJ Development Tools}} (AJDT). After installation, convert the Eclipse project you are working on to an AspectJ project and open the project properties. Under the <AspectJ Build> menu add the <<<safr-core-0.8.1.jar>>> file to the <Aspect Path>. The classpath variable <<<M2_REPO>>> refers to the local Maven 2 repository
 
 [images/safr-sample-hellosaf-1.jpg] Eclipse AspectJ Settings
 
