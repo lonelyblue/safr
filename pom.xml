@@ -129,7 +129,7 @@
         </plugins>
     </build>
     <properties>
-        <spring-version>2.0.4</spring-version>
+        <spring-version>2.0.6</spring-version>
     </properties>
     <reporting>
         <plugins>
