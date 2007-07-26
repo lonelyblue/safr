@@ -4,7 +4,9 @@
 
 Security Annotation Framework
   
-  The Security Annotation Framework (SAF) is an instance-level access control framework driven by Java 5 annotations. It can be easily integrated into {{{http://www.springframework.org}Spring}} applications which primarily use the SAF to control access to their domain object instances. SAF security annotations define locations in the source code where the SAF shall perform permission checks at runtime. An annotation-driven approach to instance-level access control promotes the separation of an application’s security logic from its business logic. This significantly increases the testability and reusability of application components. It further allows the implementation of instance-level access control features into existing applications without modifying existing business logic.
+  The Security Annotation Framework (SAF) is an instance-level access control framework driven by Java 5 annotations. It complements Java EE security concepts by introducing declarative permission checks on the level of domain object instances. The SAF provides a custom configuration schema for easy integration into {{{http://www.springframework.org}Spring}} 2.x applications.
+  
+  SAF security annotations define locations in the source code where the SAF shall perform permission checks at runtime. An annotation-driven approach to instance-level access control promotes the separation of an application’s security logic from its business logic. This significantly increases the testability and reusability of application components. It further allows the implementation of instance-level access control features into existing applications without modifying existing business logic.
 
 * Architectural Context
 
