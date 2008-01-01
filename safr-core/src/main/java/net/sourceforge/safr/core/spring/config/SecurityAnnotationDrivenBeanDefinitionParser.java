@@ -23,6 +23,7 @@ import net.sourceforge.safr.core.interceptor.SecurityInterceptor;
 import net.sourceforge.safr.core.spring.advice.SecurityAttributeSourceAdvisor;
 
 import org.springframework.aop.config.AopNamespaceUtils;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
@@ -36,7 +37,6 @@ import org.w3c.dom.Element;
 public class SecurityAnnotationDrivenBeanDefinitionParser extends AbstractBeanDefinitionParser {
 
     private static final String ACCESS_MANAGER_ATTRIBUTE = "access-manager";
-    private static final String PROXY_TARGET_CLASS_ATTRIBUTE = "proxy-target-class";
     private static final String INTERCEPTOR_ORDER_ATTRIBUTE = "interceptor-order";
     private static final String SUPPORT_ASPECTJ_ATTRIBUTE = "support-aspectj"; 
     
@@ -52,25 +52,23 @@ public class SecurityAnnotationDrivenBeanDefinitionParser extends AbstractBeanDe
         AopNamespaceUtils.registerAutoProxyCreatorIfNecessary(parserContext, element);
 
         String accessManagerName = element.getAttribute(ACCESS_MANAGER_ATTRIBUTE);
-        String proxyTargetClass = element.getAttribute(PROXY_TARGET_CLASS_ATTRIBUTE);
         String interceptorOrder = element.getAttribute(INTERCEPTOR_ORDER_ATTRIBUTE);
         String useAspectJ = element.getAttribute(SUPPORT_ASPECTJ_ATTRIBUTE);
         
-        if (Boolean.parseBoolean(proxyTargetClass)) {
-            AopNamespaceUtils.forceAutoProxyCreatorToUseClassProxying(parserContext.getRegistry());
-        }
-        
         RootBeanDefinition removeFilterFactoryDefinition = new RootBeanDefinition(RemoveFilterFactory.class);
+        removeFilterFactoryDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         removeFilterFactoryDefinition.setSource(parserContext.extractSource(element));
         removeFilterFactoryDefinition.getConstructorArgumentValues().addGenericArgumentValue(
                 new RuntimeBeanReference(accessManagerName));
 
         RootBeanDefinition copyFilterFactoryDefinition = new RootBeanDefinition(CopyFilterFactory.class);
+        copyFilterFactoryDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         copyFilterFactoryDefinition.setSource(parserContext.extractSource(element));
         copyFilterFactoryDefinition.getConstructorArgumentValues().addGenericArgumentValue(
                 new RuntimeBeanReference(accessManagerName));
         
         RootBeanDefinition interceptorDefinition = new RootBeanDefinition(SecurityInterceptor.class);
+        interceptorDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         interceptorDefinition.setSource(parserContext.extractSource(element));
         interceptorDefinition.getPropertyValues().addPropertyValue(REMOVE_FILTER_FACTORY_PROPERTY, removeFilterFactoryDefinition);
         interceptorDefinition.getPropertyValues().addPropertyValue(COPY_FILTER_FACTORY_PROPERTY, copyFilterFactoryDefinition);
@@ -80,12 +78,14 @@ public class SecurityAnnotationDrivenBeanDefinitionParser extends AbstractBeanDe
                 new RuntimeBeanReference(accessManagerName));
         
         RootBeanDefinition advisorDefinition = new RootBeanDefinition(SecurityAttributeSourceAdvisor.class);
+        advisorDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         advisorDefinition.setSource(parserContext.extractSource(element));
         advisorDefinition.getPropertyValues().addPropertyValue(SECURITY_INTERCEPTOR_PROPERTY, interceptorDefinition);
         advisorDefinition.getPropertyValues().addPropertyValue(ORDER_PROPERTY, interceptorOrder);
         
         if (Boolean.parseBoolean(useAspectJ)) {
             RootBeanDefinition aspectDefinition = new RootBeanDefinition(SecurityAspect.class);
+            aspectDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
             aspectDefinition.setSource(parserContext.extractSource(element));
             aspectDefinition.setFactoryMethodName("aspectOf");
             aspectDefinition.getPropertyValues().addPropertyValue(REMOVE_FILTER_FACTORY_PROPERTY, removeFilterFactoryDefinition);
