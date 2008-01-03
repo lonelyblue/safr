@@ -22,6 +22,8 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.Vector;
 
+import org.springframework.stereotype.Service;
+
 import net.sourceforge.safr.core.annotation.Secure;
 import net.sourceforge.safr.core.annotation.SecureAction;
 
@@ -29,6 +31,7 @@ import net.sourceforge.safr.core.annotation.SecureAction;
 /**
  * @author Martin Krasser
  */
+@Service("secureService")
 public class ServiceImpl extends ServiceBase {
 
     // -------------------------------------------------------------------

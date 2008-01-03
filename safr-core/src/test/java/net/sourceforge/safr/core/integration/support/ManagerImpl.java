@@ -17,6 +17,8 @@ package net.sourceforge.safr.core.integration.support;
 
 import java.security.AccessControlException;
 
+import org.springframework.stereotype.Service;
+
 import net.sourceforge.safr.core.annotation.SecureAction;
 import net.sourceforge.safr.core.invocation.MethodInvocation;
 import net.sourceforge.safr.core.invocation.ProceedingInvocation;
@@ -25,6 +27,7 @@ import net.sourceforge.safr.core.provider.AccessManager;
 /**
  * @author Martin Krasser
  */
+@Service("accessManager")
 public class ManagerImpl implements AccessManager {
 
     private CheckHistory checkHistory;

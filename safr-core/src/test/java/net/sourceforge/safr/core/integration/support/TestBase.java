@@ -17,44 +17,47 @@ package net.sourceforge.safr.core.integration.support;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import net.sourceforge.safr.core.annotation.SecureAction;
 import net.sourceforge.safr.core.integration.sample.DomainObjectA;
 import net.sourceforge.safr.core.integration.sample.DomainObjectC;
 import net.sourceforge.safr.core.integration.sample.Service;
+import net.sourceforge.safr.core.provider.AccessManager;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 /**
  * @author Martin Krasser
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"/context.xml"})
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
 public abstract class TestBase {
 
-    protected static ManagerImpl manager;
-    protected static CheckHistory history;
-    protected static DomainObjectA domainObject;
-    protected static Service service;
+    @Autowired
+    protected AccessManager manager;
     
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        Context context = Context.getInstance();
-        service = context.getSecureService();
-        manager = context.getAccessManager();
-        history = manager.getCheckHistory();
-        domainObject = new DomainObjectC();
-    }
+    @Autowired
+    protected Service service;
+    
+    protected CheckHistory history;
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        // nothing to tear down after class
+    protected DomainObjectA domainObject;
+    
+    public ManagerImpl getManagerImpl() {
+        return (ManagerImpl)manager;
     }
 
     @Before
     public void setUp() throws Exception {
-        // nothing to set up
+        history = getManagerImpl().getCheckHistory();
+        domainObject = new DomainObjectC();
     }
 
     @After
@@ -62,7 +65,7 @@ public abstract class TestBase {
         history.clear();
     }
 
-    protected static void checkReadHistory(Object... elements) {
+    protected void checkReadHistory(Object... elements) {
         assertEquals("wrong check history size", elements.length, history.size());
         for (Object element : elements) {
             assertTrue("wrong check history content", history.contains(element, SecureAction.READ));
