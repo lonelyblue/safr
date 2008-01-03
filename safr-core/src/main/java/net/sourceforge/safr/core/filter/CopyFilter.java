@@ -28,9 +28,9 @@ import net.sourceforge.safr.core.provider.AccessManager;
  */
 class CopyFilter extends ObjectFilter {
 
-    private Class<? extends Collection> resultClass;
+    private Class<? extends Collection<?>> resultClass;
     
-    public CopyFilter(AccessManager accessManager, Class<? extends Collection> resultClass) {
+    public CopyFilter(AccessManager accessManager, Class<? extends Collection<?>> resultClass) {
         super(accessManager);
         this.resultClass = resultClass;
     }

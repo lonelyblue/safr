@@ -40,7 +40,7 @@ public abstract class ResultFilterFactory {
         return accessManager;
     }
 
-    public ResultFilter getResultFilter(Method method, Class<? extends Collection> clazz) {
+    public ResultFilter getResultFilter(Method method, Class<? extends Collection<?>> clazz) {
         if (method.getReturnType().isArray()) {
             return arrayFilter;
         } else if (Collection.class.isAssignableFrom(method.getReturnType())) {
@@ -50,6 +50,6 @@ public abstract class ResultFilterFactory {
         }
     }
     
-    protected abstract ResultFilter doGetResultFilter(Method method, Class<? extends Collection> clazz);
+    protected abstract ResultFilter doGetResultFilter(Method method, Class<? extends Collection<?>> clazz);
     
 }
