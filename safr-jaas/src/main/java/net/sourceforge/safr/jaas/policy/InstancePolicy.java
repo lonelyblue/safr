@@ -38,10 +38,12 @@ import net.sourceforge.safr.jaas.principal.RolePrincipal;
 import net.sourceforge.safr.jaas.principal.UserPrincipal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Martin Krasser
  */
+@Component
 public class InstancePolicy extends Policy implements PermissionManager {
     
     private PermissionMap userPermissions;
