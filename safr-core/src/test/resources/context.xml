@@ -14,12 +14,15 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
         - load accessManager from classpath (net.sourceforge.safr.core.integration.support.ManagerImpl)
         - load secureService from classpath (net.sourceforge.safr.core.integration.sample.ServiceImpl)
      -->
-    <ctx:component-scan base-package="net.sourceforge.safr"/>
+    <ctx:component-scan base-package="net.sourceforge.safr.core"/>
 
-    <sec:annotation-driven
-        interceptor-order="2" 
-        access-manager="accessManager" 
-        support-aspectj="true"
-    />
+    <!-- 
+        Supported attributes of sec:annotation-driven are:
+        - access-manager       default="accessManager"
+        - proxy-target-class   default="false"
+        - interceptor-order    default="0"
+        - support-aspectj      default="true"
+     -->
+    <sec:annotation-driven />
 
 </beans>
