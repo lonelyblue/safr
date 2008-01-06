@@ -19,7 +19,10 @@ import java.security.AccessController;
 import java.security.Permission;
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import net.sourceforge.safr.core.invocation.MethodInvocation;
+import net.sourceforge.safr.core.spring.annotation.PolicyDecisionPoint;
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.permission.InstancePermission;
 import net.sourceforge.safr.jaas.permission.Target;
@@ -32,11 +35,13 @@ import net.sourceforge.safr.sample.usermgnt.domain.User;
 /**
  * @author Martin Krasser
  */
+@PolicyDecisionPoint("accessManager")
 public class SampleAccessManager extends AccessManagerSupport {
 
     private static final String NOTEBOOK_CLASS = Notebook.class.getName();
     private static final String WILDCARD_TOKEN = Target.WILDCARD;
     
+    @Autowired
     private PermissionManager permissionManager;
     
     public void setPermissionManager(PermissionManager permissionManager) {

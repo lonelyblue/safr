@@ -18,6 +18,9 @@ package net.sourceforge.safr.sample.web;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
 import net.sourceforge.safr.sample.permission.service.PermissionService;
@@ -27,26 +30,21 @@ import net.sourceforge.safr.sample.usermgnt.service.UserService;
 /**
  * @author Martin Krasser
  */
+@Component
 class PermissionControllerHelper {
 
+    @Autowired
     private PermissionService permissionService;
     
+    @Autowired
     private UserService userService;
 
     public PermissionService getPermissionService() {
         return permissionService;
     }
 
-    public void setPermissionService(PermissionService permissionService) {
-        this.permissionService = permissionService;
-    }
-
     public UserService getUserService() {
         return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 
     public Collection<PermissionAssignment> getAssignments(Notebook notebook) {

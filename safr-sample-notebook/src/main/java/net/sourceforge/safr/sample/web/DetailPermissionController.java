@@ -28,6 +28,7 @@ import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
 import net.sourceforge.safr.sample.permission.service.PermissionService;
 import net.sourceforge.safr.sample.usermgnt.service.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,37 +39,22 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
  */
 public class DetailPermissionController extends SimpleFormController {
 
+    @Autowired
     private NotebookService notebookService;
     
+    @Autowired
     private PermissionControllerHelper helper;
-    
-    public DetailPermissionController() {
-        super();
-        helper = new PermissionControllerHelper();
-    }
     
     public PermissionService getPermissionService() {
         return helper.getPermissionService();
-    }
-
-    public void setPermissionService(PermissionService permissionService) {
-        helper.setPermissionService(permissionService);
     }
 
     public UserService getUserService() {
         return helper.getUserService();
     }
 
-    public void setUserService(UserService userService) {
-        helper.setUserService(userService);
-    }
-
     public NotebookService getNotebookService() {
         return notebookService;
-    }
-
-    public void setNotebookService(NotebookService notebookService) {
-        this.notebookService = notebookService;
     }
 
     @Override

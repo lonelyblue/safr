@@ -3,21 +3,6 @@
 	xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:notebook-service-config.xml</param-value>
-    </context-param>
-    <context-param>
-        <param-name>authenticationServiceName</param-name>
-        <param-value>authenticationService</param-value>
-    </context-param>
-    <context-param>
-        <param-name>instancePolicyName</param-name>
-        <param-value>instancePolicy</param-value>
-    </context-param>
-    <listener>
-        <listener-class>net.sourceforge.safr.jaas.web.spring.SecureContextLoaderListener</listener-class>
-    </listener>
     
     <filter>
         <filter-name>form-login-filter</filter-name>
@@ -35,14 +20,17 @@
             <param-value>/login.jsp</param-value>
         </init-param>
     </filter>
+    
     <filter>
         <filter-name>privileged-action-filter</filter-name>
         <filter-class>net.sourceforge.safr.jaas.web.PrivilegedActionFilter</filter-class>
     </filter>
+    
     <filter-mapping>
         <filter-name>form-login-filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    
     <filter-mapping>
         <filter-name>privileged-action-filter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -56,7 +44,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				/WEB-INF/notebook-servlet-config.xml
+				/WEB-INF/context.xml
 			</param-value>
 		</init-param>		
 		<load-on-startup>1</load-on-startup>

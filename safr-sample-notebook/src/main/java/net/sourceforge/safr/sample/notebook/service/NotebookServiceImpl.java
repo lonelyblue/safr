@@ -20,6 +20,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import net.sourceforge.safr.core.annotation.Filter;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.usermgnt.service.UserService;
@@ -27,12 +32,14 @@ import net.sourceforge.safr.sample.usermgnt.service.UserService;
 /**
  * @author Martin Krasser
  */
+@Service
 public class NotebookServiceImpl implements NotebookService {
 
     private Map<String, Notebook> notebooks;
     
     private Notebook publicNotebook;
     
+    @Autowired
     private UserService userService; 
     
     public NotebookServiceImpl() {
@@ -79,6 +86,7 @@ public class NotebookServiceImpl implements NotebookService {
         return result;
     }
 
+    @PostConstruct
     public void bootstrap() {
         // local createNotebook() calls are not intercepted by security proxy 
         createNotebook(new Notebook("nb1-user1", userService.findUser("user1")));

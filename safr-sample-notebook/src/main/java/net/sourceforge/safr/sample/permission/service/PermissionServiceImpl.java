@@ -22,6 +22,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.permission.InstancePermission;
 import net.sourceforge.safr.jaas.permission.Target;
@@ -37,12 +40,14 @@ import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
 /**
  * @author Martin Krasser
  */
+@Service
 public class PermissionServiceImpl implements PermissionService, PermissionSource {
 
     private static final String WILDCARD = Target.WILDCARD;
     private static final String NOTEBOOK = Notebook.class.getName();
     private static final String PUBLIC_ID = NotebookService.PUBLIC_NOTEBOOK_ID;
 
+    @Autowired
     private PermissionManager permissionManager;
     
     public void setPermissionManager(PermissionManager permissionManager) {

@@ -31,7 +31,7 @@ public class DeleteEntryController extends DetailNotebookController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String notebookId = request.getParameter("notebookId");
         String entryId = request.getParameter("entryId");
-        Notebook notebook = getService().findNotebook(notebookId);
+        Notebook notebook = getNotebookService().findNotebook(notebookId);
         notebook.removeEntry(entryId);
         return super.handleRequestInternal(request, response);
     }

@@ -28,6 +28,7 @@ import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
 import net.sourceforge.safr.sample.permission.service.PermissionService;
 import net.sourceforge.safr.sample.usermgnt.service.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -36,37 +37,22 @@ import org.springframework.web.servlet.mvc.AbstractController;
  */
 public class ListPermissionsController extends AbstractController {
 
+    @Autowired
     private NotebookService notebookService;
     
+    @Autowired
     private PermissionControllerHelper helper;
-    
-    public ListPermissionsController() {
-        super();
-        helper = new PermissionControllerHelper();
-    }
     
     public PermissionService getPermissionService() {
         return helper.getPermissionService();
-    }
-
-    public void setPermissionService(PermissionService permissionService) {
-        helper.setPermissionService(permissionService);
     }
 
     public UserService getUserService() {
         return helper.getUserService();
     }
 
-    public void setUserService(UserService userService) {
-        helper.setUserService(userService);
-    }
-
     public NotebookService getNotebookService() {
         return notebookService;
-    }
-
-    public void setNotebookService(NotebookService notebookService) {
-        this.notebookService = notebookService;
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) {

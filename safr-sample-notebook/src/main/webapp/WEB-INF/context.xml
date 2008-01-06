@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
-			    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ctx="http://www.springframework.org/schema/context"
+    xmlns:sec="http://safr.sourceforge.net/schema/core"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-2.5.xsd
+http://safr.sourceforge.net/schema/core 
+http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 
-    <bean id="exceptionResolver" class="net.sourceforge.safr.sample.web.SecurityExceptionResolver" />
+    <ctx:component-scan base-package="net.sourceforge.safr.sample,net.sourceforge.safr.jaas"/>
+    
+    <sec:annotation-driven />
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -33,12 +42,14 @@
         class="net.sourceforge.safr.sample.web.DeleteEntryController" >
     </bean>
     
+    <bean id="listPermissionsController"
+        class="net.sourceforge.safr.sample.web.ListPermissionsController">
+    </bean>
+
     <bean id="listNotebooksController" 
         class="net.sourceforge.safr.sample.web.ListNotebooksController">
         <property name="commandClass" value="net.sourceforge.safr.sample.web.support.NotebookIdContainer"/>
         <property name="commandName" value="nbid"/>
-        <property name="notebookService" ref="notebookService"/>
-        <property name="userService" ref="userService"/>
         <property name="formView" value="notebookList"/>
         <property name="successView" value="notebookList"/>
         <property name="sessionForm" value="false"/>
@@ -48,25 +59,14 @@
         class="net.sourceforge.safr.sample.web.DetailNotebookController">
         <property name="commandClass" value="net.sourceforge.safr.sample.notebook.domain.Entry"/>
         <property name="commandName" value="entry"/>
-        <property name="service" ref="notebookService"/>
         <property name="formView" value="notebookDetails"/>
         <property name="successView" value="notebookDetails"/>
         <property name="sessionForm" value="false"/>
     </bean>
 
-    <bean id="listPermissionsController"
-        class="net.sourceforge.safr.sample.web.ListPermissionsController">
-        <property name="permissionService" ref="permissionService"/>
-        <property name="userService" ref="userService"/>
-        <property name="notebookService" ref="notebookService"/>
-    </bean>
-
     <bean id="detailPermissionController" 
         class="net.sourceforge.safr.sample.web.DetailPermissionController">
         <property name="commandName" value="assignment"/>
-        <property name="permissionService" ref="permissionService"/>
-        <property name="userService" ref="userService"/>
-        <property name="notebookService" ref="notebookService"/>
         <property name="formView" value="permissionDetails"/>
         <property name="successView" value="permissionList"/>
         <property name="sessionForm" value="false"/>

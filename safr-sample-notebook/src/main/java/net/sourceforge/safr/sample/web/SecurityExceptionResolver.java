@@ -23,12 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.safr.jaas.permission.InstancePermission;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Martin Krasser
  */
+@Component
 public class SecurityExceptionResolver implements HandlerExceptionResolver {
 
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception exception) {

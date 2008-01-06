@@ -24,8 +24,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginException;
+
+import org.springframework.stereotype.Service;
 
 import net.sourceforge.safr.jaas.login.AuthenticationService;
 import net.sourceforge.safr.jaas.principal.RolePrincipal;
@@ -36,6 +39,7 @@ import net.sourceforge.safr.sample.usermgnt.domain.User;
 /**
  * @author Martin Krasser
  */
+@Service
 public class UserServiceImpl implements UserService, AuthenticationService {
 
     private Map<String, User> users;
@@ -72,6 +76,7 @@ public class UserServiceImpl implements UserService, AuthenticationService {
         return principals;
     }
     
+    @PostConstruct
     public void bootstrap() {
         createUser("root").bootstrap();
         createUser("user1").bootstrap();

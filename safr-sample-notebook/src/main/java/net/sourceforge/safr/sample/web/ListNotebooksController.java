@@ -27,6 +27,7 @@ import net.sourceforge.safr.sample.usermgnt.domain.User;
 import net.sourceforge.safr.sample.usermgnt.service.UserService;
 import net.sourceforge.safr.sample.web.support.NotebookIdContainer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,24 +38,18 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
  */
 public class ListNotebooksController extends SimpleFormController {
 
+    @Autowired
 	private NotebookService notebookService;
 
+    @Autowired
 	private UserService userService;
 	
     public NotebookService getNotebookService() {
         return notebookService;
     }
 
-    public void setNotebookService(NotebookService service) {
-        this.notebookService = service;
-    }
-
     public UserService getUserService() {
         return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 
     @Override

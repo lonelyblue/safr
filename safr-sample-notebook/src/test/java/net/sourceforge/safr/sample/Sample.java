@@ -19,6 +19,9 @@ import java.security.AccessControlException;
 
 import javax.security.auth.Subject;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.permission.InstancePermission;
 import net.sourceforge.safr.jaas.permission.Target;
@@ -35,6 +38,7 @@ import net.sourceforge.safr.sample.usermgnt.service.UserService;
 /**
  * @author Martin Krasser
  */
+@Component
 public class Sample {
 
     public static final String MSG_NO_READ_ACCESS = "no read access";
@@ -43,22 +47,15 @@ public class Sample {
     private static final String WILDCARD = Target.WILDCARD;
     private static final String NOTEBOOK = Notebook.class.getName();
 
+    @Autowired
     private UserService userService;
+
+    @Autowired
     private NotebookService notebookService;
+    
+    @Autowired
     private PermissionManager permissionManager;
     
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public void setNotebookService(NotebookService notebookService) {
-        this.notebookService = notebookService;
-    }
-
-    public void setPermissionManager(PermissionManager permissionManager) {
-        this.permissionManager = permissionManager;
-    }
-
     public void createNotebook(String notebookId) {
         User me = userService.currentUser();
         Notebook nb = new Notebook(notebookId, me);

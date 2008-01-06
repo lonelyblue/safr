@@ -25,36 +25,42 @@ import javax.security.auth.Subject;
 
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.policy.InstancePolicy;
-import net.sourceforge.safr.jaas.policy.PermissionManager;
-import net.sourceforge.safr.sample.notebook.service.NotebookService;
 import net.sourceforge.safr.sample.usermgnt.domain.User;
-import net.sourceforge.safr.sample.usermgnt.service.UserService;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 /**
  * @author Martin Krasser
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"/context.xml"})
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
 public class SampleTest {
 
-    private static Policy policy;
-    private static Sample sample;
+    @Autowired
+    private Sample sample;
+
+    // used locally only
+    private Policy defaultPolicy;
     
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("notebook-service-config.xml");
-        sample = new Sample();
-        sample.setUserService((UserService)ctx.getBean("userService"));
-        sample.setNotebookService((NotebookService)ctx.getBean("notebookService"));
-        sample.setPermissionManager((PermissionManager)ctx.getBean("permissionManager"));
-        setPolicy((InstancePolicy)ctx.getBean("instancePolicy"));
+    @Autowired
+    private InstancePolicy instancePolicy;
+    
+    @Before
+    public void setUp() throws Exception {
+        setPolicy(instancePolicy);
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         resetPolicy();
     }
 
@@ -94,14 +100,14 @@ public class SampleTest {
         }
     }
     
-    private static void setPolicy(InstancePolicy instancePolicy) {
-        policy = Policy.getPolicy();
-        instancePolicy.setDefaultPolicy(policy);
+    private void setPolicy(InstancePolicy instancePolicy) {
+        defaultPolicy = Policy.getPolicy();
+        instancePolicy.setDefaultPolicy(defaultPolicy);
         Policy.setPolicy(instancePolicy);
     }
     
-    private static void resetPolicy() {
-        Policy.setPolicy(policy);
+    private void resetPolicy() {
+        Policy.setPolicy(defaultPolicy);
     }
     
 }
