@@ -31,9 +31,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import net.sourceforge.safr.jaas.permission.InstancePermission;
 import net.sourceforge.safr.jaas.principal.RolePrincipal;
 import net.sourceforge.safr.jaas.principal.UserPrincipal;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author Martin Krasser
@@ -45,6 +49,7 @@ public class InstancePolicy extends Policy implements PermissionManager {
 
     private Policy defaultPolicy;
 
+    @Autowired
     private PermissionSource permissionSource;
     
     public InstancePolicy() {
@@ -64,6 +69,7 @@ public class InstancePolicy extends Policy implements PermissionManager {
         this.permissionSource = permissionSource;
     }
     
+    @PostConstruct
     public void initialize() {
         userPermissions.putPermissions(permissionSource.getUserPermissions());
         rolePermissions.putPermissions(permissionSource.getRolePermissions());
