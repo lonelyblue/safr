@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * @author Martin Krasser
  */
-@org.springframework.stereotype.Service("service")
+@org.springframework.stereotype.Service
 public class ServiceImpl implements Service {
 
     public DomainObject findDomainObject(long id) {

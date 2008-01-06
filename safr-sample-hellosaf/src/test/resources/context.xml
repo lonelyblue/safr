@@ -11,18 +11,10 @@ http://www.springframework.org/schema/context/spring-context-2.5.xsd
 http://safr.sourceforge.net/schema/core 
 http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 
-    <!-- ================================================================ -->
-    <!-- Scan for Access Manager and Sample Service                       -->
-    <!-- ================================================================ -->
-
     <ctx:component-scan base-package="net.sourceforge.safr.sample.hellosaf"/>
 
-    <!-- ================================================================ -->
-    <!-- SAF Core                                                         -->
-    <!-- ================================================================ -->
-
     <!-- 
-        Supported attributes of sec:annotation-driven are:
+        Supported attributes of <sec:annotation-driven /> are:
         - access-manager       default="accessManager"
         - proxy-target-class   default="false"
         - interceptor-order    default="0"
