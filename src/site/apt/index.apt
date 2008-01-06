@@ -91,7 +91,7 @@ nb1 = new Notebook(...) // id == 1
 
 * Configuration
  
-  The SAF can be easily integrated into Spring applications. It can be configured with a single <<<\<sec:annotation-driven\>>>> element in the application context XML file and a reference to an <<<AccessManager>>> bean. This approach is similar to the annotation-driven transaction management approach within Spring.
+  The SAF can be easily integrated into Spring applications. It can be configured with a single <<<\<sec:annotation-driven\>>>> element in the application context XML file and a reference to an <<<AccessManager>>> bean (the <<<access-manager>>> attribute is optional if the access manager bean's name is "accessManager" as in our example). This approach is similar to the annotation-driven transaction management approach within Spring.
 
 +---
 <?xml version="1.0" encoding="UTF-8"?>
@@ -99,15 +99,68 @@ nb1 = new Notebook(...) // id == 1
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:sec="http://safr.sourceforge.net/schema/core"
     xsi:schemaLocation="
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
     http://safr.sourceforge.net/schema/core 
     http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 
     <sec:annotation-driven access-manager="accessManager"/>
+
     <bean id="accessManager" class="...AccessManagerImpl">
         ...
     </bean>
+    
 </beans>
++---
+
+    Attributes supported by the <<<\<sec:annotation-driven\>>>> element are
+
+*--+--+--+
+|<<Attribute>>|<<Default>>|<<Descritpion>>|
+*--+--+--+
+|<<<access-manager>>>|accessManager|The name of the bean that implements the <<<AccessManager>>> interface|
+*--+--+--+
+|<<<proxy-target-class>>>|false|Controls what type of security proxy is created. If false a JDK dynamic proxy is created (interface-based proxy), otherwise, a class-based proxy will be created.|
+*--+--+--+
+|<<<interceptor-order>>>|0|Order value of the created security interceptor. This attribute can be used to define the position of the security interceptor relative to other interceptors like Spring's transaction interceptor.|
+*--+--+--+
+|<<<support-aspectj>>>|true|Can be set to false if no security annotations are used on domain objects. It is safe to leave this attribute to true.|
+*--+--+--+
+
+  Since Spring version 2.5 beans (components) can be scanned from the classpath. Components are classes that are annotated with <<<@Component>>>, <<<@Service>>>, <<<@Respository>>>, <<<@Controller>>> but also classes with custom annotations if these are annotated with <<<@Component>>>. The SAF defines a <<<@PolicyDecisionPoint>>> annotation. For example, an <<<AccessManager>>> implementation annotated with <<<@PolicyDecisionPoint("accessManager")>>> is loaded into the Spring application context as bean with name "accessManager" and can therefore be referenced by <<<\<sec:annotation-driven\>>>>. Here's an example:
+
++---
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:sec="http://safr.sourceforge.net/schema/core"
+    xmlns:ctx="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://safr.sourceforge.net/schema/core 
+    http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
+
+    <ctx:component-scan base-package="com.example"/>
+
+    <sec:annotation-driven />
+
+</beans>
++---
+
+  where the <<<AccessManager>>> implementation is annotated with
+  
++---
+package com.example.policy;
+
+@PolicyDecisionPoint("accessManager")
+public class AccessManager implements AccessManager {
+    
+    ...
+    
+}
 +---
 
   That’s it! This simple configuration in combination with security annotations in the source code is sufficient to enforce instance-level permission checks in Spring applications. All required AOP proxies and security interceptors are configured automatically by the {{{safr-core/index.html}SAF Core}} module. Spring AOP proxies are used for beans managed by a Spring application context. This is often the case for service beans like a <<<NotebookService>>> implementation, as in our example. Domain objects usually aren’t managed by the Spring application context. In this case the AspectJ compiler is used to enhance the bytecode of domain objects. Later versions of SAF will also support AspectJ “load-time weaving”. Using SAF, application developers need not work any more on AOP details when adding instance-level access control to their applications. The following figure gives an overview how the SAF implements policy enforcement points with Spring AOP and AspectJ.
