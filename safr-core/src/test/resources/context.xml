@@ -11,13 +11,13 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 
     <!--
-        - load accessManager from classpath (net.sourceforge.safr.core.integration.support.ManagerImpl)
-        - load secureService from classpath (net.sourceforge.safr.core.integration.sample.ServiceImpl)
+        - load net.sourceforge.safr.core.integration.support.ManagerImpl from classpath
+        - load net.sourceforge.safr.core.integration.sample.ServiceImpl from classpath
      -->
     <ctx:component-scan base-package="net.sourceforge.safr.core"/>
 
     <!-- 
-        Supported attributes of sec:annotation-driven are:
+        Supported attributes of <sec:annotation-driven /> are:
         - access-manager       default="accessManager"
         - proxy-target-class   default="false"
         - interceptor-order    default="0"

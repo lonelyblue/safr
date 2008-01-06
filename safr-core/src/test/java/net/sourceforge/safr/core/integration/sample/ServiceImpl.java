@@ -31,7 +31,7 @@ import net.sourceforge.safr.core.annotation.SecureAction;
 /**
  * @author Martin Krasser
  */
-@Service("secureService")
+@Service
 public class ServiceImpl extends ServiceBase {
 
     // -------------------------------------------------------------------
