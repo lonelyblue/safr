@@ -13,30 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.jaas.web.spring;
+package net.sourceforge.safr.jaas.policy;
 
-import java.security.Policy;
+import static net.sourceforge.safr.jaas.policy.InstancePolicyUtil.installInstancePolicy;
+import static net.sourceforge.safr.jaas.policy.InstancePolicyUtil.uninstallInstancePolicy;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import net.sourceforge.safr.jaas.login.AuthenticationService;
 import net.sourceforge.safr.jaas.login.AuthenticationServiceHolder;
-import net.sourceforge.safr.jaas.policy.InstancePolicy;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Martin Krasser
  */
-@Component
-public class PolicyInstaller {
+public class InstancePolicyInstaller {
 
-    private static final Log log = LogFactory.getLog(PolicyInstaller.class);
-    
     @Autowired
     private InstancePolicy instancePolicy;
     
@@ -45,7 +39,7 @@ public class PolicyInstaller {
     
     @PostConstruct
     public void install() {
-        installInstancePolicy();
+        installInstancePolicy(instancePolicy);
         AuthenticationServiceHolder.getInstance().setAuthenticationService(authenticationService);
     }
     
@@ -55,25 +49,4 @@ public class PolicyInstaller {
         uninstallInstancePolicy();
     }
     
-    private void installInstancePolicy() {
-        Policy current = Policy.getPolicy();
-        if (current instanceof InstancePolicy) {
-            log.info("instance policy already installed");
-        } else {
-            instancePolicy.setDefaultPolicy(current);
-            Policy.setPolicy(instancePolicy);
-            log.info("instance policy installed");
-        }
-    }
-    
-    private void uninstallInstancePolicy() {
-        Policy current = Policy.getPolicy();
-        if (current instanceof InstancePolicy) {
-            InstancePolicy ip = (InstancePolicy)current;
-            Policy.setPolicy(ip.getDefaultPolicy());
-            log.info("instance policy uninstalled");
-        } else {
-            log.info("instance policy not installed");
-        }
-    }
 }
