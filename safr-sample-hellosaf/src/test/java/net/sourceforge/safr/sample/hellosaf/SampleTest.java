@@ -24,23 +24,25 @@ import static org.junit.Assert.fail;
 import java.security.AccessControlException;
 import java.util.List;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 /**
  * @author Martin Krasser
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"/context.xml"})
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
 public class SampleTest {
 
-    private static Service service;
+    @Autowired
+    private Service service;
     
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("context.xml");
-        service = (Service)ctx.getBean("service");
-    }
-
     @Test
     public void testFindDomainObject() {
         DomainObject result = service.findDomainObject(1);
