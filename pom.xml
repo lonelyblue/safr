@@ -94,7 +94,12 @@
         <dependency>
             <groupId>aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>1.5.2</version>
+            <version>${aspectj-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj-version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -134,7 +139,8 @@
         </plugins>
     </build>
     <properties>
-        <spring-version>2.5</spring-version>
+        <aspectj-version>1.5.3</aspectj-version>
+        <spring-version>2.5.1</spring-version>
     </properties>
     <reporting>
         <plugins>

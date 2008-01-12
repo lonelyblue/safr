@@ -25,7 +25,7 @@ import net.sourceforge.safr.core.spring.annotation.PolicyDecisionPoint;
 /**
  * @author Martin Krasser
  */
-@PolicyDecisionPoint("accessManager")
+@PolicyDecisionPoint
 public class AccessManagerImpl implements AccessManager {
 
     public void checkCreate(Object obj) {

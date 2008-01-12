@@ -35,7 +35,7 @@ import net.sourceforge.safr.sample.usermgnt.domain.User;
 /**
  * @author Martin Krasser
  */
-@PolicyDecisionPoint("accessManager")
+@PolicyDecisionPoint
 public class SampleAccessManager extends AccessManagerSupport {
 
     private static final String NOTEBOOK_CLASS = Notebook.class.getName();
