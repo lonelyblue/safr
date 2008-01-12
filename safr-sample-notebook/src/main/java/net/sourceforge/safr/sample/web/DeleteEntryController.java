@@ -15,25 +15,32 @@
  */
 package net.sourceforge.safr.sample.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
+import net.sourceforge.safr.sample.notebook.service.NotebookService;
 
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Martin Krasser
  */
-public class DeleteEntryController extends DetailNotebookController {
+@Controller
+@RequestMapping("/deleteEntry.htm")
+public class DeleteEntryController {
 
-    @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String notebookId = request.getParameter("notebookId");
-        String entryId = request.getParameter("entryId");
-        Notebook notebook = getNotebookService().findNotebook(notebookId);
+    @Autowired
+    private NotebookService notebookService;
+
+    @RequestMapping(method = RequestMethod.GET)
+    public String handleGet(
+            @RequestParam("notebookId")String notebookId, 
+            @RequestParam("entryId")String entryId) {
+        Notebook notebook = notebookService.findNotebook(notebookId);
         notebook.removeEntry(entryId);
-        return super.handleRequestInternal(request, response);
+        return "redirect:/detailNotebook.htm?notebookId=" + notebookId;
     }
 
 }

@@ -15,28 +15,25 @@
  */
 package net.sourceforge.safr.sample.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.notebook.service.NotebookService;
 import net.sourceforge.safr.sample.usermgnt.domain.User;
 import net.sourceforge.safr.sample.usermgnt.service.UserService;
-import net.sourceforge.safr.sample.web.support.NotebookIdContainer;
+import net.sourceforge.safr.sample.web.helper.NotebookIdBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author Martin Krasser
  */
-public class ListNotebooksController extends SimpleFormController {
+@Controller
+@RequestMapping("/listNotebooks.htm")
+public class ListNotebooksController {
 
     @Autowired
 	private NotebookService notebookService;
@@ -44,32 +41,22 @@ public class ListNotebooksController extends SimpleFormController {
     @Autowired
 	private UserService userService;
 	
-    public NotebookService getNotebookService() {
-        return notebookService;
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    @Override
-    protected Map<String, Object> referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
-        Map<String, Object> map = new HashMap<String, Object>(1);
-        map.put("notebooks", getNotebookService().findNotebooks());
-        return map;
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
-    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-        NotebookIdContainer container = ((NotebookIdContainer)command);
-        User current = getUserService().currentUser();
-        Notebook notebook = new Notebook(container.getIdentifier(), current);
-        getNotebookService().createNotebook(notebook);
-        Map map = new HashMap();
-        map.putAll(errors.getModel());
-        map.put("notebooks", getNotebookService().findNotebooks());
-        return new ModelAndView(getSuccessView(), map);
+    @RequestMapping(method = RequestMethod.GET)
+    public String handleGet(@ModelAttribute("nbid")NotebookIdBean bean, ModelMap model) {
+        model.put("notebooks", notebookService.findNotebooks());
+        return "notebookList";
     }
-
+    
+    @SuppressWarnings("unchecked")
+    @RequestMapping(method = RequestMethod.POST)
+    public String handlePost(@ModelAttribute("nbid")NotebookIdBean bean, ModelMap model) {
+        
+        User current = userService.currentUser();
+        Notebook notebook = new Notebook(bean.getIdentifier(), current);
+        notebookService.createNotebook(notebook);
+        model.put("notebooks", notebookService.findNotebooks());
+        return "notebookList";
+    }
+    
 }

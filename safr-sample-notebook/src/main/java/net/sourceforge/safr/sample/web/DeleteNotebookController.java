@@ -15,24 +15,34 @@
  */
 package net.sourceforge.safr.sample.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
+import net.sourceforge.safr.sample.notebook.service.NotebookService;
+import net.sourceforge.safr.sample.web.helper.NotebookIdBean;
 
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Martin Krasser
  */
-public class DeleteNotebookController extends ListNotebooksController {
+@Controller
+@RequestMapping("/deleteNotebook.htm")
+public class DeleteNotebookController {
 
-	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String id = request.getParameter("notebookId");
-		Notebook notebook = getNotebookService().findNotebook(id);
-		getNotebookService().deleteNotebook(notebook);
-		return super.handleRequestInternal(request, response);
-	}
+    @Autowired
+    private NotebookService notebookService;
 
+    @SuppressWarnings("unchecked")
+    @RequestMapping(method = RequestMethod.GET)
+    public String handleGet(
+            @ModelAttribute("nbid")NotebookIdBean bean, 
+            @RequestParam("notebookId")String id) {
+        Notebook notebook = notebookService.findNotebook(id);
+        notebookService.deleteNotebook(notebook);
+        return "redirect:/listNotebooks.htm";
+    }
 }

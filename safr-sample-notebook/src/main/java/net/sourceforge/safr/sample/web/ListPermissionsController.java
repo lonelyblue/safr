@@ -16,26 +16,24 @@
 package net.sourceforge.safr.sample.web;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.notebook.service.NotebookService;
 import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
-import net.sourceforge.safr.sample.permission.service.PermissionService;
-import net.sourceforge.safr.sample.usermgnt.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Martin Krasser
  */
-public class ListPermissionsController extends AbstractController {
+@Controller
+@RequestMapping("/listPermissions.htm")
+public class ListPermissionsController {
 
     @Autowired
     private NotebookService notebookService;
@@ -43,25 +41,14 @@ public class ListPermissionsController extends AbstractController {
     @Autowired
     private PermissionControllerHelper helper;
     
-    public PermissionService getPermissionService() {
-        return helper.getPermissionService();
-    }
-
-    public UserService getUserService() {
-        return helper.getUserService();
-    }
-
-    public NotebookService getNotebookService() {
-        return notebookService;
-    }
-
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) {
-        Notebook notebook = getNotebookService().findNotebook(request.getParameter("notebookId"));
+    @SuppressWarnings("unchecked")
+    @RequestMapping(method = RequestMethod.GET)
+    protected String handleGet(@RequestParam("notebookId")String id, ModelMap model) {
+        Notebook notebook = notebookService.findNotebook(id);
         Collection<PermissionAssignment> assignments = helper.getAssignments(notebook);
-        Map<String, Object> map = new HashMap<String, Object>(2);
-        map.put("assignments", assignments);
-        map.put("notebook", notebook);
-        return new ModelAndView("permissionList", map);
+        model.put("assignments", assignments);
+        model.put("notebook", notebook);
+        return "permissionList";
     }
 
 }

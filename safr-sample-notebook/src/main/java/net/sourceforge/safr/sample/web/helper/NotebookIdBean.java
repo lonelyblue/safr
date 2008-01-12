@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.sample.web.support;
+package net.sourceforge.safr.sample.web.helper;
 
 /**
  * @author Martin Krasser
  */
-public class NotebookIdContainer {
+public class NotebookIdBean {
 
     private String identifier;
 

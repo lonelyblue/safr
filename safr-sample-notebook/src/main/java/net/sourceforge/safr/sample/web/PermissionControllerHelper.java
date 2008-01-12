@@ -18,14 +18,14 @@ package net.sourceforge.safr.sample.web;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
 import net.sourceforge.safr.sample.permission.service.PermissionService;
 import net.sourceforge.safr.sample.usermgnt.domain.User;
 import net.sourceforge.safr.sample.usermgnt.service.UserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Martin Krasser

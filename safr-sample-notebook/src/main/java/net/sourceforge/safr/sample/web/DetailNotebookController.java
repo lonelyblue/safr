@@ -15,51 +15,49 @@
  */
 package net.sourceforge.safr.sample.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.sourceforge.safr.sample.notebook.domain.Entry;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.notebook.service.NotebookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Martin Krasser
  */
-public class DetailNotebookController extends SimpleFormController {
+@Controller
+@RequestMapping("/detailNotebook.htm")
+public class DetailNotebookController {
 
     @Autowired
 	private NotebookService notebookService;
 
-    public NotebookService getNotebookService() {
-        return notebookService;
+    @SuppressWarnings("unchecked")
+    @RequestMapping(method = RequestMethod.GET)
+    public String handleGet(
+            @ModelAttribute("entry")Entry entry, 
+            @RequestParam("notebookId")String id, ModelMap model) {
+
+        model.put("notebook", notebookService.findNotebook(id));
+        return "notebookDetails";
     }
     
-    @Override
-    protected Map<String, Notebook> referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
-        Notebook notebook = getNotebookService().findNotebook(request.getParameter("notebookId"));
-        Map<String, Notebook> map = new HashMap<String, Notebook>(1);
-        map.put("notebook", notebook);
-        return map;
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
-    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-        Notebook notebook = getNotebookService().findNotebook(request.getParameter("notebookId"));
-        notebook.addEntry((Entry)command);
-        Map map = new HashMap();
-        map.put("notebook", notebook);
-        map.putAll(errors.getModel());
-        return new ModelAndView(getSuccessView(), map);
+    @RequestMapping(method = RequestMethod.POST)
+    public String handlePost(
+            @ModelAttribute("entry")Entry entry, 
+            @RequestParam("notebookId")String id, ModelMap model) {
+        
+        Notebook notebook = notebookService.findNotebook(id);
+        notebook.addEntry(entry);
+        model.put("notebook", notebook);
+        return "notebookDetails";
+
     }
 
 }

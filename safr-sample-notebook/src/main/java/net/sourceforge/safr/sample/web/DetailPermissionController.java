@@ -16,11 +16,6 @@
 package net.sourceforge.safr.sample.web;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.notebook.service.NotebookService;
@@ -29,15 +24,19 @@ import net.sourceforge.safr.sample.permission.service.PermissionService;
 import net.sourceforge.safr.sample.usermgnt.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Martin Krasser
  */
-public class DetailPermissionController extends SimpleFormController {
+@Controller
+@RequestMapping("/detailPermission.htm")
+public class DetailPermissionController {
 
     @Autowired
     private NotebookService notebookService;
@@ -57,34 +56,37 @@ public class DetailPermissionController extends SimpleFormController {
         return notebookService;
     }
 
-    @Override
-    protected Map<String, Notebook> referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
-        Notebook notebook = getNotebookService().findNotebook(request.getParameter("notebookId"));
-        Map<String, Notebook> map = new HashMap<String, Notebook>(1);
-        map.put("notebook", notebook);
-        return map;
+    @SuppressWarnings("unchecked")
+    @RequestMapping(method = RequestMethod.GET)
+    public String handleGet(@RequestParam("notebookId")String notebookId, ModelMap model) {
+        Notebook notebook = notebookService.findNotebook(notebookId);
+        model.put("notebook", notebook);
+        return "permissionDetails";
     }
 
-    @Override
-    protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        String assigneeId = request.getParameter("assigneeId");
-        String notebookId = request.getParameter("notebookId");
+    @ModelAttribute("assignment")
+    protected PermissionAssignment permissionAssignment(
+            @RequestParam("assigneeId")String assigneeId,
+            @RequestParam("notebookId")String notebookId) {
         Notebook notebook = notebookService.findNotebook(notebookId);
         PermissionAssignment assignment = helper.getAssignment(notebook, assigneeId);
         return assignment;
     }
     
-    @Override
     @SuppressWarnings("unchecked")
-    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-        getPermissionService().applyPermissionAssignments((PermissionAssignment)command);
-        Notebook notebook = getNotebookService().findNotebook(request.getParameter("notebookId"));
+    @RequestMapping(method = RequestMethod.POST)
+    public String handlePost(
+            @ModelAttribute("assignment")PermissionAssignment assignment, 
+            @RequestParam("notebookId")String id, ModelMap model) {
+        
+        getPermissionService().applyPermissionAssignments(assignment);
+        Notebook notebook = getNotebookService().findNotebook(id);
         Collection<PermissionAssignment> assignments = helper.getAssignments(notebook);
-        Map map = new HashMap();
-        map.put("notebook", notebook);
-        map.put("assignments", assignments);
-        map.putAll(errors.getModel());
-        return new ModelAndView(getSuccessView(), map);
-    }
+        model.put("notebook", notebook);
+        model.put("assignments", assignments);
+        model.put("notebook", notebook);
+        return "permissionList";
 
+    }
+    
 }
