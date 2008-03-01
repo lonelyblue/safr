@@ -18,7 +18,9 @@ package net.sourceforge.safr.core.integration.aspectj;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -39,6 +41,19 @@ public class FilterMethodTest extends TestBase {
     //  method annotation (@Filter)
     // -------------------------------------------------------------------
 
+    @Test
+    public void testM09c() {
+        getManagerImpl().setReadCheck(true);
+        assertEquals("x", domainObject.m09c("x"));
+        try {
+            service.m09d("y");
+            fail("nullifyResult element on annotation ignored");
+        } catch (AccessControlException e) {
+            // test passed
+        }
+        getManagerImpl().setReadCheck(false);
+    }
+    
     @Test
     public void testM20a() throws Exception {
         Collection<String> c = TestUtil.createStringCollection(HashSet.class, "x", "y", "z");

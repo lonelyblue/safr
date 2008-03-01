@@ -26,8 +26,15 @@ class ObjectFilter implements ResultFilter {
 
     private AccessManager accessManager;
     
+    private boolean nullifyResult;
+    
     public ObjectFilter(AccessManager accessManager) {
+        this(accessManager, true);
+    }
+
+    public ObjectFilter(AccessManager accessManager, boolean nullifyResult) {
         this.accessManager = accessManager;
+        this.nullifyResult = nullifyResult;
     }
 
     public AccessManager getAccessManager() {
@@ -42,7 +49,11 @@ class ObjectFilter implements ResultFilter {
             getAccessManager().checkRead(obj);
             return obj;
         } catch (AccessControlException e) {
-            return null;
+            if (nullifyResult) {
+                return null;
+            } else {
+                throw e;
+            }
         }
     }
 

@@ -135,7 +135,7 @@ public abstract class InterceptorSupport {
             return result;
         }
         ResultFilterFactory factory = getResultFilterFactory(attribute.isCopyResultCollection());
-        return factory.getResultFilter(method, attribute.getResultCollectionClass()).apply(result);
+        return factory.getResultFilter(method, attribute).apply(result);
     }
     
     protected void checkParameterActions(SecureAttribute[] attributes, Object[] arguments) {

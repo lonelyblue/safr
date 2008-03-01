@@ -104,6 +104,9 @@ public interface Service {
     @Filter
     String m09c(String p1); // implementation class overrides annotations
 
+    @Filter(nullifyResult=false)
+    String m09d(String p1);
+
     // -------------------------------------------------------------------
     //  method annotation (@Secure)
     // -------------------------------------------------------------------

@@ -16,8 +16,8 @@
 package net.sourceforge.safr.core.filter;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
 
+import net.sourceforge.safr.core.attribute.FilterAttribute;
 import net.sourceforge.safr.core.provider.AccessManager;
 
 /**
@@ -33,7 +33,7 @@ public class RemoveFilterFactory extends ResultFilterFactory {
     }
     
     @Override
-    protected ResultFilter doGetResultFilter(Method method, Class<? extends Collection> clazz) {
+    protected ResultFilter doGetResultFilter(Method method, FilterAttribute attribute) {
         return removeFilter;
     }
 

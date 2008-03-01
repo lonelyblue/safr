@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -47,6 +48,19 @@ public class FilterMethodTest extends TestBase {
     //  method annotation (@Filter)
     // -------------------------------------------------------------------
 
+    @Test
+    public void testM09d() {
+        getManagerImpl().setReadCheck(true);
+        assertEquals("x", service.m09d("x"));
+        try {
+            service.m09d("y");
+            fail("nullifyResult element on annotation ignored");
+        } catch (AccessControlException e) {
+            // test passed
+        }
+        getManagerImpl().setReadCheck(false);
+    }
+    
     @Test
     public void testM20a_1() throws Exception {
         Collection<String> c = TestUtil.createStringCollection(HashSet.class, "x", "y", "z");

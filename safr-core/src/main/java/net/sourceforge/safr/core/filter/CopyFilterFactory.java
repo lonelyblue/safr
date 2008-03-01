@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import net.sourceforge.safr.core.attribute.FilterAttribute;
 import net.sourceforge.safr.core.provider.AccessManager;
 
 /**
@@ -49,7 +50,8 @@ public class CopyFilterFactory extends ResultFilterFactory {
     }
 
     @Override
-    protected ResultFilter doGetResultFilter(Method method, Class<? extends Collection> clazz) {
+    protected ResultFilter doGetResultFilter(Method method, FilterAttribute attribute) {
+        Class<? extends Collection<?>> clazz = attribute.getResultCollectionClass(); 
         if (clazz == null) {
             return getCollectionFilter(method);
         } else {
@@ -57,7 +59,7 @@ public class CopyFilterFactory extends ResultFilterFactory {
         }
     }
 
-    private synchronized ResultFilter getCollectionFilter(Class<? extends Collection> clazz) {
+    private synchronized ResultFilter getCollectionFilter(Class<? extends Collection<?>> clazz) {
         CopyFilter filter = customCollectionFilters.get(clazz);
         if (filter == null) {
             filter = new CopyFilter(getAccessManager(), clazz);

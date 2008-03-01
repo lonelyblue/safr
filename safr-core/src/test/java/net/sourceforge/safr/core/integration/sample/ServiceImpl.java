@@ -110,6 +110,10 @@ public class ServiceImpl extends ServiceBase {
         return "x";
     } // drop otherwise inherited annotations
     
+    public String m09d(String p1) { 
+        return p1;
+    }
+
     // -------------------------------------------------------------------
     //  method annotation (@Secure)
     // -------------------------------------------------------------------

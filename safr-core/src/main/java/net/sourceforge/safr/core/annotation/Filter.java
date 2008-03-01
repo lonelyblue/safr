@@ -19,6 +19,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -49,6 +50,17 @@ import net.sourceforge.safr.core.provider.AccessManager;
 @Target( ElementType.METHOD)
 public @interface Filter {
 
+    /**
+     * If a method returns a single object (not a collection) for which no read
+     * access is granted <code>null</code> is returned by default. If an
+     * {@link AccessControlException} shall be thrown instead of returning
+     * <code>null</code> set this element to <code>false</code>.
+     * 
+     * @return <code>true</code> to nullify the result object and
+     *         <code>false</code> to throw an {@link AccessControlException}.
+     */
+    boolean nullifyResult() default true;
+    
     /**
      * Defines whether the returned collection- or array instance is a copy of
      * the original instance. The default is <code>true</code>. This is
@@ -88,6 +100,6 @@ public @interface Filter {
      * @return the implementation class of the collection object to be returned
      *         from a method invocation.
      */
-    Class<? extends Collection> resultCollectionClass() default Undefined.class;
+    Class<? extends Collection<?>> resultCollectionClass() default Undefined.class;
     
 }

@@ -102,6 +102,11 @@ public class DomainObjectA {
         return "x";
     }
     
+    @Filter(nullifyResult=false)
+    public String m09c(String p1) {
+        return p1;
+    }
+    
     // -------------------------------------------------------------------
     //  method annotation (@Secure)
     // -------------------------------------------------------------------

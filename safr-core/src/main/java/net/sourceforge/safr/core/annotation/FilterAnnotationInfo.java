@@ -26,26 +26,33 @@ import net.sourceforge.safr.core.attribute.FilterAttribute;
  */
 class FilterAnnotationInfo implements FilterAttribute {
 
-    private Class<? extends Collection> resultCollectionClass;
+    private Class<? extends Collection<?>> resultCollectionClass;
     
     private boolean copyResultCollection;
     
+    private boolean nullifyResult;
+    
     public FilterAnnotationInfo(Filter annotation) {
         init(annotation);
+    }
+    
+    public boolean isNullifyResult() {
+        return nullifyResult;
     }
     
     public boolean isCopyResultCollection() {
         return copyResultCollection;
     }
 
-    public Class<? extends Collection> getResultCollectionClass() {
+    public Class<? extends Collection<?>> getResultCollectionClass() {
         return resultCollectionClass;
     }
 
     private void init(Filter annotation) {
-        Class<? extends Collection> clazz = annotation.resultCollectionClass();
+        Class<? extends Collection<?>> clazz = annotation.resultCollectionClass();
         resultCollectionClass = Undefined.class.equals(clazz) ? null : clazz;
         copyResultCollection = annotation.copyResultCollection();
+        nullifyResult = annotation.nullifyResult();
     }
-    
+
 }

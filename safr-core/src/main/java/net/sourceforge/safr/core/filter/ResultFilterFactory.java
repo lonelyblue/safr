@@ -18,6 +18,7 @@ package net.sourceforge.safr.core.filter;
 import java.lang.reflect.Method;
 import java.util.Collection;
 
+import net.sourceforge.safr.core.attribute.FilterAttribute;
 import net.sourceforge.safr.core.provider.AccessManager;
 
 /**
@@ -25,31 +26,35 @@ import net.sourceforge.safr.core.provider.AccessManager;
  */
 public abstract class ResultFilterFactory {
 
-    private ResultFilter objectFilter;
     private ResultFilter arrayFilter;
+    private ResultFilter objectFilterNullify;
+    private ResultFilter objectFilterException;
     
     private AccessManager accessManager;
     
     public ResultFilterFactory(AccessManager accessManager) {
         this.accessManager = accessManager;
-        this.objectFilter = new ObjectFilter(accessManager);
         this.arrayFilter = new ArrayFilter(accessManager);
+        this.objectFilterNullify = new ObjectFilter(accessManager);
+        this.objectFilterException = new ObjectFilter(accessManager, false);
     }
 
     public AccessManager getAccessManager() {
         return accessManager;
     }
 
-    public ResultFilter getResultFilter(Method method, Class<? extends Collection<?>> clazz) {
+    public ResultFilter getResultFilter(Method method, FilterAttribute attribute) {
         if (method.getReturnType().isArray()) {
             return arrayFilter;
         } else if (Collection.class.isAssignableFrom(method.getReturnType())) {
-            return doGetResultFilter(method, clazz);
+            return doGetResultFilter(method, attribute);
+        } else if (attribute.isNullifyResult()){
+            return objectFilterNullify;
         } else {
-            return objectFilter;
+            return objectFilterException;
         }
     }
     
-    protected abstract ResultFilter doGetResultFilter(Method method, Class<? extends Collection<?>> clazz);
+    protected abstract ResultFilter doGetResultFilter(Method method, FilterAttribute attribute);
     
 }

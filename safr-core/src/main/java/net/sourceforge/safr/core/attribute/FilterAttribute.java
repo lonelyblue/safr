@@ -22,8 +22,10 @@ import java.util.Collection;
  */
 public interface FilterAttribute {
 
+    boolean isNullifyResult();
+    
     boolean isCopyResultCollection();
 
-    Class<? extends Collection> getResultCollectionClass();
+    Class<? extends Collection<?>> getResultCollectionClass();
     
 }
