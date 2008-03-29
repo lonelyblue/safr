@@ -3,7 +3,6 @@
     <groupId>net.sourceforge.safr</groupId>
     <artifactId>safr-sample-notebook</artifactId>
     <packaging>war</packaging>
-    <version>0.8.3-SNAPSHOT</version>
     <name>safr-sample-notebook</name>
     <url>http://safr.sourceforge.net</url>
     <parent>
