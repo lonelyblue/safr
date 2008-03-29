@@ -50,12 +50,12 @@ public class FilterMethodRemoveTest extends TestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        getManagerImpl().setReadCheck(true);
+        getTestAccessManager().setReadCheck(true);
     }
 
     @After
     public void tearDown() throws Exception {
-        getManagerImpl().setReadCheck(false);
+        getTestAccessManager().setReadCheck(false);
         super.tearDown();
     }
     

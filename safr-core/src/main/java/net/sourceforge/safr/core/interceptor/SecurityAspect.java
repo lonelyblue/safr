@@ -15,6 +15,7 @@
  */
 package net.sourceforge.safr.core.interceptor;
 
+import net.sourceforge.safr.core.attribute.EncryptAttribute;
 import net.sourceforge.safr.core.attribute.FilterAttribute;
 import net.sourceforge.safr.core.attribute.SecureAttribute;
 import net.sourceforge.safr.core.invocation.AspectJProceedingInvocation;
@@ -24,6 +25,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.FieldSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 
 /**
@@ -49,6 +51,10 @@ public class SecurityAspect extends InterceptorSupport {
     private void inheritAnnotatedMethod() {}
     
     @SuppressWarnings("unused")
+    @Pointcut("@annotation(net.sourceforge.safr.core.annotation.Encrypt)")
+    private void encryptAnnotatedField() {}
+    
+    @SuppressWarnings("unused")
     @Pointcut("secureObjectAnnotatedClass() && filterAnnotatedMethod()")
     private void filterAnnotatedDomainObjectMethod() {}
     
@@ -61,12 +67,16 @@ public class SecurityAspect extends InterceptorSupport {
     private void inheritAnnotatedDomainObjectMethod() {}
     
     @SuppressWarnings("unused")
+    @Pointcut("secureObjectAnnotatedClass() && encryptAnnotatedField()")
+    private void encryptAnnotatedDomainObjectField() {}
+    
+    @SuppressWarnings("unused")
     @Pointcut("secureAnnotatedDomainObjectMethod() || filterAnnotatedDomainObjectMethod() || inheritAnnotatedDomainObjectMethod()")
     private void securityAnnotatedDomainObjectMethod() {}
 
     @SuppressWarnings("unused")
     @Around("securityAnnotatedDomainObjectMethod()")
-    public Object invocation(ProceedingJoinPoint pjp) throws Throwable {
+    public Object methodInvocation(ProceedingJoinPoint pjp) throws Throwable {
         if (!isConfigured()) {
             return pjp.proceed();
         }
@@ -90,6 +100,33 @@ public class SecurityAspect extends InterceptorSupport {
         result = filterResult(mfa, pi.getMethod(), result);
         return afterProceed(msa, pi, result);
         
+    }
+    
+    @SuppressWarnings("unused")
+    @Around("set(* *.*) && encryptAnnotatedDomainObjectField()")
+    public Object setFieldAccess(ProceedingJoinPoint pjp) throws Throwable {
+        FieldSignature signature = (FieldSignature)pjp.getSignature();
+        // TODO: obtain EncryptAttribute from security attribute source
+        EncryptAttribute ea = null;
+
+        Object[] args = pjp.getArgs();
+        // exchange original value with encrypted value
+        args[0] = encrypt(ea, pjp.getTarget(), args[0]);
+        // perform field access with encrypted value
+        return pjp.proceed(args);
+    }
+    
+    @SuppressWarnings("unused")
+    @Around("get(* *.*) && encryptAnnotatedDomainObjectField()")
+    public Object getFieldAccess(ProceedingJoinPoint pjp) throws Throwable {
+        FieldSignature signature = (FieldSignature)pjp.getSignature();
+        // TODO: obtain EncryptAttribute from security attribute source
+        EncryptAttribute ea = null;
+        
+        // obtain encrypted value from field
+        Object value = pjp.proceed();
+        // decrypt encrypted field value and return it
+        return decrypt(ea, pjp.getTarget(), value);
     }
     
     private FilterAttribute getMethodFilterAttribute(MethodSignature signature) {

@@ -17,6 +17,7 @@ package net.sourceforge.safr.core.interceptor;
 
 import java.lang.reflect.Method;
 
+import net.sourceforge.safr.core.attribute.EncryptAttribute;
 import net.sourceforge.safr.core.attribute.FilterAttribute;
 import net.sourceforge.safr.core.attribute.SecureAttribute;
 import net.sourceforge.safr.core.attribute.SecurityAttributeSource;
@@ -25,6 +26,7 @@ import net.sourceforge.safr.core.filter.ResultFilterFactory;
 import net.sourceforge.safr.core.invocation.MethodInvocation;
 import net.sourceforge.safr.core.invocation.ProceedingInvocation;
 import net.sourceforge.safr.core.provider.AccessManager;
+import net.sourceforge.safr.core.provider.CryptoManager;
 
 /**
  * @author Martin Krasser
@@ -34,6 +36,8 @@ public abstract class InterceptorSupport {
     private SecurityAttributeSource source;
     
     private AccessManager accessManager;
+    
+    private CryptoManager cryptoManager;
 
     private ResultFilterFactory removeFilterFactory;
     
@@ -55,6 +59,14 @@ public abstract class InterceptorSupport {
         this.accessManager = accessManager;
     }
 
+    public CryptoManager getCryptoManager() {
+        return cryptoManager;
+    }
+
+    public void setCryptoManager(CryptoManager cryptoManager) {
+        this.cryptoManager = cryptoManager;
+    }
+
     public ResultFilterFactory getRemoveFilterFactory() {
         return removeFilterFactory;
     }
@@ -73,6 +85,20 @@ public abstract class InterceptorSupport {
 
     public boolean isConfigured() {
         return accessManager != null;
+    }
+    
+    protected Object encrypt(EncryptAttribute ea, Object context, Object value) {
+        if (value == null) {
+            return null;
+        }
+        return getCryptoManager().encrypt(value, context);
+    }
+    
+    protected Object decrypt(EncryptAttribute ea, Object context, Object value) {
+        if (value == null) {
+            return null;
+        }
+        return getCryptoManager().decrypt(value, context);
     }
     
     protected void beforeProceed(SecureAttribute attribute, MethodInvocation invocation) {

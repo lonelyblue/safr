@@ -25,9 +25,7 @@ import org.springframework.stereotype.Component;
 /**
  * This annotation should be placed on classes implementing the
  * {@link AccessManager} interface if these classes shall be loaded by Spring
- * with <code>&lt;context:component-scan/&gt;</code>. Currently, the value
- * argument must be defined in any case even if it the default value (see also
- * <a href="http://jira.springframework.org/browse/SPR-4304">SPR-4304</a>).
+ * with <code>&lt;context:component-scan/&gt;</code>.
  * 
  * @author Martin Krasser
  */

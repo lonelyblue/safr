@@ -35,29 +35,29 @@ public class InheritanceTest extends TestBase {
     @Test
     public void testM02a() {
         service.m02a("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
     }
     
     @Test
     public void testM02b() {
         service.m02b("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.CREATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.CREATE));
     }
     
     @Test
     public void testM02c() {
         service.m02c("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
     }
     
     @Test
     public void testM02d() {
         service.m02d("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("2", SecureAction.DELETE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("2", SecureAction.DELETE));
     }
     
     // -------------------------------------------------------------------
@@ -67,29 +67,29 @@ public class InheritanceTest extends TestBase {
     @Test
     public void testM03a() {
         service.m03a("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
     }
     
     @Test
     public void testM03b() {
         service.m03b("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.CREATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.CREATE));
     }
     
     @Test
     public void testM03c() {
         service.m03c("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
     }
     
     @Test
     public void testM03d() {
         service.m03d("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("2", SecureAction.DELETE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("2", SecureAction.DELETE));
     }
     
     // -------------------------------------------------------------------
@@ -115,21 +115,21 @@ public class InheritanceTest extends TestBase {
     @Test
     public void testM09a() {
         service.m09a("1");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.containsSecureAction(SecureAction.EXECUTE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.containsSecureAction(SecureAction.EXECUTE));
     }
     
     @Test
     public void testM09b() {
         service.m09b("1");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
     }
     
     @Test
     public void testM09c() {
         service.m09c("1");
-        assertEquals("wrong check history size", 0, history.size());
+        assertEquals("wrong check history size", 0, checkHistory.size());
     }
 
 }

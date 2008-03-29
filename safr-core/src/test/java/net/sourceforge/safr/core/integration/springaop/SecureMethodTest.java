@@ -35,9 +35,9 @@ public class SecureMethodTest extends TestBase {
     @Test
     public void testM10a() {
         service.m10a();
-        assertEquals("wrong check history size", 2, history.size());
-        assertTrue("wrong check history content", history.containsSecureAction(SecureAction.EXECUTE));
-        assertTrue("wrong check history content", history.containsSecureAction(SecureAction.CREATE));
+        assertEquals("wrong check history size", 2, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.containsSecureAction(SecureAction.EXECUTE));
+        assertTrue("wrong check history content", checkHistory.containsSecureAction(SecureAction.CREATE));
     }
     
 }

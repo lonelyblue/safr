@@ -36,36 +36,36 @@ public class SecureMethodTest extends TestBase {
     @Test
     public void testM10a() {
         domainObject.m10a();
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains(domainObject, SecureAction.EXECUTE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains(domainObject, SecureAction.EXECUTE));
     }
     
     @Test
     public void testM10b() {
         domainObject.m10b();
-        assertEquals("wrong check history size", 0, history.size());
+        assertEquals("wrong check history size", 0, checkHistory.size());
     }
     
     @Test
     public void testM10c() {
         domainObject.m10c();
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains(domainObject, SecureAction.EXECUTE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains(domainObject, SecureAction.EXECUTE));
     }
     
     @Test
     public void testM10d() {
         domainObject.m10d();
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains(domainObject, SecureAction.CREATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains(domainObject, SecureAction.CREATE));
     }
     
     @Test
     public void testM10e() {
         domainObject.m10e();
-        assertEquals("wrong check history size", 2, history.size());
-        assertTrue("wrong check history content", history.contains(domainObject, SecureAction.EXECUTE));
-        assertTrue("wrong check history content", history.contains(domainObject, SecureAction.CREATE));
+        assertEquals("wrong check history size", 2, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains(domainObject, SecureAction.EXECUTE));
+        assertTrue("wrong check history content", checkHistory.contains(domainObject, SecureAction.CREATE));
     }
     
 }

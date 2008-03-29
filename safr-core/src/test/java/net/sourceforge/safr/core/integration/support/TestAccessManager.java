@@ -27,13 +27,13 @@ import net.sourceforge.safr.core.spring.annotation.PolicyDecisionPoint;
  * @author Martin Krasser
  */
 @PolicyDecisionPoint
-public class ManagerImpl implements AccessManager {
+public class TestAccessManager implements AccessManager {
 
     private CheckHistory checkHistory;
 
     private boolean readCheck;
     
-    public ManagerImpl() {
+    public TestAccessManager() {
         this.checkHistory = new CheckHistory();
         this.readCheck = false;
     }

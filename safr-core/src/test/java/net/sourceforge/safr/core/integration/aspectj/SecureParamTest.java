@@ -37,54 +37,54 @@ public class SecureParamTest extends TestBase {
     @Test
     public void testM01a() {
         domainObject.m01a("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
     }
     
     @Test
     public void testM01b() {
         domainObject.m01b("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("2", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("2", SecureAction.UPDATE));
     }
     
     @Test
     public void testM01c() {
         domainObject.m01c("1", "2");
-        assertEquals("wrong check history size", 2, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
-        assertTrue("wrong check history content", history.contains("2", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 2, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
+        assertTrue("wrong check history content", checkHistory.contains("2", SecureAction.UPDATE));
         
     }
     
     @Test
     public void testM01d_1() {
         domainObject.m01d("1", "2");
-        assertEquals("wrong check history size", 3, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
-        assertTrue("wrong check history content", history.contains("1", SecureAction.CREATE));
-        assertTrue("wrong check history content", history.contains("2", SecureAction.DELETE));
+        assertEquals("wrong check history size", 3, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.CREATE));
+        assertTrue("wrong check history content", checkHistory.contains("2", SecureAction.DELETE));
     }
     
     @Test
     public void testM01d_2() {
         domainObject.m01d(null, null);
-        assertEquals("wrong check history size", 0, history.size());
+        assertEquals("wrong check history size", 0, checkHistory.size());
     }
     
     @Test
     public void testM01d_3() {
         domainObject.m01d(null, "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("2", SecureAction.DELETE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("2", SecureAction.DELETE));
     }
     
     @Test
     public void testM01d_4() {
         domainObject.m01d("1", null);
-        assertEquals("wrong check history size", 2, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
-        assertTrue("wrong check history content", history.contains("1", SecureAction.CREATE));
+        assertEquals("wrong check history size", 2, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.CREATE));
     }
     
 }

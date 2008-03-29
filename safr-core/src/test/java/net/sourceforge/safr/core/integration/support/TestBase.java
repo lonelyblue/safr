@@ -22,6 +22,7 @@ import net.sourceforge.safr.core.integration.sample.DomainObjectA;
 import net.sourceforge.safr.core.integration.sample.DomainObjectC;
 import net.sourceforge.safr.core.integration.sample.Service;
 import net.sourceforge.safr.core.provider.AccessManager;
+import net.sourceforge.safr.core.provider.CryptoManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -41,34 +42,45 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 public abstract class TestBase {
 
     @Autowired
-    protected AccessManager manager;
-    
-    @Autowired
     protected Service service;
     
-    protected CheckHistory history;
+    @Autowired
+    protected AccessManager accessManager;
+    
+    @Autowired
+    protected CryptoManager cryptoManager;
 
+    protected CheckHistory checkHistory;
+
+    protected CryptoHistory cryptoHistory;
+    
     protected DomainObjectA domainObject;
     
-    public ManagerImpl getManagerImpl() {
-        return (ManagerImpl)manager;
+    public TestAccessManager getTestAccessManager() {
+        return (TestAccessManager)accessManager;
     }
 
+    public TestCryptoManager getTestCryptoManager() {
+        return (TestCryptoManager)cryptoManager;
+    }
+    
     @Before
     public void setUp() throws Exception {
-        history = getManagerImpl().getCheckHistory();
+        checkHistory = getTestAccessManager().getCheckHistory();
+        cryptoHistory = getTestCryptoManager().getCryptoHistory();
         domainObject = new DomainObjectC();
     }
 
     @After
     public void tearDown() throws Exception {
-        history.clear();
+        checkHistory.clear();
+        cryptoHistory.clear();
     }
 
     protected void checkReadHistory(Object... elements) {
-        assertEquals("wrong check history size", elements.length, history.size());
+        assertEquals("wrong check history size", elements.length, checkHistory.size());
         for (Object element : elements) {
-            assertTrue("wrong check history content", history.contains(element, SecureAction.READ));
+            assertTrue("wrong check history content", checkHistory.contains(element, SecureAction.READ));
         }
     }
     

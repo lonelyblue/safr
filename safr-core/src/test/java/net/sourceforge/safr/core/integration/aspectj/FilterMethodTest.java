@@ -43,7 +43,7 @@ public class FilterMethodTest extends TestBase {
 
     @Test
     public void testM09c() {
-        getManagerImpl().setReadCheck(true);
+        getTestAccessManager().setReadCheck(true);
         assertEquals("x", domainObject.m09c("x"));
         try {
             service.m09d("y");
@@ -51,7 +51,7 @@ public class FilterMethodTest extends TestBase {
         } catch (AccessControlException e) {
             // test passed
         }
-        getManagerImpl().setReadCheck(false);
+        getTestAccessManager().setReadCheck(false);
     }
     
     @Test

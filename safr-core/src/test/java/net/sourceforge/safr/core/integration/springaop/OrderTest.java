@@ -34,14 +34,14 @@ public class OrderTest extends TestBase {
     @Test
     public void testM30a() {
         service.m30a("1", "2");
-        assertEquals("wrong check history size", 7, history.size());
-        assertTrue("wrong check", history.get(0).containsSecureAction(SecureAction.EXECUTE));
-        assertTrue("wrong check", history.get(1).containsSecureAction(SecureAction.UPDATE));
-        assertTrue("wrong check", history.get(2).contains("1", SecureAction.CREATE));
-        assertTrue("wrong check", history.get(3).contains("1", SecureAction.READ));
-        assertTrue("wrong check", history.get(4).contains("2", SecureAction.DELETE));
-        assertTrue("wrong check", history.get(5).contains("x", SecureAction.READ));
-        assertTrue("wrong check", history.get(6).contains("y", SecureAction.READ));
+        assertEquals("wrong check history size", 7, checkHistory.size());
+        assertTrue("wrong check", checkHistory.get(0).containsSecureAction(SecureAction.EXECUTE));
+        assertTrue("wrong check", checkHistory.get(1).containsSecureAction(SecureAction.UPDATE));
+        assertTrue("wrong check", checkHistory.get(2).contains("1", SecureAction.CREATE));
+        assertTrue("wrong check", checkHistory.get(3).contains("1", SecureAction.READ));
+        assertTrue("wrong check", checkHistory.get(4).contains("2", SecureAction.DELETE));
+        assertTrue("wrong check", checkHistory.get(5).contains("x", SecureAction.READ));
+        assertTrue("wrong check", checkHistory.get(6).contains("y", SecureAction.READ));
     }
     
 }

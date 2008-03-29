@@ -35,33 +35,33 @@ public class SecureParamTest extends TestBase {
     @Test
     public void testM01a() {
         service.m01a("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
     }
     
     @Test
     public void testM01b() {
         service.m01b("1", "2");
-        assertEquals("wrong check history size", 1, history.size());
-        assertTrue("wrong check history content", history.contains("2", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 1, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("2", SecureAction.UPDATE));
     }
     
     @Test
     public void testM01c() {
         service.m01c("1", "2");
-        assertEquals("wrong check history size", 2, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
-        assertTrue("wrong check history content", history.contains("2", SecureAction.UPDATE));
+        assertEquals("wrong check history size", 2, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
+        assertTrue("wrong check history content", checkHistory.contains("2", SecureAction.UPDATE));
         
     }
     
     @Test
     public void testM01d() {
         service.m01d("1", "2");
-        assertEquals("wrong check history size", 3, history.size());
-        assertTrue("wrong check history content", history.contains("1", SecureAction.UPDATE));
-        assertTrue("wrong check history content", history.contains("1", SecureAction.CREATE));
-        assertTrue("wrong check history content", history.contains("2", SecureAction.DELETE));
+        assertEquals("wrong check history size", 3, checkHistory.size());
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.UPDATE));
+        assertTrue("wrong check history content", checkHistory.contains("1", SecureAction.CREATE));
+        assertTrue("wrong check history content", checkHistory.contains("2", SecureAction.DELETE));
     }
     
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 InterComponentWare AG.
+ * Copyright 2007-2008 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.annotation;
+package net.sourceforge.safr.core.spring.annotation;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+
+import net.sourceforge.safr.core.provider.CryptoManager;
+
+import org.springframework.stereotype.Component;
 
 /**
- * This class-level annotation must be set on classes that should be processed
- * by the AspectJ compiler. This is typically the case for the domain objects of
- * an application. Classes that are managed by a Spring application context
- * should not have this anntation otherwise security checks are redundantly
- * performed via AspectJ and Spring AOP mechanisms.
+ * This annotation should be placed on classes implementing the
+ * {@link CryptoManager} interface if these classes shall be loaded by Spring
+ * with <code>&lt;context:component-scan/&gt;</code>.
  * 
  * @author Martin Krasser
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-@Inherited
-public @interface SecureObject {
+@Component
+public @interface CryptoOperationPoint {
 
+    /**
+     * The {@link CryptoManager} bean name. 
+     * 
+     * @return the {@link CryptoManager} bean name.
+     */
+    String value() default "cryptoManager";
+    
 }
