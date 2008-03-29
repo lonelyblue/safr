@@ -9,6 +9,7 @@
     <inceptionYear>2006</inceptionYear>
     <modules>
         <module>safr-core</module>
+        <module>safr-crypto</module>
         <module>safr-jaas</module>
         <module>safr-sample-hellosaf</module>
         <module>safr-sample-notebook</module>
