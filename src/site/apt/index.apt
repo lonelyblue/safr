@@ -4,11 +4,15 @@
 
 Security Annotation Framework
   
-  The Security Annotation Framework (SAF) is an instance-level access control framework driven by Java 5 annotations. It complements Java EE security concepts by introducing declarative permission checks on the level of domain object instances. The SAF provides a custom configuration schema for easy integration into {{{http://www.springframework.org}Spring}} 2.5 (or higher) applications.
+  The Security Annotation Framework (SAF) is an instance-level access control framework and attribute-level encryption framework driven by Java 5 annotations. It complements Java EE security concepts by introducing declarative permission checks on the level of domain object instances. The SAF provides a custom configuration schema for easy integration into {{{http://www.springframework.org}Spring}} 2.5 (or higher) applications.
   
   SAF security annotations define locations in the source code where the SAF shall perform permission checks at runtime. An annotation-driven approach to instance-level access control promotes the separation of an application’s security logic from its business logic. This significantly increases the testability and reusability of application components. It further allows the implementation of instance-level access control features into existing applications without modifying existing business logic.
 
+  Furthermore, encrytion annotations support the encrypted storage of field values in memory and on persistent storage. Normal access to field values from application code trigger encryption operations in case of write access and decryption operations in case of read accees. Direct access to field values (via the reflection API) do not trigger crypto operations. Persistence- and serialization frameworks using direct field access therefore support the persistence of domain object with encrypted field values. For example, you can can configure direct field access for {{{https://jaxb.dev.java.net/}JAXB}} or {{{http://www.hibernate.org/}Hibernate}}. 
+
 * Architectural Context
+
+** Access Control
 
   Access control architectures often distinguish <policy enforcement points> and <policy decision points>. Policy enforcement points intercept access to protected application resources (1) and request authorization decisions from a policy decision point (2). A policy decision point evaluates authorization decision requests relative to a security context (3) and returns the evaluation result to the policy enforcement point (4). If the evaluation result indicates sufficient privileges the policy enforcement point allows the initial requestor to access the protected resource (5), otherwise access is blocked.
 
@@ -19,6 +23,10 @@ Security Annotation Framework
 [images/safr-overview-2.jpg] Access Control via SAF and JAAS
   
    The <<<AccessManager>>> interface is an integration point for authorization providers that can make instance-level authorization decisions. Authorization providers are implementations of policy decision points. The SAF project provides a lightweight default authorization provider that extends the Java Authentication and Authorization Service (JAAS) with instance-level access control features ({{{safr-jaas/index.html}SAF JAAS}} module). Usage of this provider is optional. You may also integrate providers from other security frameworks or reuse providers from existing applications. 
+
+** Crypto Operations
+
+  ...
 
 * Annotations
 
