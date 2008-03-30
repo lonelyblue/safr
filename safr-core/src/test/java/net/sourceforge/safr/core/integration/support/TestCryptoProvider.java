@@ -15,22 +15,22 @@
  */
 package net.sourceforge.safr.core.integration.support;
 
-import net.sourceforge.safr.core.provider.CryptoManager;
-import net.sourceforge.safr.core.spring.annotation.CryptoOperationPoint;
+import net.sourceforge.safr.core.provider.CryptoProvider;
+import net.sourceforge.safr.core.spring.annotation.CryptographicServiceProvider;
 
 /**
- * A {@link CryptoManager} implementation for testing purposes. Encryption and
+ * A {@link CryptoProvider} implementation for testing purposes. Encryption and
  * decryption operations simply revert the character sequence of a
  * {@link String}.
  * 
  * @author Martin Krasser
  */
-@CryptoOperationPoint
-public class TestCryptoManager implements CryptoManager {
+@CryptographicServiceProvider
+public class TestCryptoProvider implements CryptoProvider {
 
     private CryptoHistory cryptoHistory;
     
-    public TestCryptoManager() {
+    public TestCryptoProvider() {
         cryptoHistory = new CryptoHistory();
     }
     

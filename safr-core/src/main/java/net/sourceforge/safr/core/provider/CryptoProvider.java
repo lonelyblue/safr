@@ -22,7 +22,7 @@ import net.sourceforge.safr.core.annotation.Encrypt;
  * 
  * @author Martin Krasser
  */
-public interface CryptoManager {
+public interface CryptoProvider {
 
     /**
      * Encrypts a value.

@@ -25,6 +25,6 @@ http://safr.sourceforge.net/schema/core http://safr.sourceforge.net/schema/core/
         - interceptor-order    default="0"
         - support-aspectj      default="true"
      -->
-    <sec:annotation-driven crypto-manager="cryptoManager" />
+    <sec:annotation-driven crypto-provider="cryptoProvider" />
 
 </beans>

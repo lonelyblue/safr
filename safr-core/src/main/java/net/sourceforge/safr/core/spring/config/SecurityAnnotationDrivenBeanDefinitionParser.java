@@ -21,7 +21,7 @@ import net.sourceforge.safr.core.filter.RemoveFilterFactory;
 import net.sourceforge.safr.core.interceptor.SecurityAspect;
 import net.sourceforge.safr.core.interceptor.SecurityInterceptor;
 import net.sourceforge.safr.core.provider.support.NoopAccessManager;
-import net.sourceforge.safr.core.provider.support.NoopCryptoManager;
+import net.sourceforge.safr.core.provider.support.NoopCryptoProvider;
 import net.sourceforge.safr.core.spring.advice.SecurityAttributeSourceAdvisor;
 
 import org.springframework.aop.config.AopNamespaceUtils;
@@ -41,20 +41,20 @@ public class SecurityAnnotationDrivenBeanDefinitionParser extends AbstractBeanDe
     private static final String EMPTY_STRING = "";
     
     private static final String ACCESS_MANAGER_ATTRIBUTE = "access-manager";
-    private static final String CRYPTO_MANAGER_ATTRIBUTE = "crypto-manager";
+    private static final String CRYPTO_PROVIDER_ATTRIBUTE = "crypto-provider";
     private static final String INTERCEPTOR_ORDER_ATTRIBUTE = "interceptor-order";
     private static final String SUPPORT_ASPECTJ_ATTRIBUTE = "support-aspectj"; 
     
     private static final String SECURITY_ATTRIBUTE_SOURCE_PROPERTY = "securityAttributeSource";
     private static final String ACCESS_MANAGER_PROPERTY = "accessManager";
-    private static final String CRYPTO_MANAGER_PROPERTY = "cryptoManager";
+    private static final String CRYPTO_PROVIDER_PROPERTY = "cryptoProvider";
     private static final String SECURITY_INTERCEPTOR_PROPERTY = "securityInterceptor";
     private static final String REMOVE_FILTER_FACTORY_PROPERTY = "removeFilterFactory";
     private static final String COPY_FILTER_FACTORY_PROPERTY = "copyFilterFactory";
     private static final String ORDER_PROPERTY = "order";
     
     private RootBeanDefinition noopAccessManagerDefinition = new RootBeanDefinition(NoopAccessManager.class);
-    private RootBeanDefinition noopCryptoManagerDefinition = new RootBeanDefinition(NoopCryptoManager.class);
+    private RootBeanDefinition noopCryptoProviderDefinition = new RootBeanDefinition(NoopCryptoProvider.class);
     
     @Override
     protected boolean shouldGenerateId() {
@@ -66,7 +66,7 @@ public class SecurityAnnotationDrivenBeanDefinitionParser extends AbstractBeanDe
         AopNamespaceUtils.registerAutoProxyCreatorIfNecessary(parserContext, element);
 
         String accessManagerName = element.getAttribute(ACCESS_MANAGER_ATTRIBUTE);
-        String cryptoManagerName = element.getAttribute(CRYPTO_MANAGER_ATTRIBUTE);
+        String cryptoProviderName = element.getAttribute(CRYPTO_PROVIDER_ATTRIBUTE);
         String interceptorOrder = element.getAttribute(INTERCEPTOR_ORDER_ATTRIBUTE);
         String useAspectJ = element.getAttribute(SUPPORT_ASPECTJ_ATTRIBUTE);
         
@@ -87,7 +87,7 @@ public class SecurityAnnotationDrivenBeanDefinitionParser extends AbstractBeanDe
         interceptorDefinition.getPropertyValues().addPropertyValue(COPY_FILTER_FACTORY_PROPERTY, copyFilterFactoryDefinition);
         setPropertyValue(interceptorDefinition, SECURITY_ATTRIBUTE_SOURCE_PROPERTY, createSecurityAttributeSourceValue());
         setPropertyValue(interceptorDefinition, ACCESS_MANAGER_PROPERTY, createAccessManagerValue(accessManagerName));
-        setPropertyValue(interceptorDefinition, CRYPTO_MANAGER_PROPERTY, createCryptoManagerValue(cryptoManagerName));
+        setPropertyValue(interceptorDefinition, CRYPTO_PROVIDER_PROPERTY, createCryptoProviderValue(cryptoProviderName));
         
         RootBeanDefinition advisorDefinition = new RootBeanDefinition(SecurityAttributeSourceAdvisor.class);
         advisorDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -104,7 +104,7 @@ public class SecurityAnnotationDrivenBeanDefinitionParser extends AbstractBeanDe
             aspectDefinition.getPropertyValues().addPropertyValue(COPY_FILTER_FACTORY_PROPERTY, copyFilterFactoryDefinition);
             setPropertyValue(aspectDefinition, SECURITY_ATTRIBUTE_SOURCE_PROPERTY, createSecurityAttributeSourceValue());
             setPropertyValue(aspectDefinition, ACCESS_MANAGER_PROPERTY, createAccessManagerValue(accessManagerName));
-            setPropertyValue(aspectDefinition, CRYPTO_MANAGER_PROPERTY, createCryptoManagerValue(cryptoManagerName));
+            setPropertyValue(aspectDefinition, CRYPTO_PROVIDER_PROPERTY, createCryptoProviderValue(cryptoProviderName));
             parserContext.getRegistry().registerBeanDefinition(SecurityAspect.class.getName(), aspectDefinition);
         }
         
@@ -123,11 +123,11 @@ public class SecurityAnnotationDrivenBeanDefinitionParser extends AbstractBeanDe
         }
     }
 
-    private Object createCryptoManagerValue(String cryptoManagerName) {
-        if (cryptoManagerName.equals(EMPTY_STRING)) {
-            return noopCryptoManagerDefinition;
+    private Object createCryptoProviderValue(String cryptoProviderName) {
+        if (cryptoProviderName.equals(EMPTY_STRING)) {
+            return noopCryptoProviderDefinition;
         } else {
-            return new RuntimeBeanReference(cryptoManagerName);
+            return new RuntimeBeanReference(cryptoProviderName);
         }
     }
 

@@ -22,7 +22,7 @@ import net.sourceforge.safr.core.integration.sample.DomainObjectA;
 import net.sourceforge.safr.core.integration.sample.DomainObjectC;
 import net.sourceforge.safr.core.integration.sample.Service;
 import net.sourceforge.safr.core.provider.AccessManager;
-import net.sourceforge.safr.core.provider.CryptoManager;
+import net.sourceforge.safr.core.provider.CryptoProvider;
 
 import org.junit.After;
 import org.junit.Before;
@@ -48,7 +48,7 @@ public abstract class TestBase {
     protected AccessManager accessManager;
     
     @Autowired
-    protected CryptoManager cryptoManager;
+    protected CryptoProvider cryptoProvider;
 
     protected CheckHistory checkHistory;
 
@@ -60,14 +60,14 @@ public abstract class TestBase {
         return (TestAccessManager)accessManager;
     }
 
-    public TestCryptoManager getTestCryptoManager() {
-        return (TestCryptoManager)cryptoManager;
+    public TestCryptoProvider getTestCryptoProvider() {
+        return (TestCryptoProvider)cryptoProvider;
     }
     
     @Before
     public void setUp() throws Exception {
         checkHistory = getTestAccessManager().getCheckHistory();
-        cryptoHistory = getTestCryptoManager().getCryptoHistory();
+        cryptoHistory = getTestCryptoProvider().getCryptoHistory();
         domainObject = new DomainObjectC();
     }
 

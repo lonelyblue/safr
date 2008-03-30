@@ -135,7 +135,7 @@ nb1 = new Notebook(...) // id == 1
 |<<<support-aspectj>>>|true|Can be set to false if no security annotations are used on domain objects. It is safe to leave this attribute to true.|
 *--+--+--+
 
-  Since Spring version 2.5 beans (components) can be scanned from the classpath. Components are classes that are annotated with <<<@Component>>>, <<<@Service>>>, <<<@Respository>>>, <<<@Controller>>> but also classes with custom annotations if these are annotated with <<<@Component>>>. The SAF defines a <<<@PolicyDecisionPoint>>> annotation. For example, an <<<AccessManager>>> implementation annotated with <<<@PolicyDecisionPoint>>> is loaded into the Spring application context as bean with name "accessManager" (default) and can therefore be referenced by <<<\<sec:annotation-driven\>>>>. Here's an example:
+  Since Spring version 2.5 beans (components) can be scanned from the classpath. Components are classes that are annotated with <<<@Component>>>, <<<@Service>>>, <<<@Respository>>>, <<<@Controller>>> but also classes with custom annotations if these are annotated with <<<@Component>>>. The SAF defines an <<<@AuthorizationServiceProvider>>> annotation. For example, an <<<AccessManager>>> implementation annotated with <<<@AuthorizationServiceProvider>>> is loaded into the Spring application context as bean with name "accessManager" (default) and can therefore be referenced by <<<\<sec:annotation-driven\>>>>. Here's an example:
 
 +---
 <?xml version="1.0" encoding="UTF-8"?>
@@ -163,7 +163,7 @@ nb1 = new Notebook(...) // id == 1
 +---
 package com.example.policy;
 
-@PolicyDecisionPoint
+@AuthorizationServiceProvider
 public class SampleAccessManager implements AccessManager {
     
     ...

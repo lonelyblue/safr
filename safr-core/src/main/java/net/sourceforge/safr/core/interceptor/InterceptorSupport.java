@@ -26,7 +26,7 @@ import net.sourceforge.safr.core.filter.ResultFilterFactory;
 import net.sourceforge.safr.core.invocation.MethodInvocation;
 import net.sourceforge.safr.core.invocation.ProceedingInvocation;
 import net.sourceforge.safr.core.provider.AccessManager;
-import net.sourceforge.safr.core.provider.CryptoManager;
+import net.sourceforge.safr.core.provider.CryptoProvider;
 
 /**
  * @author Martin Krasser
@@ -37,7 +37,7 @@ public abstract class InterceptorSupport {
     
     private AccessManager accessManager;
     
-    private CryptoManager cryptoManager;
+    private CryptoProvider cryptoProvider;
 
     private ResultFilterFactory removeFilterFactory;
     
@@ -59,12 +59,12 @@ public abstract class InterceptorSupport {
         this.accessManager = accessManager;
     }
 
-    public CryptoManager getCryptoManager() {
-        return cryptoManager;
+    public CryptoProvider getCryptoProvider() {
+        return cryptoProvider;
     }
 
-    public void setCryptoManager(CryptoManager cryptoManager) {
-        this.cryptoManager = cryptoManager;
+    public void setCryptoProvider(CryptoProvider cryptoProvider) {
+        this.cryptoProvider = cryptoProvider;
     }
 
     public ResultFilterFactory getRemoveFilterFactory() {
@@ -91,14 +91,14 @@ public abstract class InterceptorSupport {
         if (value == null) {
             return null;
         }
-        return getCryptoManager().encrypt(value, context);
+        return getCryptoProvider().encrypt(value, context);
     }
     
     protected Object decrypt(EncryptAttribute ea, Object context, Object value) {
         if (value == null) {
             return null;
         }
-        return getCryptoManager().decrypt(value, context);
+        return getCryptoProvider().decrypt(value, context);
     }
     
     protected void beforeProceed(SecureAttribute attribute, MethodInvocation invocation) {

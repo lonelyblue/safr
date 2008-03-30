@@ -1,8 +1,8 @@
 package net.sourceforge.safr.core.provider.support;
 
-import net.sourceforge.safr.core.provider.CryptoManager;
+import net.sourceforge.safr.core.provider.CryptoProvider;
 
-public class NoopCryptoManager implements CryptoManager {
+public class NoopCryptoProvider implements CryptoProvider {
 
     public Object encrypt(Object value, Object context) {
         return value;

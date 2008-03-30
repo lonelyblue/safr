@@ -18,26 +18,26 @@ package net.sourceforge.safr.core.spring.annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import net.sourceforge.safr.core.provider.CryptoManager;
+import net.sourceforge.safr.core.provider.CryptoProvider;
 
 import org.springframework.stereotype.Component;
 
 /**
  * This annotation should be placed on classes implementing the
- * {@link CryptoManager} interface if these classes shall be loaded by Spring
+ * {@link CryptoProvider} interface if these classes shall be loaded by Spring
  * with <code>&lt;context:component-scan/&gt;</code>.
  * 
  * @author Martin Krasser
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface CryptoOperationPoint {
+public @interface CryptographicServiceProvider {
 
     /**
-     * The {@link CryptoManager} bean name. 
+     * The {@link CryptoProvider} bean name. 
      * 
-     * @return the {@link CryptoManager} bean name.
+     * @return the {@link CryptoProvider} bean name.
      */
-    String value() default "cryptoManager";
+    String value() default "cryptoProvider";
     
 }

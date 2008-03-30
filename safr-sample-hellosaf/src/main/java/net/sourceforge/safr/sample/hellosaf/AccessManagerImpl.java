@@ -20,12 +20,12 @@ import java.security.AccessControlException;
 import net.sourceforge.safr.core.invocation.MethodInvocation;
 import net.sourceforge.safr.core.invocation.ProceedingInvocation;
 import net.sourceforge.safr.core.provider.AccessManager;
-import net.sourceforge.safr.core.spring.annotation.PolicyDecisionPoint;
+import net.sourceforge.safr.core.spring.annotation.AuthorizationServiceProvider;
 
 /**
  * @author Martin Krasser
  */
-@PolicyDecisionPoint
+@AuthorizationServiceProvider
 public class AccessManagerImpl implements AccessManager {
 
     public void checkCreate(Object obj) {

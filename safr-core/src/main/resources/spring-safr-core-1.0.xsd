@@ -12,7 +12,7 @@
 	<xsd:element name="annotation-driven">
 		<xsd:complexType>
 			<xsd:attribute name="access-manager" type="xsd:string" default="accessManager"/>
-            <xsd:attribute name="crypto-manager" type="xsd:string" default=""/>
+            <xsd:attribute name="crypto-provider" type="xsd:string" default=""/>
 			<xsd:attribute name="proxy-target-class" type="xsd:boolean" default="false"/>
             <xsd:attribute name="interceptor-order" type="xsd:integer" default="0"/>
             <xsd:attribute name="support-aspectj" type="xsd:boolean" default="true"/>

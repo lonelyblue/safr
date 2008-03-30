@@ -28,13 +28,10 @@ import org.springframework.stereotype.Component;
  * with <code>&lt;context:component-scan/&gt;</code>.
  * 
  * @author Martin Krasser
- * 
- * @deprecated use {@link AuthorizationServiceProvider} instead.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-@Deprecated
-public @interface PolicyDecisionPoint {
+public @interface AuthorizationServiceProvider {
 
     /**
      * The {@link AccessManager} bean name. 

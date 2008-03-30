@@ -19,10 +19,8 @@ import java.security.AccessController;
 import java.security.Permission;
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import net.sourceforge.safr.core.invocation.MethodInvocation;
-import net.sourceforge.safr.core.spring.annotation.PolicyDecisionPoint;
+import net.sourceforge.safr.core.spring.annotation.AuthorizationServiceProvider;
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.permission.InstancePermission;
 import net.sourceforge.safr.jaas.permission.Target;
@@ -32,10 +30,12 @@ import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.usermgnt.domain.Role;
 import net.sourceforge.safr.sample.usermgnt.domain.User;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * @author Martin Krasser
  */
-@PolicyDecisionPoint
+@AuthorizationServiceProvider
 public class SampleAccessManager extends AccessManagerSupport {
 
     private static final String NOTEBOOK_CLASS = Notebook.class.getName();
