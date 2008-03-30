@@ -9,15 +9,9 @@ import net.sourceforge.safr.core.integration.sample.DomainObjectE;
 import net.sourceforge.safr.core.integration.support.Crypto;
 import net.sourceforge.safr.core.integration.support.TestBase;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class EncryptFieldTest extends TestBase {
-    
-    @BeforeClass
-    public static void testFieldName() {
-        assertEquals("s", DomainObjectD.getFieldName());
-    }
     
     @Test
     public void testSetPropertyNonNull() {

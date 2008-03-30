@@ -17,6 +17,11 @@ package net.sourceforge.safr.core.integration.sample;
 
 import java.lang.reflect.Field;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import net.sourceforge.safr.core.annotation.Encrypt;
 import net.sourceforge.safr.core.annotation.SecureObject;
 
@@ -24,6 +29,8 @@ import net.sourceforge.safr.core.annotation.SecureObject;
  * @author Martin Krasser
  */
 @SecureObject
+@XmlRootElement(name="domainObjectD")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DomainObjectD {
 
     private static Field FIELD_S;
@@ -44,6 +51,7 @@ public class DomainObjectD {
     }
     
     @Encrypt
+    @XmlElement
     private String s;
     
     public DomainObjectD() {
@@ -54,10 +62,6 @@ public class DomainObjectD {
         this.s = s;
     }
 
-    public static String getFieldName() {
-        return FIELD_S.getName();
-    }
-    
     public String getS() {
         return s;
     }
