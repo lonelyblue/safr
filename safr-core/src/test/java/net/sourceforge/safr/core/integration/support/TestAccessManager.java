@@ -21,12 +21,12 @@ import net.sourceforge.safr.core.annotation.SecureAction;
 import net.sourceforge.safr.core.invocation.MethodInvocation;
 import net.sourceforge.safr.core.invocation.ProceedingInvocation;
 import net.sourceforge.safr.core.provider.AccessManager;
-import net.sourceforge.safr.core.spring.annotation.PolicyDecisionPoint;
+import net.sourceforge.safr.core.spring.annotation.AuthorizationServiceProvider;
 
 /**
  * @author Martin Krasser
  */
-@PolicyDecisionPoint
+@AuthorizationServiceProvider
 public class TestAccessManager implements AccessManager {
 
     private CheckHistory checkHistory;
