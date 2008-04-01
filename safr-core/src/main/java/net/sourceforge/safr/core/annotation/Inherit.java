@@ -31,8 +31,8 @@ import java.lang.annotation.Target;
  * (version 1.5). This language currently doesn't support pointcut expressions
  * that address parameter-level annotations. Add this annotation to methods that
  * define security annotations on parameter-level only, otherwise, the security
- * annotations won't be recognized. Again, this is only necessary for classes
- * processed by the AspectJ compiler, not for Spring managed beans.
+ * annotations won't be recognized. As before, this is only necessary for
+ * classes processed by the AspectJ compiler, not for Spring managed beans.
  * 
  * @author Martin Krasser
  */
