@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.annotation;
+package net.sourceforge.safr.core.annotation.info;
 
 import java.util.Collection;
 
+import net.sourceforge.safr.core.annotation.Filter;
+import net.sourceforge.safr.core.annotation.Undefined;
 import net.sourceforge.safr.core.attribute.FilterAttribute;
 
 /**
@@ -24,7 +26,7 @@ import net.sourceforge.safr.core.attribute.FilterAttribute;
  * 
  * @author Martin Krasser
  */
-class FilterAnnotationInfo implements FilterAttribute {
+public class FilterAnnotationInfo implements FilterAttribute {
 
     private Class<? extends Collection<?>> resultCollectionClass;
     

@@ -13,17 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.annotation;
+package net.sourceforge.safr.core.attribute.method;
 
-import java.util.ArrayList;
+import java.lang.reflect.Method;
 
 /**
- * Indicates that the {@link Filter#resultCollectionClass()} annotation element
- * has not been set.
- * 
  * @author Martin Krasser
  */
-@SuppressWarnings("serial")
-public class Undefined extends ArrayList<Object> {
+public abstract class MethodAttributeCollector {
+
+    private MethodAttributeContainer methodAttributeContainer;
+    
+    public MethodAttributeCollector() {
+        this.methodAttributeContainer = new MethodAttributeContainer();
+    }
+    
+    public MethodAttributeContainer getMethodAttributeContainer() {
+        return methodAttributeContainer;
+    }
+
+    public abstract boolean visit(Method m);
 
 }

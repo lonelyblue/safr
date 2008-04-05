@@ -13,28 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.annotation;
+package net.sourceforge.safr.core.annotation.method;
 
 import java.lang.reflect.Method;
 
+import net.sourceforge.safr.core.annotation.Filter;
+import net.sourceforge.safr.core.annotation.Secure;
+import net.sourceforge.safr.core.annotation.info.FilterAnnotationInfo;
+import net.sourceforge.safr.core.annotation.info.SecureAnnotationInfo;
 import net.sourceforge.safr.core.attribute.FilterAttribute;
 import net.sourceforge.safr.core.attribute.SecureAttribute;
-import net.sourceforge.safr.core.attribute.SecurityAttributeCollector;
-import net.sourceforge.safr.core.attribute.SecurityAttributeContainer;
+import net.sourceforge.safr.core.attribute.method.MethodAttributeCollector;
+import net.sourceforge.safr.core.attribute.method.MethodAttributeContainer;
 
 /**
  * @author Martin Krasser
  */
-class SecurityAnnotationCollector extends SecurityAttributeCollector {
+public class MethodAnnotationCollector extends MethodAttributeCollector {
 
     @Override
     public boolean visit(Method m) {
-        SecurityAttributeContainer container = getSecurityAttributeContainer();
+        MethodAttributeContainer container = getMethodAttributeContainer();
         container.clear();
         container.setMethodFilterAttribute(getMethodFilterAttribute(m));
         container.setMethodSecureAttribute(getMethodSecureAttribute(m));
         container.setParameterSecureAttributes(getParameterSecureAttributes(m));
-        return container.isAnySecurityAttributeDefined();
+        return container.isAnyMethodAttributeDefined();
     }
 
     private static FilterAttribute getMethodFilterAttribute(Method m) {
@@ -46,7 +50,7 @@ class SecurityAnnotationCollector extends SecurityAttributeCollector {
     }
 
     private static SecureAttribute getParameterSecureAttribute(Method m, int index) {
-        return createSecureAttribute(SecurityAnnotationUtil.getParameterSecurityAnnotation(m, index));
+        return createSecureAttribute(MethodAnnotationUtil.getParameterSecureAnnotation(m, index));
     }
     
     private static SecureAttribute[] getParameterSecureAttributes(Method m) {

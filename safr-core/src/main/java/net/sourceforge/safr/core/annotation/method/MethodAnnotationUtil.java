@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.annotation;
+package net.sourceforge.safr.core.annotation.method;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import net.sourceforge.safr.core.annotation.Secure;
+
 /**
  * @author Martin Krasser
  */
-class SecurityAnnotationUtil {
+class MethodAnnotationUtil {
 
-    public static Secure getParameterSecurityAnnotation(Method method, int index) {
+    public static Secure getParameterSecureAnnotation(Method method, int index) {
         Annotation[] annotations = method.getParameterAnnotations()[index];
         for (Annotation annotation : annotations) {
             if (annotation instanceof Secure) {

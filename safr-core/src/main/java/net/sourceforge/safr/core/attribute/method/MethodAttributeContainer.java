@@ -13,12 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.attribute;
+package net.sourceforge.safr.core.attribute.method;
+
+import net.sourceforge.safr.core.attribute.FilterAttribute;
+import net.sourceforge.safr.core.attribute.SecureAttribute;
 
 /**
  * @author Martin Krasser
  */
-public class SecurityAttributeContainer {
+public class MethodAttributeContainer {
 
     private FilterAttribute methodFilterAttribute;
     
@@ -51,7 +54,7 @@ public class SecurityAttributeContainer {
         this.parameterSecureAttributes = parameterSecureAttributes;
     }
 
-    public boolean isAnySecurityAttributeDefined() {
+    public boolean isAnyMethodAttributeDefined() {
         return isMethodFilterAttributeDefined()
             || isMethodSecureAttributeDefined()
             || isAnyParameterSecureAttributeDefined();

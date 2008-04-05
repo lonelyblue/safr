@@ -15,61 +15,100 @@
  */
 package net.sourceforge.safr.core.attribute;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import net.sourceforge.safr.core.attribute.field.FieldAttributeCollector;
+import net.sourceforge.safr.core.attribute.field.FieldAttributeContainer;
+import net.sourceforge.safr.core.attribute.field.FieldAttributeHierarchy;
+import net.sourceforge.safr.core.attribute.method.MethodAttributeCollector;
+import net.sourceforge.safr.core.attribute.method.MethodAttributeContainer;
+import net.sourceforge.safr.core.attribute.method.MethodAttributeHierarchy;
 
 /**
  * @author Martin Krasser
  */
 public abstract class SecurityAttributeSourceSupport implements SecurityAttributeSource {
 
-    private SecurityAttributeContainerCache cache;
-
+    private ConcurrentCache<String, MethodAttributeContainer> maCache;
+    private ConcurrentCache<Field, FieldAttributeContainer> faCache;
+    
     public SecurityAttributeSourceSupport() {
-        this.cache = new SecurityAttributeContainerCache(); 
+        this.maCache = new ConcurrentCache<String, MethodAttributeContainer>(); 
+        this.faCache = new ConcurrentCache<Field, FieldAttributeContainer>(); 
     }
     
+    public EncryptAttribute getFieldEncryptAttribute(Field field) {
+        return getFieldAttributeContainer(field).getFieldEncryptAttribute();
+    }
+
     public FilterAttribute getMethodFilterAttribute(Method method, Class<?> targetClass) {
-        return getSecurityAttributeContainer(method, targetClass).getMethodFilterAttribute();
+        return getMethodAttributeContainer(method, targetClass).getMethodFilterAttribute();
     }
 
     public SecureAttribute getMethodSecureAttribute(Method method, Class<?> targetClass) {
-        return getSecurityAttributeContainer(method, targetClass).getMethodSecureAttribute();
+        return getMethodAttributeContainer(method, targetClass).getMethodSecureAttribute();
     }
 
     public SecureAttribute[] getParameterSecureAttributes(Method method, Class<?> targetClass) {
-        return getSecurityAttributeContainer(method, targetClass).getParameterSecureAttributes();
+        return getMethodAttributeContainer(method, targetClass).getParameterSecureAttributes();
     }
     
-    public boolean isAnySecurityAttributeDefined(Method method, Class<?> targetClass) {
-        return getSecurityAttributeContainer(method, targetClass).isAnySecurityAttributeDefined();
+    public boolean isAnyMethodAttributeDefined(Method method, Class<?> targetClass) {
+        return getMethodAttributeContainer(method, targetClass).isAnyMethodAttributeDefined();
     }
 
-    private SecurityAttributeContainer getSecurityAttributeContainer(Method method, Class<?> targetClass) {
-        String key = generateKey(method, targetClass);
-        SecurityAttributeContainer container = cache.get(key);
+    private FieldAttributeContainer getFieldAttributeContainer(Field field) {
+        FieldAttributeContainer container = faCache.get(field);
         if (container != null) {
             return container;
         }
-        container = computeSecurityAttributes(method, targetClass);
+        container = computeFieldAttributes(field);
         // Only calls to annotated methods are intercepted. Therefore, 
         // containers without attributes need not be added to the cache.
-        if (container.isAnySecurityAttributeDefined()) {
-            cache.put(key, container);
+        if (container.isAnyFieldAttributeDefined()) {
+            faCache.put(field, container);
+        }
+        return container;
+        
+    }
+    
+    private MethodAttributeContainer getMethodAttributeContainer(Method method, Class<?> targetClass) {
+        String key = generateKey(method, targetClass);
+        MethodAttributeContainer container = maCache.get(key);
+        if (container != null) {
+            return container;
+        }
+        container = computeMethodAttributes(method, targetClass);
+        // Only calls to annotated methods are intercepted. Therefore, 
+        // containers without attributes need not be added to the cache.
+        if (container.isAnyMethodAttributeDefined()) {
+            maCache.put(key, container);
         }
         return container;
     }
 
-    private SecurityAttributeContainer computeSecurityAttributes(Method method, Class<?> targetClass) {
-        SecurityAttributeHierarchy hierarchy = new SecurityAttributeHierarchy(getMostSpecificMethod(method, targetClass));
-        SecurityAttributeCollector collector = createSecurityAttributeCollector();
+    private FieldAttributeContainer computeFieldAttributes(Field field) {
+        FieldAttributeHierarchy hierarchy = new FieldAttributeHierarchy(field);
+        FieldAttributeCollector collector = createFieldAttributeCollector();
         hierarchy.accept(collector);
-        return collector.getSecurityAttributeContainer();
+        return collector.getFieldAttributeContainer();
     }
     
-    protected abstract SecurityAttributeCollector createSecurityAttributeCollector();
+    private MethodAttributeContainer computeMethodAttributes(Method method, Class<?> targetClass) {
+        MethodAttributeHierarchy hierarchy = new MethodAttributeHierarchy(getMostSpecificMethod(method, targetClass));
+        MethodAttributeCollector collector = createMethodAttributeCollector();
+        hierarchy.accept(collector);
+        return collector.getMethodAttributeContainer();
+    }
+    
+    protected abstract FieldAttributeCollector createFieldAttributeCollector();
+    
+    protected abstract MethodAttributeCollector createMethodAttributeCollector();
     
     private static String generateKey(Method method, Class<?> targetClass) {
         return targetClass + "." + method;
@@ -89,15 +128,26 @@ public abstract class SecurityAttributeSourceSupport implements SecurityAttribut
         return method;
     }
     
+    /**
+     * Unlike {@link ConcurrentHashMap} this implementation allows
+     * <code>null</code> values.
+     * 
+     * @author Martin Krasser
+     * 
+     * @param <K>
+     *            key type
+     * @param <V>
+     *            value type
+     */
     @SuppressWarnings("serial")
-    private static final class SecurityAttributeContainerCache extends HashMap<String, SecurityAttributeContainer> {
+    private static final class ConcurrentCache<K, V> extends HashMap<K, V> {
 
         private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
         private final Lock r = rwl.readLock();
         private final Lock w = rwl.writeLock();
         
         @Override
-        public SecurityAttributeContainer get(Object key) {
+        public V get(Object key) {
             r.lock();
             try {
                 return super.get(key);
@@ -107,7 +157,7 @@ public abstract class SecurityAttributeSourceSupport implements SecurityAttribut
         }
 
         @Override
-        public SecurityAttributeContainer put(String key, SecurityAttributeContainer value) {
+        public V put(K key, V value) {
             w.lock();
             try {
                 return super.put(key, value);

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.annotation;
+package net.sourceforge.safr.core.annotation.info;
 
 import static net.sourceforge.safr.core.attribute.SecureAttribute.Action.CREATE;
 import static net.sourceforge.safr.core.attribute.SecureAttribute.Action.CUSTOM_AFTER;
@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.sourceforge.safr.core.annotation.Secure;
+import net.sourceforge.safr.core.annotation.SecureAction;
 import net.sourceforge.safr.core.attribute.SecureAttribute;
 
 /**
@@ -36,7 +38,7 @@ import net.sourceforge.safr.core.attribute.SecureAttribute;
  * 
  * @author Martin Krasser
  */
-class SecureAnnotationInfo implements SecureAttribute {
+public class SecureAnnotationInfo implements SecureAttribute {
 
     private List<Action> actions;
     

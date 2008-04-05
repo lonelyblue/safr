@@ -15,8 +15,11 @@
  */
 package net.sourceforge.safr.core.annotation;
 
-import net.sourceforge.safr.core.attribute.SecurityAttributeCollector;
+import net.sourceforge.safr.core.annotation.field.FieldAnnotationCollector;
+import net.sourceforge.safr.core.annotation.method.MethodAnnotationCollector;
 import net.sourceforge.safr.core.attribute.SecurityAttributeSourceSupport;
+import net.sourceforge.safr.core.attribute.field.FieldAttributeCollector;
+import net.sourceforge.safr.core.attribute.method.MethodAttributeCollector;
 
 /**
  * @author Martin Krasser
@@ -24,8 +27,13 @@ import net.sourceforge.safr.core.attribute.SecurityAttributeSourceSupport;
 public class SecurityAnnotationSource extends SecurityAttributeSourceSupport {
 
     @Override
-    protected SecurityAttributeCollector createSecurityAttributeCollector() {
-        return new SecurityAnnotationCollector();
+    protected FieldAttributeCollector createFieldAttributeCollector() {
+        return new FieldAnnotationCollector();
+    }
+
+    @Override
+    protected MethodAttributeCollector createMethodAttributeCollector() {
+        return new MethodAnnotationCollector();
     }
 
 }

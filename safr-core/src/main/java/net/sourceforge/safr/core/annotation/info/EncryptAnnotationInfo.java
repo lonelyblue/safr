@@ -13,25 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.integration.sample;
+package net.sourceforge.safr.core.annotation.info;
+
+import java.util.Collections;
+import java.util.Map;
 
 import net.sourceforge.safr.core.annotation.Encrypt;
+import net.sourceforge.safr.core.attribute.EncryptAttribute;
+import net.sourceforge.safr.core.util.HintMap;
 
 /**
  * @author Martin Krasser
  */
-// @SecureObject inherited from superclass
-public class DomainObjectE extends DomainObjectD {
+public class EncryptAnnotationInfo implements EncryptAttribute {
+
+    private Map<String, String> hints;
     
-    @Encrypt(hints={"algorithm=stupid", "purpose=test"})
-    private String t;
-
-    public String getT() {
-        return t;
+    public EncryptAnnotationInfo(Encrypt annotation) {
+        init(annotation);
     }
 
-    public void setT(String t) {
-        this.t = t;
+    public Map<String, String> getHints() {
+        return hints;
     }
-
+    
+    private void init(Encrypt annotation) {
+        HintMap hintMap = new HintMap(annotation.hints());
+        hints = Collections.unmodifiableMap(hintMap);
+    }
+    
 }

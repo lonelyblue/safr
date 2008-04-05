@@ -15,6 +15,8 @@
  */
 package net.sourceforge.safr.core.provider;
 
+import java.util.Map;
+
 import net.sourceforge.safr.core.annotation.Encrypt;
 
 /**
@@ -33,9 +35,11 @@ public interface CryptoProvider {
      * @param context
      *            the value`s context. This is the object on which the encrypted
      *            field value is set.
+     * @param hints
+     *            provider hints for crypto operations. The map is read-only.
      * @return the encrypted value.
      */
-    public Object encrypt(Object value, Object context);
+    public Object encrypt(Object value, Object context, Map<String, String> hints);
     
     /**
      * Decrypts a value.
@@ -46,8 +50,10 @@ public interface CryptoProvider {
      * @param context
      *            the value`s context. This is the object from which the
      *            encrypted field value is retrieved.
+     * @param hints
+     *            provider hints for crypto operations. The map is read-only.
      * @return the decrypted value.
      */
-    public Object decrypt(Object value, Object context);
+    public Object decrypt(Object value, Object context, Map<String, String> hints);
     
 }

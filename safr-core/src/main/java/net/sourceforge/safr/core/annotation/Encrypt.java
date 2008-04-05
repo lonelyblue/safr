@@ -20,11 +20,35 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import net.sourceforge.safr.core.provider.CryptoProvider;
+
 /**
+ * Enforces a field value encryption operation on field write-access and a field
+ * value decryption operation on field read-access. Crypto operations are
+ * delegated to {@link CryptoProvider} instances.
+ * 
+ * @see CryptoProvider
+ * 
  * @author Martin Krasser
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target( ElementType.FIELD)
 public @interface Encrypt {
-
+    
+    /**
+     * Hints to a {@link CryptoProvider}. A hint is defined in the format
+     * 
+     * <pre>
+     * hintkey = hintValue
+     * </pre>
+     * 
+     * Whitespaces are not significant. Hints are provided to the
+     * {@link CryptoProvider} as {@link Map}. If a hint doesn't define a
+     * <code>hintValue</code> then the value of the corresponding map entry is
+     * <code>null</code>.
+     * 
+     * @return an array of hints.
+     */
+    String[] hints() default {};
+    
 }

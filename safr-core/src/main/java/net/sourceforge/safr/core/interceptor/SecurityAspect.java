@@ -106,8 +106,7 @@ public class SecurityAspect extends InterceptorSupport {
     @Around("set(* *.*) && encryptAnnotatedDomainObjectField()")
     public Object setFieldAccess(ProceedingJoinPoint pjp) throws Throwable {
         FieldSignature signature = (FieldSignature)pjp.getSignature();
-        // TODO: obtain EncryptAttribute from security attribute source
-        EncryptAttribute ea = null;
+        EncryptAttribute ea = getFieldEncryptAttribute(signature);
 
         Object[] args = pjp.getArgs();
         // exchange original value with encrypted value
@@ -120,13 +119,16 @@ public class SecurityAspect extends InterceptorSupport {
     @Around("get(* *.*) && encryptAnnotatedDomainObjectField()")
     public Object getFieldAccess(ProceedingJoinPoint pjp) throws Throwable {
         FieldSignature signature = (FieldSignature)pjp.getSignature();
-        // TODO: obtain EncryptAttribute from security attribute source
-        EncryptAttribute ea = null;
+        EncryptAttribute ea = getFieldEncryptAttribute(signature);
         
         // obtain encrypted value from field
         Object value = pjp.proceed();
         // decrypt encrypted field value and return it
         return decrypt(ea, pjp.getTarget(), value);
+    }
+    
+    private EncryptAttribute getFieldEncryptAttribute(FieldSignature signature) {
+        return getSecurityAttributeSource().getFieldEncryptAttribute(signature.getField());
     }
     
     private FilterAttribute getMethodFilterAttribute(MethodSignature signature) {

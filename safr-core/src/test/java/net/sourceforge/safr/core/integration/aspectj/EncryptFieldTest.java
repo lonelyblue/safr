@@ -23,6 +23,7 @@ import net.sourceforge.safr.core.integration.sample.DomainObjectD;
 import net.sourceforge.safr.core.integration.sample.DomainObjectE;
 import net.sourceforge.safr.core.integration.support.Crypto;
 import net.sourceforge.safr.core.integration.support.TestBase;
+import net.sourceforge.safr.core.util.HintMap;
 
 import org.junit.Test;
 
@@ -42,7 +43,8 @@ public class EncryptFieldTest extends TestBase {
         assertEquals(2, cryptoHistory.size());
         assertTrue(cryptoHistory.contains(new Crypto(ENCRYPT, "blub", d)));
         e.setT("oink");
-        assertTrue(cryptoHistory.contains(new Crypto(ENCRYPT, "oink", e)));
+        assertTrue(cryptoHistory.contains(new Crypto(ENCRYPT, "oink", e, 
+                new HintMap("algorithm=stupid", "purpose=test"))));
     }
     
     @Test
@@ -66,5 +68,5 @@ public class EncryptFieldTest extends TestBase {
         assertEquals("blub", obj.getSReflective());
         assertEquals(1, cryptoHistory.size());
     }
-    
+ 
 }

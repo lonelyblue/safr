@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 InterComponentWare AG.
+ * Copyright 2007-2008 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.attribute;
+package net.sourceforge.safr.core.attribute.field;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 
 /**
  * @author Martin Krasser
  */
-public abstract class SecurityAttributeCollector {
+public abstract class FieldAttributeCollector {
 
-    private SecurityAttributeContainer securityAttributeContainer;
+    private FieldAttributeContainer fieldAttributeContainer;
     
-    public SecurityAttributeCollector() {
-        this.securityAttributeContainer = new SecurityAttributeContainer();
+    public FieldAttributeCollector() {
+        this.fieldAttributeContainer = new FieldAttributeContainer();
     }
     
-    public SecurityAttributeContainer getSecurityAttributeContainer() {
-        return securityAttributeContainer;
+    public FieldAttributeContainer getFieldAttributeContainer() {
+        return fieldAttributeContainer;
     }
 
-    public abstract boolean visit(Method m);
+    public abstract boolean visit(Field f);
 
 }

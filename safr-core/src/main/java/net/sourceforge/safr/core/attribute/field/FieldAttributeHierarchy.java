@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2008 InterComponentWare AG.
+ * Copyright 2007-2008 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.annotation;
+package net.sourceforge.safr.core.attribute.field;
 
-import java.util.ArrayList;
+import java.lang.reflect.Field;
 
 /**
- * Indicates that the {@link Filter#resultCollectionClass()} annotation element
- * has not been set.
- * 
  * @author Martin Krasser
  */
-@SuppressWarnings("serial")
-public class Undefined extends ArrayList<Object> {
+public class FieldAttributeHierarchy {
 
+    private Field field;
+    
+    public FieldAttributeHierarchy(Field field) {
+        this.field = field;
+    }
+
+    public void accept(FieldAttributeCollector collector) {
+        collector.visit(field);
+    }
+    
 }

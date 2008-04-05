@@ -15,6 +15,8 @@
  */
 package net.sourceforge.safr.core.integration.support;
 
+import java.util.Map;
+
 import net.sourceforge.safr.core.provider.CryptoProvider;
 import net.sourceforge.safr.core.spring.annotation.CryptographicServiceProvider;
 
@@ -38,13 +40,13 @@ public class TestCryptoProvider implements CryptoProvider {
         return cryptoHistory;
     }
     
-    public Object encrypt(Object value, Object context) {
-        cryptoHistory.add(new Crypto(Crypto.Operation.ENCRYPT, value, context));
+    public Object encrypt(Object value, Object context, Map<String, String> hints) {
+        cryptoHistory.add(new Crypto(Crypto.Operation.ENCRYPT, value, context, hints));
         return reverse((String)value);
     }
 
-    public Object decrypt(Object value, Object context) {
-        cryptoHistory.add(new Crypto(Crypto.Operation.DECRYPT, value, context));
+    public Object decrypt(Object value, Object context, Map<String, String> hints) {
+        cryptoHistory.add(new Crypto(Crypto.Operation.DECRYPT, value, context, hints));
         return reverse((String)value);
     }
 

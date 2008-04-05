@@ -1,5 +1,9 @@
 package net.sourceforge.safr.core.integration.support;
 
+import java.util.Map;
+
+import net.sourceforge.safr.core.util.HintMap;
+
 public class Crypto {
 
     public enum Operation {ENCRYPT, DECRYPT}
@@ -10,10 +14,17 @@ public class Crypto {
     
     private Object context;
     
+    private Map<String, String> hints;
+    
     public Crypto(Operation operation, Object value, Object context) {
+        this(operation, value, context, new HintMap());
+    }
+    
+    public Crypto(Operation operation, Object value, Object context, Map<String, String> hints) {
         this.operation = operation;
         this.value = value;
         this.context = context;
+        this.hints = hints;
     }
     
     public Operation getOperation() {
@@ -28,6 +39,10 @@ public class Crypto {
         return context;
     }
 
+    public Map<String, String> getHints() {
+        return hints;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -39,7 +54,8 @@ public class Crypto {
         Crypto that = (Crypto)obj;
         return this.operation.equals(that.operation)
             && this.context.equals(that.context)
-            && this.value.equals(that.value);
+            && this.value.equals(that.value)
+            && this.hints.equals(that.hints);
     }
 
     @Override
@@ -48,6 +64,7 @@ public class Crypto {
         result = 37 * result + operation.hashCode();
         result = 37 * result + context.hashCode();
         result = 37 * result + value.hashCode();
+        result = 37 * result + hints.hashCode();
         return result;
     }
 

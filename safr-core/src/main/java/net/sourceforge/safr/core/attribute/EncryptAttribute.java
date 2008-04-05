@@ -15,9 +15,13 @@
  */
 package net.sourceforge.safr.core.attribute;
 
+import java.util.Map;
+
 /**
  * @author Martin Krasser
  */
 public interface EncryptAttribute {
 
+    Map<String, String> getHints();
+    
 }

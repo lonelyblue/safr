@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.core.attribute;
+package net.sourceforge.safr.core.attribute.method;
 
 import java.lang.reflect.Method;
 
 /**
  * @author Martin Krasser
  */
-class SecurityAttributeHierarchy {
+public class MethodAttributeHierarchy {
 
     private Method leaf;
     private String name;
@@ -28,18 +28,18 @@ class SecurityAttributeHierarchy {
     
     private boolean done;
     
-    public SecurityAttributeHierarchy(Method leaf) {
+    public MethodAttributeHierarchy(Method leaf) {
         this.leaf = leaf;
         this.name = leaf.getName();
         this.types = leaf.getParameterTypes();
         this.done = false;
     }
     
-    public void accept(SecurityAttributeCollector collector) {
+    public void accept(MethodAttributeCollector collector) {
         accept(leaf.getDeclaringClass(), collector);
     }
 
-    private void accept(Class<?> clazz, SecurityAttributeCollector collector) {
+    private void accept(Class<?> clazz, MethodAttributeCollector collector) {
         if (done || clazz == null) {
             return;
         }

@@ -91,14 +91,14 @@ public abstract class InterceptorSupport {
         if (value == null) {
             return null;
         }
-        return getCryptoProvider().encrypt(value, context);
+        return getCryptoProvider().encrypt(value, context, ea.getHints());
     }
     
     protected Object decrypt(EncryptAttribute ea, Object context, Object value) {
         if (value == null) {
             return null;
         }
-        return getCryptoProvider().decrypt(value, context);
+        return getCryptoProvider().decrypt(value, context, ea.getHints());
     }
     
     protected void beforeProceed(SecureAttribute attribute, MethodInvocation invocation) {
