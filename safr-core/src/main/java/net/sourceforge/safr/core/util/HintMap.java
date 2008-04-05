@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class HintMap extends HashMap<String, String> {
 
     public HintMap(String... hints) {
+        super();
         putHints(hints);
     }
     
