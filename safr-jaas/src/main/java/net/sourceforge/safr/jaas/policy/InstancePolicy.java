@@ -15,6 +15,7 @@
  */
 package net.sourceforge.safr.jaas.policy;
 
+import java.security.AccessControlException;
 import java.security.AccessController;
 import java.security.CodeSource;
 import java.security.Permission;
@@ -32,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.security.auth.Subject;
 
 import net.sourceforge.safr.jaas.permission.InstancePermission;
 import net.sourceforge.safr.jaas.principal.RolePrincipal;
@@ -44,21 +46,32 @@ import org.springframework.stereotype.Component;
  * @author Martin Krasser
  */
 @Component
-public class InstancePolicy extends Policy implements PermissionManager {
+public class InstancePolicy extends Policy implements PermissionManager, net.sourceforge.safr.jaas.access.AccessController {
     
     private PermissionMap userPermissions;
     private PermissionMap rolePermissions;
 
+    private boolean useJavaAccessController;
+    
     private Policy defaultPolicy;
 
     @Autowired
     private PermissionSource permissionSource;
     
     public InstancePolicy() {
+        this.useJavaAccessController = true;
         this.userPermissions = new PermissionMap();
         this.rolePermissions = new PermissionMap();
     }
     
+    public boolean isUseJavaAccessController() {
+        return useJavaAccessController;
+    }
+
+    public void setUseJavaAccessController(boolean useJavaAccessController) {
+        this.useJavaAccessController = useJavaAccessController;
+    }
+
     public Policy getDefaultPolicy() {
         return defaultPolicy;
     }
@@ -75,6 +88,26 @@ public class InstancePolicy extends Policy implements PermissionManager {
     public void initialize() {
         userPermissions.putPermissions(permissionSource.getUserPermissions());
         rolePermissions.putPermissions(permissionSource.getRolePermissions());
+    }
+    
+    public void checkPermission(Permission permission) {
+        Subject current = Subject.getSubject(AccessController.getContext());
+        if (!implies(current, permission)) {
+            throw new AccessControlException("access denied", permission);
+        }
+    }
+
+    public boolean implies(Subject subject, Permission permission) {
+        if (!(permission instanceof InstancePermission)) {
+            return false;
+        }
+        if (subject == null) {
+            return false;
+        }
+        if (userPermissionsImply(permission, getUserId(subject.getPrincipals(UserPrincipal.class)))) {
+            return true;
+        }
+        return rolePermissionsImply(permission, getRoleIds(subject.getPrincipals(RolePrincipal.class)));
     }
     
     @Override
@@ -107,12 +140,12 @@ public class InstancePolicy extends Policy implements PermissionManager {
     }
     
     public void grantPermission(Principal principal, InstancePermission permission) {
-        checkPermission(permission);
+        checkInstancePermission(permission);
         grantPermissionNoCheck(principal, permission);
     }
     
     public void revokePermission(Principal principal, InstancePermission permission) {
-        checkPermission(permission);
+        checkInstancePermission(permission);
         revokePermissionNoCheck(principal, permission);
     }
     
@@ -151,8 +184,27 @@ public class InstancePolicy extends Policy implements PermissionManager {
         return false;
     }
     
-    private static void checkPermission(InstancePermission permission) {
-        AccessController.checkPermission(permission.createAuthorizationPermission());
+    private void checkInstancePermission(InstancePermission permission) {
+        if (useJavaAccessController) {
+            AccessController.checkPermission(permission.createAuthorizationPermission());
+        } else {
+            checkPermission(permission.createAuthorizationPermission());
+        }
+    }
+    
+    private static String getUserId(Set<UserPrincipal> principals) {
+        for (UserPrincipal p : principals) {
+            return p.getName(); // return first
+        }
+        return null;
+    }
+
+    private static List<String> getRoleIds(Set<RolePrincipal> principals) {
+        ArrayList<String> result = new ArrayList<String>(); 
+        for (Principal p : principals) {
+            result.add(p.getName());
+        }
+        return result;
     }
     
     private static String getUserId(ProtectionDomain domain) {
@@ -231,7 +283,7 @@ public class InstancePolicy extends Policy implements PermissionManager {
 
     }
 
-    private static class PermissionManagementLogImpl implements PermissionManagementLog {
+    private class PermissionManagementLogImpl implements PermissionManagementLog {
 
         private InstancePolicy manager;
 
@@ -252,7 +304,7 @@ public class InstancePolicy extends Policy implements PermissionManager {
 
         public void commit() {
             for (LogEntry entry : entries) {
-                checkPermission(entry.getPermission());
+                checkInstancePermission(entry.getPermission());
             }
             for (LogEntry entry : entries) {
                 if (entry.isGrant()) {

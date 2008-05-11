@@ -18,7 +18,6 @@ package net.sourceforge.safr.sample;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.security.Policy;
 import java.security.PrivilegedActionException;
 
 import javax.security.auth.Subject;
@@ -48,20 +47,17 @@ public class SampleTest {
     @Autowired
     private Sample sample;
 
-    // used locally only
-    private Policy defaultPolicy;
-    
     @Autowired
     private InstancePolicy instancePolicy;
     
     @Before
     public void setUp() throws Exception {
-        setPolicy(instancePolicy);
+        instancePolicy.setUseJavaAccessController(false);
     }
 
     @After
     public void tearDown() throws Exception {
-        resetPolicy();
+        instancePolicy.setUseJavaAccessController(true);
     }
 
     @Test
@@ -98,16 +94,6 @@ public class SampleTest {
         } catch (PrivilegedActionException e) {
             throw (Exception)e.getCause().getCause();
         }
-    }
-    
-    private void setPolicy(InstancePolicy instancePolicy) {
-        defaultPolicy = Policy.getPolicy();
-        instancePolicy.setDefaultPolicy(defaultPolicy);
-        Policy.setPolicy(instancePolicy);
-    }
-    
-    private void resetPolicy() {
-        Policy.setPolicy(defaultPolicy);
     }
     
 }

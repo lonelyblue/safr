@@ -15,26 +15,39 @@
  */
 package net.sourceforge.safr.sample.permission.service;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import net.sourceforge.safr.sample.notebook.domain.Entry;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
+import net.sourceforge.safr.sample.provider.SampleAccessManager;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 /**
  * @author Martin Krasser
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations={"/context.xml"})
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class})
 public class NotebookTest {
 
     private Entry entry;
     
     private Notebook notebook;
     
+    @Autowired
+    private SampleAccessManager accessManager;
+    
     @Before
     public void setUp() throws Exception {
+        accessManager.setEnabled(false);
         entry = new Entry(null);
         notebook = new Notebook(null);
         notebook.addEntry(entry);
@@ -42,6 +55,7 @@ public class NotebookTest {
 
     @After
     public void tearDown() throws Exception {
+        accessManager.setEnabled(true);
     }
 
     @Test

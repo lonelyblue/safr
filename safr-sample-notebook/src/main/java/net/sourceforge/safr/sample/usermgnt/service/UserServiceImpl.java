@@ -31,6 +31,7 @@ import javax.security.auth.login.LoginException;
 import org.springframework.stereotype.Service;
 
 import net.sourceforge.safr.jaas.login.AuthenticationService;
+import net.sourceforge.safr.jaas.login.AuthenticationServiceHolder;
 import net.sourceforge.safr.jaas.principal.RolePrincipal;
 import net.sourceforge.safr.jaas.principal.UserPrincipal;
 import net.sourceforge.safr.sample.usermgnt.domain.Role;
@@ -78,6 +79,10 @@ public class UserServiceImpl implements UserService, AuthenticationService {
     
     @PostConstruct
     public void bootstrap() {
+        // needed by login module 
+        AuthenticationServiceHolder.getInstance().setAuthenticationService(this);
+        
+        // setup sample users
         createUser("root").bootstrap();
         createUser("user1").bootstrap();
         createUser("user2").bootstrap();

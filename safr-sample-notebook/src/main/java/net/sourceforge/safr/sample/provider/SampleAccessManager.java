@@ -15,12 +15,12 @@
  */
 package net.sourceforge.safr.sample.provider;
 
-import java.security.AccessController;
 import java.security.Permission;
 import java.util.Collection;
 
 import net.sourceforge.safr.core.invocation.MethodInvocation;
 import net.sourceforge.safr.core.spring.annotation.AuthorizationServiceProvider;
+import net.sourceforge.safr.jaas.access.AccessController;
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.permission.InstancePermission;
 import net.sourceforge.safr.jaas.permission.Target;
@@ -44,24 +44,37 @@ public class SampleAccessManager extends AccessManagerSupport {
     @Autowired
     private PermissionManager permissionManager;
     
+    @Autowired
+    private AccessController accessController;
+    
+    private boolean enabled;
+    
+    public SampleAccessManager() {
+        this.enabled = true;
+    }
+    
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public void setPermissionManager(PermissionManager permissionManager) {
         this.permissionManager = permissionManager;
     }
     
     public void checkCreate(Object obj) {
-        AccessController.checkPermission(createNotebookPermission(obj, Action.MANAGE));
+        checkPermission(createNotebookPermission(obj, Action.MANAGE));
     }
 
     public void checkRead(Object obj) {
-        AccessController.checkPermission(createNotebookPermission(obj, Action.READ));
+        checkPermission(createNotebookPermission(obj, Action.READ));
     }
 
     public void checkUpdate(Object obj) {
-        AccessController.checkPermission(createNotebookPermission(obj, Action.WRITE));
+        checkPermission(createNotebookPermission(obj, Action.WRITE));
     }
 
     public void checkDelete(Object obj) {
-        AccessController.checkPermission(createNotebookPermission(obj, Action.MANAGE));
+        checkPermission(createNotebookPermission(obj, Action.MANAGE));
     }
 
     public void checkCustomBefore(MethodInvocation invocation) {
@@ -72,10 +85,17 @@ public class SampleAccessManager extends AccessManagerSupport {
         RolePrincipal rp =  new RolePrincipal(role.getId());
         Collection<InstancePermission> ips = permissionManager.getPermissions(rp);
         for (InstancePermission ip : ips) {
-            AccessController.checkPermission(ip.createAuthorizationPermission());
+            checkPermission(ip.createAuthorizationPermission());
         }
     }
 
+    private void checkPermission(Permission permission) {
+        if (!enabled) {
+            return;
+        }
+        accessController.checkPermission(permission);
+    }
+    
     private static Permission createNotebookPermission(Object obj, Action action) {
         Notebook nb = (Notebook)obj;
         String context = getOwnerId(nb.getOwner());
