@@ -3,13 +3,21 @@
   ----
 
 Security Annotation Framework
-  
-  The Security Annotation Framework (SAF) is an instance-level access control framework and field-level encryption framework driven by Java 5 annotations. It complements Java EE security concepts by introducing declarative permission checks on the level of domain object instances. The SAF provides a custom configuration schema for easy integration into {{{http://www.springframework.org}Spring}} 2.5 (or higher) applications.
-  
-  SAF security annotations define locations in the source code where the SAF shall perform permission checks at runtime. An annotation-driven approach to instance-level access control promotes the separation of an application’s security logic from its business logic. This significantly increases the testability and reusability of application components. It further allows the implementation of instance-level access control features into existing applications without modifying existing business logic.
 
-  Furthermore, encrytion annotations support the encrypted storage of field values in memory and on persistent storage. Normal access to field values from application code trigger encryption operations in case of write access and decryption operations in case of read accees. Direct access to field values (via the reflection API) do not trigger crypto operations. Persistence-, serialization- and data binding frameworks using direct field access therefore support the storage of domain object with encrypted field values. For example, you can can configure direct field access for {{{https://jaxb.dev.java.net/}JAXB}} or {{{http://www.hibernate.org/}Hibernate}}. 
+* Overview
 
+  The Security Annotation Framework (SAF) is a framework related to instance-level access control and field-level encryption. Access-control decisions at class-instance-level and crypto operations at field-level are enforced using Java 5 annotations. The SAF defines service provider interfaces (SPI) to be implemented by authorization providers and crypto providers. Authorization providers decide for individual class-instances (e.g. domain object instances of an enterprise application) if access shall be granted or not (within a certain security context). Similarly, encryption providers are repsonsible for encrypting and decrypting field values of objects. The SAF provides a custom configuration schema for easy integration into {{{http://www.springframework.org}Spring}} 2.x applications.
+  
+  The SAF also aims at freeing developers from dealing with low-level configuration and AOP details. Placing annotations in the source code automatically installs interceptors (using {{{http://www.springframework.org}Spring}} AOP and {{{http://www.aspectj.org}AspectJ}} mechanisms) that delegate work to authorization- and crypto providers. The SAF provides sample implementations of these providers for demonstration and testing purposes. They are currently not intended for productive use. However, you can easily reuse authorization and crypto providers from 3rd-party security frameworks by writing adapters that implement the SAF SPI and delegate work to these providers. Later versions of the SAF will also provide default adapters for some security frameworks like {{{http://static.springframework.org/spring-security/site/index.html}Spring Security}}, for example. If you want to reuse your own custom security provider you can integrate it easily via the SAF SPI. 
+  
+** Access Control
+  
+  SAF access control annotations (<<<@Secure>>>, <<<@Filter>>>, ...) complement Java EE security by introducing declarative permission checks on the level of domain object instances. These annotations define locations in the source code where the SAF shall perform permission checks at runtime. An annotation-driven approach to instance-level access control promotes the separation of an application’s security logic from its business logic. This significantly increases the testability and reusability of application components. It further allows the implementation of instance-level access control features into existing applications without modifying existing business logic.
+
+** Encryption
+
+  The SAF <<<@Encrypt>>> annotation is used for fields whose values should be stored in some encrypted form. However, Java code that uses these fields in statements should have access to the un-encrypted field values without explicit (i.e. custom-coded) usage of crypto services. For every field annotated with <<<@Encrypt>>> the SAF triggers an encryption operation on write-access and a decryption operation on read-access to that field. Encryption and decryption algorithms are provided by pluggable crypto providers. Crypto operations are, however, not triggered if the field access is made via reflection. If you use a persistence framework that accesses domain objects via reflection (like {{{http://www.hibernate.org/}Hibernate}}) all fields annotated with <<<@Encrypt>>> are also stored in their encrypted form in a database. There's no need to write Hibernate-specific encryption and decryption interceptors. Similarly, you can configure {{{https://jaxb.dev.java.net/}JAXB}} to access fields via reflection and have annotated fields in their encrypted form in XML documents.
+  
 * Architectural Context
 
 ** Access Control
@@ -24,7 +32,7 @@ Security Annotation Framework
   
    The <<<AccessManager>>> interface is an integration point for authorization providers that can make instance-level authorization decisions. Authorization providers are implementations of policy decision points. The SAF project provides a lightweight default authorization provider that extends the Java Authentication and Authorization Service (JAAS) with instance-level access control features ({{{safr-jaas/index.html}SAF JAAS}} module). Usage of this provider is optional. You may also integrate providers from other security frameworks or reuse providers from existing applications. 
 
-** Crypto Operations
+** Encryption
 
   ...
 
