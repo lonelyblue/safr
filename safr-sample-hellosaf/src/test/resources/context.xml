@@ -16,6 +16,7 @@ http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
     <!-- 
         Supported attributes of <sec:annotation-driven /> are:
         - access-manager       default="accessManager"
+        - crypto-provider      default=""
         - proxy-target-class   default="false"
         - interceptor-order    default="0"
         - support-aspectj      default="true"
