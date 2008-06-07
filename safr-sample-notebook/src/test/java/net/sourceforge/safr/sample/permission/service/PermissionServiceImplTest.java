@@ -15,31 +15,26 @@
  */
 package net.sourceforge.safr.sample.permission.service;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import net.sourceforge.safr.jaas.permission.Action;
-import net.sourceforge.safr.jaas.policy.InstancePolicy;
+import net.sourceforge.safr.jaas.permission.PermissionManagerImpl;
 import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PermissionServiceImplTest {
 
-    private PermissionServiceImpl notebookPermissionService;
+    private PermissionManagerImpl permissionManager;
     
-    private InstancePolicy permissionManager;
+    private PermissionServiceImpl notebookPermissionService;
     
     @Before
     public void setUp() throws Exception {
+        permissionManager = new PermissionManagerImpl();
         notebookPermissionService = new PermissionServiceImpl();
-        permissionManager = new InstancePolicy();
         notebookPermissionService.setPermissionManager(permissionManager);
-    }
-
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test

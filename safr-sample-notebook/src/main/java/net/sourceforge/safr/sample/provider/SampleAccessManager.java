@@ -20,11 +20,10 @@ import java.util.Collection;
 
 import net.sourceforge.safr.core.invocation.MethodInvocation;
 import net.sourceforge.safr.core.spring.annotation.AuthorizationServiceProvider;
-import net.sourceforge.safr.jaas.access.AccessController;
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.permission.InstancePermission;
+import net.sourceforge.safr.jaas.permission.PermissionManager;
 import net.sourceforge.safr.jaas.permission.Target;
-import net.sourceforge.safr.jaas.policy.PermissionManager;
 import net.sourceforge.safr.jaas.principal.RolePrincipal;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.usermgnt.domain.Role;
@@ -44,19 +43,6 @@ public class SampleAccessManager extends AccessManagerSupport {
     @Autowired
     private PermissionManager permissionManager;
     
-    @Autowired
-    private AccessController accessController;
-    
-    private boolean enabled;
-    
-    public SampleAccessManager() {
-        this.enabled = true;
-    }
-    
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public void setPermissionManager(PermissionManager permissionManager) {
         this.permissionManager = permissionManager;
     }
@@ -90,10 +76,7 @@ public class SampleAccessManager extends AccessManagerSupport {
     }
 
     private void checkPermission(Permission permission) {
-        if (!enabled) {
-            return;
-        }
-        accessController.checkPermission(permission);
+        permissionManager.checkPermission(permission);
     }
     
     private static Permission createNotebookPermission(Object obj, Action action) {

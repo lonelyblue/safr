@@ -23,11 +23,8 @@ import java.security.PrivilegedActionException;
 import javax.security.auth.Subject;
 
 import net.sourceforge.safr.jaas.permission.Action;
-import net.sourceforge.safr.jaas.policy.InstancePolicy;
 import net.sourceforge.safr.sample.usermgnt.domain.User;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,19 +43,6 @@ public class SampleTest {
 
     @Autowired
     private Sample sample;
-
-    @Autowired
-    private InstancePolicy instancePolicy;
-    
-    @Before
-    public void setUp() throws Exception {
-        instancePolicy.setUseJavaAccessController(false);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        instancePolicy.setUseJavaAccessController(true);
-    }
 
     @Test
     public void testScenarios() throws Exception {

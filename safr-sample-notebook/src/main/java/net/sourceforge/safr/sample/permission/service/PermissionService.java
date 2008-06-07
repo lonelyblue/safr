@@ -17,7 +17,7 @@ package net.sourceforge.safr.sample.permission.service;
 
 import java.util.Collection;
 
-import net.sourceforge.safr.jaas.policy.PermissionManager;
+import net.sourceforge.safr.jaas.permission.PermissionManager;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;
 import net.sourceforge.safr.sample.permission.domain.PermissionAssignment;
 

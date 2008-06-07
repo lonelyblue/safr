@@ -27,10 +27,10 @@ import org.springframework.stereotype.Service;
 
 import net.sourceforge.safr.jaas.permission.Action;
 import net.sourceforge.safr.jaas.permission.InstancePermission;
+import net.sourceforge.safr.jaas.permission.PermissionManagementLog;
+import net.sourceforge.safr.jaas.permission.PermissionManager;
+import net.sourceforge.safr.jaas.permission.PermissionSource;
 import net.sourceforge.safr.jaas.permission.Target;
-import net.sourceforge.safr.jaas.policy.PermissionManagementLog;
-import net.sourceforge.safr.jaas.policy.PermissionManager;
-import net.sourceforge.safr.jaas.policy.PermissionSource;
 import net.sourceforge.safr.jaas.principal.RolePrincipal;
 import net.sourceforge.safr.jaas.principal.UserPrincipal;
 import net.sourceforge.safr.sample.notebook.domain.Notebook;

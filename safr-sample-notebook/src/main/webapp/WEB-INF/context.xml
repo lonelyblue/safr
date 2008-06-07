@@ -12,12 +12,9 @@ http://safr.sourceforge.net/schema/core
 http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
 
     <ctx:component-scan base-package="net.sourceforge.safr.sample"/>
+    <ctx:component-scan base-package="net.sourceforge.safr.jaas.permission" />
 
     <sec:annotation-driven />
-
-    <bean class="net.sourceforge.safr.jaas.policy.InstancePolicy">
-        <property name="useJavaAccessController" value="false" />
-    </bean>
 
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
