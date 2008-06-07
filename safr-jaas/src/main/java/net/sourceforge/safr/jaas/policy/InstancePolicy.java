@@ -15,62 +15,26 @@
  */
 package net.sourceforge.safr.jaas.policy;
 
-import java.security.AccessControlException;
-import java.security.AccessController;
 import java.security.CodeSource;
 import java.security.Permission;
 import java.security.PermissionCollection;
 import java.security.Policy;
-import java.security.Principal;
 import java.security.ProtectionDomain;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-import javax.security.auth.Subject;
 
 import net.sourceforge.safr.jaas.permission.InstancePermission;
-import net.sourceforge.safr.jaas.principal.RolePrincipal;
-import net.sourceforge.safr.jaas.principal.UserPrincipal;
+import net.sourceforge.safr.jaas.permission.PermissionManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Martin Krasser
  */
-@Component
-public class InstancePolicy extends Policy implements PermissionManager, net.sourceforge.safr.jaas.access.AccessController {
+public class InstancePolicy extends Policy {
     
-    private PermissionMap userPermissions;
-    private PermissionMap rolePermissions;
-
-    private boolean useJavaAccessController;
+    @Autowired
+    private PermissionManager permissionManager;
     
     private Policy defaultPolicy;
-
-    @Autowired
-    private PermissionSource permissionSource;
-    
-    public InstancePolicy() {
-        this.useJavaAccessController = true;
-        this.userPermissions = new PermissionMap();
-        this.rolePermissions = new PermissionMap();
-    }
-    
-    public boolean isUseJavaAccessController() {
-        return useJavaAccessController;
-    }
-
-    public void setUseJavaAccessController(boolean useJavaAccessController) {
-        this.useJavaAccessController = useJavaAccessController;
-    }
 
     public Policy getDefaultPolicy() {
         return defaultPolicy;
@@ -80,34 +44,8 @@ public class InstancePolicy extends Policy implements PermissionManager, net.sou
         this.defaultPolicy = defaultPolicy;
     }
     
-    public void setPermissionSource(PermissionSource permissionSource) {
-        this.permissionSource = permissionSource;
-    }
-    
-    @PostConstruct
-    public void initialize() {
-        userPermissions.putPermissions(permissionSource.getUserPermissions());
-        rolePermissions.putPermissions(permissionSource.getRolePermissions());
-    }
-    
-    public void checkPermission(Permission permission) {
-        Subject current = Subject.getSubject(AccessController.getContext());
-        if (!implies(current, permission)) {
-            throw new AccessControlException("access denied", permission);
-        }
-    }
-
-    public boolean implies(Subject subject, Permission permission) {
-        if (!(permission instanceof InstancePermission)) {
-            return false;
-        }
-        if (subject == null) {
-            return false;
-        }
-        if (userPermissionsImply(permission, getUserId(subject.getPrincipals(UserPrincipal.class)))) {
-            return true;
-        }
-        return rolePermissionsImply(permission, getRoleIds(subject.getPrincipals(RolePrincipal.class)));
+    public void setPermissionManager(PermissionManager permissionManager) {
+        this.permissionManager = permissionManager;
     }
     
     @Override
@@ -115,10 +53,7 @@ public class InstancePolicy extends Policy implements PermissionManager, net.sou
         if (!(permission instanceof InstancePermission)) {
             return defaultPolicy.implies(domain, permission);
         }
-        if (userPermissionsImply(permission, getUserId(domain))) {
-            return true;
-        }
-        return rolePermissionsImply(permission, getRoleIds(domain));
+        return permissionManager.implies(permission, domain.getPrincipals());
     }
 
     @Override
@@ -129,220 +64,6 @@ public class InstancePolicy extends Policy implements PermissionManager, net.sou
     @Override
     public void refresh() {
         throw new UnsupportedOperationException("not implemented");
-    }
-
-    public Collection<InstancePermission> getPermissions(Principal principal) {
-        return Collections.unmodifiableList(getPermissionMap(principal).getEager(principal.getName()));
-    }
-    
-    public PermissionManagementLog newPermissionManagementLog() {
-        return new PermissionManagementLogImpl(this);
-    }
-    
-    public void grantPermission(Principal principal, InstancePermission permission) {
-        checkInstancePermission(permission);
-        grantPermissionNoCheck(principal, permission);
-    }
-    
-    public void revokePermission(Principal principal, InstancePermission permission) {
-        checkInstancePermission(permission);
-        revokePermissionNoCheck(principal, permission);
-    }
-    
-    private void grantPermissionNoCheck(Principal principal, InstancePermission permission) {
-        getPermissionMap(principal).getEager(principal.getName()).add(permission);
-    }
-    
-    private void revokePermissionNoCheck(Principal principal, InstancePermission permission) {
-        getPermissionMap(principal).getEager(principal.getName()).remove(permission);
-    }
-    
-    private PermissionMap getPermissionMap(Principal principal) {
-        if (principal instanceof UserPrincipal) {
-            return userPermissions;
-        }
-        if (principal instanceof RolePrincipal) {
-            return rolePermissions;
-        }
-        throw new IllegalArgumentException("unsupported principal class " + principal.getClass());
-    }
-    
-    private boolean userPermissionsImply(Permission permission, String userId) {
-        if (userId == null) {
-            return false;
-        }
-        return userPermissions.getEager(userId).implies(permission);
-        
-    }
-    
-    private boolean rolePermissionsImply(Permission permission, List<String> roleIds) {
-        for (String roleId : roleIds) {
-            if (rolePermissions.getEager(roleId).implies(permission)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    private void checkInstancePermission(InstancePermission permission) {
-        if (useJavaAccessController) {
-            AccessController.checkPermission(permission.createAuthorizationPermission());
-        } else {
-            checkPermission(permission.createAuthorizationPermission());
-        }
-    }
-    
-    private static String getUserId(Set<UserPrincipal> principals) {
-        for (UserPrincipal p : principals) {
-            return p.getName(); // return first
-        }
-        return null;
-    }
-
-    private static List<String> getRoleIds(Set<RolePrincipal> principals) {
-        ArrayList<String> result = new ArrayList<String>(); 
-        for (Principal p : principals) {
-            result.add(p.getName());
-        }
-        return result;
-    }
-    
-    private static String getUserId(ProtectionDomain domain) {
-        for (Principal p : domain.getPrincipals()) {
-            if (p instanceof UserPrincipal) {
-                return p.getName();
-            }
-        }
-        return null;
-    }
-    
-    private static List<String> getRoleIds(ProtectionDomain domain) {
-        ArrayList<String> result = new ArrayList<String>(); 
-        for (Principal p : domain.getPrincipals()) {
-            if (p instanceof RolePrincipal) {
-                result.add(p.getName());
-            }
-        }
-        return result;
-    }
-    
-    @SuppressWarnings("serial")
-    private static class PermissionMap extends HashMap<String, PermissionList> {
-
-        public void putPermissions(Map<? extends Principal, ? extends Collection<InstancePermission>> map) {
-            for (Principal p : map.keySet()) {
-                put(p.getName(), new PermissionList(map.get(p)));
-            }
-        }
-        
-        public synchronized PermissionList getEager(String userId) {
-            PermissionList result = get(userId);
-            if (result == null) {
-                result = new PermissionList();
-                put(userId, result);
-            }
-            return result;
-        }
-        
-        @Override
-        public synchronized void clear() {
-            super.clear();
-        }
-
-    }
-    
-    @SuppressWarnings("serial")
-    private static class PermissionList extends ArrayList<InstancePermission> {
-
-        public PermissionList() {
-            super();
-        }
-        
-        public PermissionList(Collection<InstancePermission> c) {
-            super(c);
-        }
-        
-        @Override
-        public synchronized boolean add(InstancePermission o) {
-            return super.add(o);
-        }
-
-        @Override
-        public synchronized boolean remove(Object o) {
-            return super.remove(o);
-        }
-
-        public synchronized boolean implies(Permission permission) {
-            for (Permission p : this) {
-                if (p.implies(permission)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-    }
-
-    private class PermissionManagementLogImpl implements PermissionManagementLog {
-
-        private InstancePolicy manager;
-
-        private Set<LogEntry> entries;
-        
-        public PermissionManagementLogImpl(InstancePolicy manager) {
-            this.manager = manager;
-            this.entries = new HashSet<LogEntry>();
-        }
-
-        public void addGrantTask(Principal principal, InstancePermission permission) {
-            entries.add(new LogEntry(true, principal, permission));
-        }
-
-        public void addRevokeTask(Principal principal, InstancePermission permission) {
-            entries.add(new LogEntry(false, principal, permission));
-        }
-
-        public void commit() {
-            for (LogEntry entry : entries) {
-                checkInstancePermission(entry.getPermission());
-            }
-            for (LogEntry entry : entries) {
-                if (entry.isGrant()) {
-                    manager.grantPermissionNoCheck(entry.getPrincipal(), entry.getPermission());
-                } else {
-                    manager.revokePermissionNoCheck(entry.getPrincipal(), entry.getPermission());
-                }
-            }
-        }
-        
-    }
-    
-    private static class LogEntry {
-        
-        private boolean grant;
-        
-        private Principal principal;
-        
-        private InstancePermission permission;
-
-        public LogEntry(boolean grant, Principal principal, InstancePermission permission) {
-            this.grant = grant;
-            this.principal = principal;
-            this.permission = permission;
-        }
-
-        public boolean isGrant() {
-            return grant;
-        }
-
-        public Principal getPrincipal() {
-            return principal;
-        }
-     
-        public InstancePermission getPermission() {
-            return permission;
-        }
-        
     }
 
 }

@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.jaas.policy;
+package net.sourceforge.safr.jaas.permission;
 
 import java.util.Map;
 import java.util.Set;
 
-import net.sourceforge.safr.jaas.permission.InstancePermission;
 import net.sourceforge.safr.jaas.principal.RolePrincipal;
 import net.sourceforge.safr.jaas.principal.UserPrincipal;
 

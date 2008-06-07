@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 the original author or authors.
+ * Copyright 2006-2008 InterComponentWare AG.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.sourceforge.safr.jaas.access;
+package net.sourceforge.safr.jaas.permission;
 
 import java.security.Permission;
+import java.security.Principal;
+import java.util.Collection;
 
-import net.sourceforge.safr.jaas.policy.InstancePolicy;
+import javax.security.auth.Subject;
+
 
 /**
- * A proprietary access controller similar to {@link AccessController} that does
- * not delegate to the currently installed {@link Policy}. It rather delegates
- * to an explicitly referenced {@link InstancePolicy}. 
- * 
  * @author Martin Krasser
  */
-public interface AccessController {
+public interface PermissionManager {
 
     void checkPermission(Permission permission);
+    
+    boolean implies(Permission permission, Subject subject);
+    
+    boolean implies(Permission permission, Principal... principals);
+    
+    void grantPermission(Principal principal, InstancePermission permission);
+
+    void revokePermission(Principal principal, InstancePermission permission);
+
+    Collection<InstancePermission> getPermissions(Principal principal);
+    
+    PermissionManagementLog newPermissionManagementLog();
 
 }
