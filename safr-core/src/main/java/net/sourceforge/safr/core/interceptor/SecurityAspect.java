@@ -39,11 +39,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 @SuppressWarnings("unused")
 public class SecurityAspect extends InterceptorSupport {
 
-    private Secure s;
-    private Filter f;
-    private Inherit i;
-    private Encrypt e;
-    
     @Pointcut("@target(net.sourceforge.safr.core.annotation.SecureObject)")
     private void secureObjectAnnotatedClass() {}
 
@@ -53,30 +48,30 @@ public class SecurityAspect extends InterceptorSupport {
      * @Secure annotations are matched only if they are applied to the first 5 
      * parameters of a method. 
      * --------------------------------------------------------------------- */
-    @Pointcut("execution(!private * *(@Secure (*), ..))")
+    @Pointcut("execution(!private * *(@net.sourceforge.safr.core.annotation.Secure (*), ..))")
     private void param1() {}
-    @Pointcut("execution(!private * *(*, @Secure (*), ..))")
+    @Pointcut("execution(!private * *(*, @net.sourceforge.safr.core.annotation.Secure (*), ..))")
     private void param2() {}
-    @Pointcut("execution(!private * *(*, *, @Secure (*), ..))")
+    @Pointcut("execution(!private * *(*, *, @net.sourceforge.safr.core.annotation.Secure (*), ..))")
     private void param3() {}
-    @Pointcut("execution(!private * *(*, *, *, @Secure (*), ..))")
+    @Pointcut("execution(!private * *(*, *, *, @net.sourceforge.safr.core.annotation.Secure (*), ..))")
     private void param4() {}
-    @Pointcut("execution(!private * *(*, *, *, *, @Secure (*), ..))")
+    @Pointcut("execution(!private * *(*, *, *, *, @net.sourceforge.safr.core.annotation.Secure (*), ..))")
     private void param5() {}
     
     @Pointcut("param1() || param2() || param3() || param4() || param5()")
     private void secureAnnotatedParam() {}
     
-    @Pointcut("execution(!private * *(..)) && @annotation(Secure)")
+    @Pointcut("execution(!private * *(..)) && @annotation(net.sourceforge.safr.core.annotation.Secure)")
     private void secureAnnotatedMethod() {}
     
-    @Pointcut("execution(!private * *(..)) && @annotation(Filter)")
+    @Pointcut("execution(!private * *(..)) && @annotation(net.sourceforge.safr.core.annotation.Filter)")
     private void filterAnnotatedMethod() {} 
     
-    @Pointcut("execution(!private * *(..)) && @annotation(Inherit)")
+    @Pointcut("execution(!private * *(..)) && @annotation(net.sourceforge.safr.core.annotation.Inherit)")
     private void inheritAnnotatedMethod() {}
     
-    @Pointcut("@annotation(Encrypt)")
+    @Pointcut("@annotation(net.sourceforge.safr.core.annotation.Encrypt)")
     private void encryptAnnotatedField() {}
     
     @Pointcut("secureObjectAnnotatedClass() && filterAnnotatedMethod()")
