@@ -60,7 +60,7 @@ public class SecurityInterceptor extends InterceptorSupport implements MethodInt
         return getSecurityAttributeSource().getParameterSecureAttributes(invocation.getMethod(), getTargetClass(invocation));
     }
     
-    private Class getTargetClass(MethodInvocation invocation) {
+    private Class<?> getTargetClass(MethodInvocation invocation) {
         return (invocation.getThis() != null) ? invocation.getThis().getClass() : null;
     }
 

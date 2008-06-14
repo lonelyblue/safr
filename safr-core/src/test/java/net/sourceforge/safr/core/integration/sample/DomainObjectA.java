@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.List;
 
 import net.sourceforge.safr.core.annotation.Filter;
-import net.sourceforge.safr.core.annotation.Inherit;
 import net.sourceforge.safr.core.annotation.Secure;
 import net.sourceforge.safr.core.annotation.SecureAction;
 import net.sourceforge.safr.core.annotation.SecureObject;
@@ -36,19 +35,15 @@ public class DomainObjectA {
     //  parameter annotation
     // -------------------------------------------------------------------
     
-    @Inherit // marker 
     public void m01a(
             @Secure(SecureAction.UPDATE) String p1, 
             /* not annotated */ String p2) {}
-    @Inherit // marker 
     public void m01b(
             /* not annotated */ String p1, 
             @Secure(SecureAction.UPDATE) String p2) {}
-    @Inherit // marker 
     public void m01c(
             @Secure(SecureAction.UPDATE) String p1, 
             @Secure(SecureAction.UPDATE) String p2) {}
-    @Inherit // marker 
     public void m01d(
             @Secure({SecureAction.UPDATE, SecureAction.CREATE}) String p1, 
             @Secure(SecureAction.DELETE) String p2) {}
@@ -57,19 +52,15 @@ public class DomainObjectA {
     //  parameter annotation inheritance
     // -------------------------------------------------------------------
     
-    @Inherit // marker 
     public void m02a( // subclass inherits annotations
             @Secure(SecureAction.UPDATE) String p1, 
             String p2) {}
-    @Inherit // marker 
     public void m02b( // subclass overrides annotations
             @Secure(SecureAction.UPDATE) String p1, 
             String p2) {}
-    @Inherit // marker 
     public void m02c( // subclass defines annotations
             String p1, 
             String p2) {}
-    @Inherit // marker 
     public void m02d( // subclass overrides annotations (different location)
             @Secure(SecureAction.UPDATE) String p1, 
             String p2) {}

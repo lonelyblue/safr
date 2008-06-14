@@ -15,6 +15,10 @@
  */
 package net.sourceforge.safr.core.interceptor;
 
+import net.sourceforge.safr.core.annotation.Encrypt;
+import net.sourceforge.safr.core.annotation.Filter;
+import net.sourceforge.safr.core.annotation.Inherit;
+import net.sourceforge.safr.core.annotation.Secure;
 import net.sourceforge.safr.core.attribute.EncryptAttribute;
 import net.sourceforge.safr.core.attribute.FilterAttribute;
 import net.sourceforge.safr.core.attribute.SecureAttribute;
@@ -32,49 +36,64 @@ import org.aspectj.lang.reflect.MethodSignature;
  * @author Martin Krasser
  */
 @Aspect
+@SuppressWarnings("unused")
 public class SecurityAspect extends InterceptorSupport {
 
-    @SuppressWarnings("unused")
+    private Secure s;
+    private Filter f;
+    private Inherit i;
+    private Encrypt e;
+    
     @Pointcut("@target(net.sourceforge.safr.core.annotation.SecureObject)")
     private void secureObjectAnnotatedClass() {}
+
+    /* ------------------------------------------------------------------------
+     * A limitation in AspectJ 1.6 parameter annotation matching requires the 
+     * position of the annotated parameter to be defined explicitly. Currently, 
+     * @Secure annotations are matched only if they are applied to the first 5 
+     * parameters of a method. 
+     * --------------------------------------------------------------------- */
+    @Pointcut("execution(!private * *(@Secure (*), ..))")
+    private void param1() {}
+    @Pointcut("execution(!private * *(*, @Secure (*), ..))")
+    private void param2() {}
+    @Pointcut("execution(!private * *(*, *, @Secure (*), ..))")
+    private void param3() {}
+    @Pointcut("execution(!private * *(*, *, *, @Secure (*), ..))")
+    private void param4() {}
+    @Pointcut("execution(!private * *(*, *, *, *, @Secure (*), ..))")
+    private void param5() {}
     
-    @SuppressWarnings("unused")
-    @Pointcut("execution(!private * *(..)) && @annotation(net.sourceforge.safr.core.annotation.Filter)")
-    private void filterAnnotatedMethod() {} 
+    @Pointcut("param1() || param2() || param3() || param4() || param5()")
+    private void secureAnnotatedParam() {}
     
-    @SuppressWarnings("unused")
-    @Pointcut("execution(!private * *(..)) && @annotation(net.sourceforge.safr.core.annotation.Secure)")
+    @Pointcut("execution(!private * *(..)) && @annotation(Secure)")
     private void secureAnnotatedMethod() {}
     
-    @SuppressWarnings("unused")
-    @Pointcut("execution(!private * *(..)) && @annotation(net.sourceforge.safr.core.annotation.Inherit)")
+    @Pointcut("execution(!private * *(..)) && @annotation(Filter)")
+    private void filterAnnotatedMethod() {} 
+    
+    @Pointcut("execution(!private * *(..)) && @annotation(Inherit)")
     private void inheritAnnotatedMethod() {}
     
-    @SuppressWarnings("unused")
-    @Pointcut("@annotation(net.sourceforge.safr.core.annotation.Encrypt)")
+    @Pointcut("@annotation(Encrypt)")
     private void encryptAnnotatedField() {}
     
-    @SuppressWarnings("unused")
     @Pointcut("secureObjectAnnotatedClass() && filterAnnotatedMethod()")
     private void filterAnnotatedDomainObjectMethod() {}
     
-    @SuppressWarnings("unused")
-    @Pointcut("secureObjectAnnotatedClass() && secureAnnotatedMethod()")
+    @Pointcut("secureObjectAnnotatedClass() && (secureAnnotatedMethod() || secureAnnotatedParam())")
     private void secureAnnotatedDomainObjectMethod() {}
     
-    @SuppressWarnings("unused")
     @Pointcut("secureObjectAnnotatedClass() && inheritAnnotatedMethod()")
     private void inheritAnnotatedDomainObjectMethod() {}
     
-    @SuppressWarnings("unused")
     @Pointcut("secureObjectAnnotatedClass() && encryptAnnotatedField()")
     private void encryptAnnotatedDomainObjectField() {}
     
-    @SuppressWarnings("unused")
     @Pointcut("secureAnnotatedDomainObjectMethod() || filterAnnotatedDomainObjectMethod() || inheritAnnotatedDomainObjectMethod()")
     private void securityAnnotatedDomainObjectMethod() {}
 
-    @SuppressWarnings("unused")
     @Around("securityAnnotatedDomainObjectMethod()")
     public Object methodInvocation(ProceedingJoinPoint pjp) throws Throwable {
         if (!isConfigured()) {
@@ -102,7 +121,6 @@ public class SecurityAspect extends InterceptorSupport {
         
     }
     
-    @SuppressWarnings("unused")
     @Around("set(* *.*) && encryptAnnotatedDomainObjectField()")
     public Object setFieldAccess(ProceedingJoinPoint pjp) throws Throwable {
         FieldSignature signature = (FieldSignature)pjp.getSignature();
@@ -115,7 +133,6 @@ public class SecurityAspect extends InterceptorSupport {
         return pjp.proceed(args);
     }
     
-    @SuppressWarnings("unused")
     @Around("get(* *.*) && encryptAnnotatedDomainObjectField()")
     public Object getFieldAccess(ProceedingJoinPoint pjp) throws Throwable {
         FieldSignature signature = (FieldSignature)pjp.getSignature();

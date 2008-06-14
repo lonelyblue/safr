@@ -36,7 +36,7 @@ public class RemoveFilter extends ObjectFilter {
         if (!(obj instanceof Iterable)) {
             throw new ResultFilterException("remove filter cannot be applied to a non-iterable object");
         }
-        Iterator iter = ((Iterable)obj).iterator();
+        Iterator<?> iter = ((Iterable<?>)obj).iterator();
         while (iter.hasNext()) {
             Object o = iter.next();
             if (o == null) {

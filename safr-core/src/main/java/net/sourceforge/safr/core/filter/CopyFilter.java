@@ -28,9 +28,11 @@ import net.sourceforge.safr.core.provider.AccessManager;
  */
 class CopyFilter extends ObjectFilter {
 
-    private Class<? extends Collection<?>> resultClass;
+    @SuppressWarnings("unchecked")
+    private Class<? extends Collection> resultClass;
     
-    public CopyFilter(AccessManager accessManager, Class<? extends Collection<?>> resultClass) {
+    @SuppressWarnings("unchecked")
+    public CopyFilter(AccessManager accessManager, Class<? extends Collection> resultClass) {
         super(accessManager);
         this.resultClass = resultClass;
     }
@@ -58,7 +60,7 @@ class CopyFilter extends ObjectFilter {
         return result;
     }
 
-    private Collection createResultCollection() {
+    private Collection<?> createResultCollection() {
         try {
             return resultClass.newInstance();
         } catch (Exception e) {

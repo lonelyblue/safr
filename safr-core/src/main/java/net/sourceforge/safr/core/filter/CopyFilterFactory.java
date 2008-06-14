@@ -50,8 +50,9 @@ public class CopyFilterFactory extends ResultFilterFactory {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected ResultFilter doGetResultFilter(Method method, FilterAttribute attribute) {
-        Class<? extends Collection<?>> clazz = attribute.getResultCollectionClass(); 
+        Class<? extends Collection> clazz = attribute.getResultCollectionClass(); 
         if (clazz == null) {
             return getCollectionFilter(method);
         } else {
@@ -59,7 +60,8 @@ public class CopyFilterFactory extends ResultFilterFactory {
         }
     }
 
-    private synchronized ResultFilter getCollectionFilter(Class<? extends Collection<?>> clazz) {
+    @SuppressWarnings("unchecked")
+    private synchronized ResultFilter getCollectionFilter(Class<? extends Collection> clazz) {
         CopyFilter filter = customCollectionFilters.get(clazz);
         if (filter == null) {
             filter = new CopyFilter(getAccessManager(), clazz);

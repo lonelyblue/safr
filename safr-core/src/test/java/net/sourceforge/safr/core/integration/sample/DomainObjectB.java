@@ -36,19 +36,19 @@ public class DomainObjectB extends DomainObjectA {
     //  parameter annotation inheritance
     // -------------------------------------------------------------------
     
-    @Override @Inherit // marker 
+    @Override @Inherit
     public void m02a( // inherit annotations
             String p1, 
             String p2) {}
-    @Override @Inherit // marker 
+    @Override 
     public void m02b( // override annotations
             @Secure(SecureAction.CREATE) String p1, 
             String p2) {}
-    @Override @Inherit // marker 
+    @Override 
     public void m02c( // define annotations
             @Secure(SecureAction.UPDATE) String p1, 
             String p2) {}
-    @Override @Inherit // marker 
+    @Override 
     public void m02d( // override annotations (different location)
             String p1, 
             @Secure(SecureAction.DELETE) String p2) {}

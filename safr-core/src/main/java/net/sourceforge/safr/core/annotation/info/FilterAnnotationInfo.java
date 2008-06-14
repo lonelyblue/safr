@@ -28,7 +28,8 @@ import net.sourceforge.safr.core.attribute.FilterAttribute;
  */
 public class FilterAnnotationInfo implements FilterAttribute {
 
-    private Class<? extends Collection<?>> resultCollectionClass;
+    @SuppressWarnings("unchecked")
+    private Class<? extends Collection> resultCollectionClass;
     
     private boolean copyResultCollection;
     
@@ -46,12 +47,14 @@ public class FilterAnnotationInfo implements FilterAttribute {
         return copyResultCollection;
     }
 
-    public Class<? extends Collection<?>> getResultCollectionClass() {
+    @SuppressWarnings("unchecked")
+    public Class<? extends Collection> getResultCollectionClass() {
         return resultCollectionClass;
     }
 
+    @SuppressWarnings("unchecked")
     private void init(Filter annotation) {
-        Class<? extends Collection<?>> clazz = annotation.resultCollectionClass();
+        Class<? extends Collection> clazz = annotation.resultCollectionClass();
         resultCollectionClass = Undefined.class.equals(clazz) ? null : clazz;
         copyResultCollection = annotation.copyResultCollection();
         nullifyResult = annotation.nullifyResult();

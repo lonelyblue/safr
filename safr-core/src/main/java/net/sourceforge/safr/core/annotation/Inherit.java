@@ -25,14 +25,9 @@ import java.lang.annotation.Target;
  * shall be inherited from superclasses and interfaces. This annotation is only
  * necessary for classes processed by the AspectJ compiler. For beans managed by
  * a Spring application context, annotation inheritance is the default
- * behaviour. This annotation has no effect if other (method-level) security
- * annotations are defined on the same method. This annotation can also be used
- * to work around a current shortcoming of the AspectJ pointcut language
- * (version 1.5). This language currently doesn't support pointcut expressions
- * that address parameter-level annotations. Add this annotation to methods that
- * define security annotations on parameter-level only, otherwise, the security
- * annotations won't be recognized. As before, this is only necessary for
- * classes processed by the AspectJ compiler, not for Spring managed beans.
+ * behaviour. If other (method-level) security annotations are defined on the
+ * same method inheritance is enabled by default and this annotation can be
+ * omitted.
  * 
  * @author Martin Krasser
  */
