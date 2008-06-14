@@ -26,7 +26,6 @@ public interface FilterAttribute {
     
     boolean isCopyResultCollection();
 
-    @SuppressWarnings("unchecked")
     Class<? extends Collection> getResultCollectionClass();
     
 }

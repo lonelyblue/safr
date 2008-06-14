@@ -41,7 +41,6 @@ import org.junit.Test;
 /**
  * @author Martin Krasser
  */
-@SuppressWarnings("unchecked")
 public class FilterMethodTest extends TestBase {
 
     // -------------------------------------------------------------------

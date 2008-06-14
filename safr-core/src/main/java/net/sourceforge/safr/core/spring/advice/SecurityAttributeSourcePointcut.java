@@ -32,7 +32,6 @@ class SecurityAttributeSourcePointcut extends StaticMethodMatcherPointcut {
         this.source = source;
     }
     
-    @SuppressWarnings("unchecked")
     public boolean matches(Method method, Class targetClass) {
         if (source == null) {
             return false;

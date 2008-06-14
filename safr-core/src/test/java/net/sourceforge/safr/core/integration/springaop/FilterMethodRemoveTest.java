@@ -44,7 +44,6 @@ import org.junit.Test;
 /**
  * @author Martin Krasser
  */
-@SuppressWarnings("unchecked")
 public class FilterMethodRemoveTest extends TestBase {
 
     @Before

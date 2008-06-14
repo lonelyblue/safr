@@ -28,16 +28,13 @@ import net.sourceforge.safr.core.provider.AccessManager;
  */
 class CopyFilter extends ObjectFilter {
 
-    @SuppressWarnings("unchecked")
     private Class<? extends Collection> resultClass;
     
-    @SuppressWarnings("unchecked")
     public CopyFilter(AccessManager accessManager, Class<? extends Collection> resultClass) {
         super(accessManager);
         this.resultClass = resultClass;
     }
 
-    @SuppressWarnings("unchecked")
     public Object apply(Object obj) {
         if (obj == null) {
             return null;

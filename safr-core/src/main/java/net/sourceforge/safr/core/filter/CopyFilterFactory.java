@@ -50,7 +50,6 @@ public class CopyFilterFactory extends ResultFilterFactory {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     protected ResultFilter doGetResultFilter(Method method, FilterAttribute attribute) {
         Class<? extends Collection> clazz = attribute.getResultCollectionClass(); 
         if (clazz == null) {
@@ -60,7 +59,6 @@ public class CopyFilterFactory extends ResultFilterFactory {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private synchronized ResultFilter getCollectionFilter(Class<? extends Collection> clazz) {
         CopyFilter filter = customCollectionFilters.get(clazz);
         if (filter == null) {

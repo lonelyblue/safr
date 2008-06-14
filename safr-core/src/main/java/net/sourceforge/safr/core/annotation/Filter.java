@@ -100,7 +100,6 @@ public @interface Filter {
      * @return the implementation class of the collection object to be returned
      *         from a method invocation.
      */
-    @SuppressWarnings("unchecked")
     Class<? extends Collection> resultCollectionClass() default Undefined.class;
     
 }
