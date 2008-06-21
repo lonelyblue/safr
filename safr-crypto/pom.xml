@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.safr</groupId>
     <artifactId>safr-crypto</artifactId>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
     <name>safr-crypto</name>
     <url>http://safr.sourceforge.net</url>
     <parent>
@@ -10,4 +10,16 @@
         <artifactId>safr</artifactId>
         <version>0.9-SNAPSHOT</version>
     </parent>
+    <properties>
+        <osgi.export.pkg>
+             net.sourceforge.safr.crypto.*
+        </osgi.export.pkg>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>net.sourceforge.safr</groupId>
+            <artifactId>safr-core</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+    </dependencies>
 </project>
