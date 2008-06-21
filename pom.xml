@@ -11,11 +11,12 @@
         <module>safr-core</module>
         <module>safr-crypto</module>
         <module>safr-jaas</module>
+        <module>safr-sample-crypto</module>
         <module>safr-sample-hellosaf</module>
         <module>safr-sample-notebook</module>
     </modules>
     <scm>
-        <connection>scm:svn:https://safr.svn.sourceforge.net/svnroot/safr/tags/safr-0.8.2</connection>
+        <connection>scm:svn:https://safr.svn.sourceforge.net/svnroot/safr/trunk/safr</connection>
     </scm>
     <issueManagement>
         <system>sourceforge.net</system>
@@ -66,6 +67,17 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
         </license>
     </licenses>    
+    <properties>
+        <!-- Default Bundle Properties -->
+        <osgi.export.pkg>*</osgi.export.pkg>
+        <osgi.import.pkg>*</osgi.import.pkg>
+        <osgi.private.pkg>!*</osgi.private.pkg>
+        <osgi.bundle.activator></osgi.bundle.activator>
+        <!-- Component Versions -->
+        <aspectj-version>1.6.0</aspectj-version>
+        <felix-version>1.0.4</felix-version>
+        <spring-version>2.5.4</spring-version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -87,6 +99,11 @@
             <artifactId>spring-test</artifactId>
             <version>${spring-version}</version>
         </dependency>        
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -130,6 +147,19 @@
                 <version>2.3</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Export-Package>${osgi.export.pkg}</Export-Package>
+                        <Import-Package>${osgi.import.pkg}</Import-Package>
+                        <Private-Package>${osgi.private.pkg}</Private-Package>
+                        <Bundle-Activator>${osgi.bundle.activator}</Bundle-Activator>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
@@ -144,10 +174,6 @@
             </plugin>        
         </plugins>
     </build>
-    <properties>
-        <aspectj-version>1.6.0</aspectj-version>
-        <spring-version>2.5.4</spring-version>
-    </properties>
     <reporting>
         <plugins>
             <plugin>

@@ -21,5 +21,10 @@
             <artifactId>safr-core</artifactId>
             <version>${pom.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.5</version>
+        </dependency>
     </dependencies>
 </project>
