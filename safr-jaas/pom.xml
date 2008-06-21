@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.safr</groupId>
     <artifactId>safr-jaas</artifactId>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
     <name>safr-jaas</name>
     <url>http://safr.sourceforge.net</url>
     <parent>
@@ -10,6 +10,11 @@
         <artifactId>safr</artifactId>
         <version>0.9-SNAPSHOT</version>
     </parent>
+    <properties>
+        <osgi.export.pkg>
+             net.sourceforge.safr.jaas.*
+        </osgi.export.pkg>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
