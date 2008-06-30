@@ -64,7 +64,7 @@ public interface Service {
 }
 +---
 
-  The <<<@org.springframework.stereotype.Service>>> annotation of <<<ServiceImpl>>> is part of the Spring Framework since version 2.5. We use the annotation to load the service bean from the classpath (for more details refer to the {{{../index.html}SAF Overview}} page). 
+  The <<<@org.springframework.stereotype.Service>>> annotation of <<<ServiceImpl>>> is part of the Spring Framework since version 2.5. We use the annotation to load the service bean from the classpath (for more details refer to the {{{../index.html}SAF home page}}). 
 
 +---
 package net.sourceforge.safr.sample.hellosaf;
