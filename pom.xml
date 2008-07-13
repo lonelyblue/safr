@@ -3,7 +3,7 @@
     <groupId>net.sourceforge.safr</groupId>
     <artifactId>safr</artifactId>
     <packaging>pom</packaging>
-    <version>0.9-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <name>safr</name>
     <url>http://safr.sourceforge.net</url>
     <inceptionYear>2006</inceptionYear>
@@ -72,7 +72,7 @@
         <osgi.export.pkg>*</osgi.export.pkg>
         <osgi.import.pkg>*</osgi.import.pkg>
         <osgi.private.pkg>!*</osgi.private.pkg>
-        <osgi.bundle.activator></osgi.bundle.activator>
+        <osgi.bundle.activator />
         <!-- Component Versions -->
         <aspectj-version>1.6.0</aspectj-version>
         <felix-version>1.0.4</felix-version>
