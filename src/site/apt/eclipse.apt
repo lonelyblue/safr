@@ -6,7 +6,7 @@ Eclipse Setup
 
 * Version
 
-  {{{http://www.eclipse.org}Eclipse}} version 3.3 is recommended for working with the SAF sources version 0.8.1 and higher.
+  {{{http://www.eclipse.org}Eclipse}} version 3.3 and {{{http://www.eclipse.org/ajdt/}AspectJ Development Tools}} (AJDT) version 1.5.3 are required for working with the SAF sources version 0.9 and higher.
 
 * Plugins
   
@@ -30,7 +30,7 @@ Eclipse Setup
   
 [images/safr-eclipse-1.jpg] Import SAF modules
    
-  Then press the Finish button. You should see the the SAF modules as Maven2 Eclipse projects. This step may take a while if Maven2 needs to download dependencies from {{{http://www.ibiblio.org/maven2/}ibiblio}}.
+  Then press the Finish button. You should see the the SAF modules as Maven2 Eclipse projects. This step may take a while if Maven2 needs to download dependencies from the {{{http://repo1.maven.org/maven2/}central Maven2 repository}}.
   
 [images/safr-eclipse-2.jpg] Import SAF modules
 

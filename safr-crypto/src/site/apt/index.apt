@@ -1,12 +1,12 @@
   ----
-  SAF Core Module
+  SAF Crypto Module
   ----
 
-SAF Core Module
+SAF Crypto Module
 
 * Overview
 
-  The SAF Core Module is a framework with service provider interfaces (SPI) for authorization providers and crypto providers.
+  The SAF Crypto module provides an implementation of the {{{../safr-core/index.html}SAF Core}} <<<CryptoProvider>>> interface for testing and demonstration purposes. 
 
 * Documentation
 
@@ -20,8 +20,3 @@ SAF Core Module
    
   []      
 
-* Browse Javadocs
-
-  * {{{apidocs/index.html}Javadocs}} 
-
-  []

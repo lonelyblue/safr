@@ -4,11 +4,25 @@
 
 Security Annotation Framework
 
-  TODO: insert table of contents
+* Content
 
-* Overview
+  * {{Overview}}
 
-  The Security Annotation Framework (SAF) is a framework for instance-level access control and field-level encryption. Access-control decisions at class-instance-level and crypto operations at field-level are enforced using Java 5 annotations. The SAF defines service provider interfaces (SPI) to be implemented by authorization providers and crypto providers. Authorization providers decide for individual class-instances (e.g. domain object instances of an enterprise application) if access shall be granted or not (within a certain security context). Similarly, encryption providers are repsonsible for encrypting and decrypting field values of objects. The SAF provides sample implementations of these providers for demonstration and testing purposes. They are currently not intended for productive use. However, you can easily reuse authorization and crypto providers from 3rd-party security frameworks by writing adapters that implement the SAF SPI and delegate work to these providers. Later versions of the SAF will also provide default adapters for some security frameworks like {{{http://static.springframework.org/spring-security/site/index.html}Spring Security}}, for example. If you want to reuse your own custom security provider you can integrate it easily via the SAF SPI (see later). 
+  * {{{Architectural} Architectural Context}}
+
+  * {{{Access} Access Control Developer Guide}}
+
+  * {{{Encryption} Encryption Developer Guide}}
+
+  * {{{OSGi} OSGi Support}}
+
+  * {{{Next} Next Steps}}
+
+  []
+  
+* {Overview}
+
+  The Security Annotation Framework (SAF) is a framework for instance-level access control and field-level encryption. Access-control decisions at class-instance-level and crypto operations at field-level are enforced using Java 5 annotations. The SAF defines service provider interfaces (SPI) to be implemented by authorization providers and crypto providers. Authorization providers decide for individual class-instances (e.g. domain object instances of an enterprise application) if access shall be granted or not (within a certain security context). Similarly, encryption providers are repsonsible for encrypting and decrypting field values of objects. The SAF additionally provides sample implementations of these providers for demonstration and testing purposes. They are currently not intended for productive use. However, you can easily reuse authorization and crypto providers from 3rd-party security frameworks by writing adapters that implement the SAF SPI and delegate work to these providers. Later versions of the SAF will also provide default adapters for some security frameworks like {{{http://static.springframework.org/spring-security/site/index.html}Spring Security}}, for example. If you want to reuse your own custom security provider you can integrate it easily via the SAF SPI (see later). 
   
   The SAF is targeted at {{{http://www.springframework.org}Spring}} 2.x applications and can be configured based on a custom XML schema . With emphasis on ease of configuration, it frees developers from dealing with low-level configuration and AOP details. Placing annotations in the source code automatically installs interceptors (using {{{http://www.springframework.org}Spring}} AOP and {{{http://www.aspectj.org}AspectJ}} mechanisms) that delegate work to authorization- and crypto providers. 
     
@@ -18,9 +32,9 @@ Security Annotation Framework
 
 ** Encryption
 
-  The SAF <<<@Encrypt>>> annotation is used for fields whose values should be stored in some encrypted form. However, Java code that uses these fields in statements should have access to the un-encrypted field values without explicit (i.e. custom-coded) usage of crypto services. For every field annotated with <<<@Encrypt>>> the SAF triggers an encryption operation on write-access and a decryption operation on read-access to that field. Encryption and decryption algorithms are provided by pluggable crypto providers. Crypto operations are, however, not triggered if the field access is made via reflection. If you use a persistence framework that can access fields via reflection (like {{{http://www.hibernate.org/}Hibernate}}) all fields annotated with <<<@Encrypt>>> are also stored in their encrypted form in a database. There's no need to write Hibernate-specific encryption and decryption interceptors. This is demonstrated in the {{{safr-sample-crypto/index.html}Encryption}} sample application. Similarly, you can configure {{{https://jaxb.dev.java.net/}JAXB}} to access fields via reflection and have annotated fields in their encrypted form in XML documents.
+  The SAF <<<@Encrypt>>> annotation is placed on fields whose values should be stored in some encrypted form, both, in memory and on persistent storage (or any other external representation). On the other hand, Java code that uses these fields directly has access to the un-encrypted field values without explicit usage of (i.e. custom-coded) crypto services. For every field annotated with <<<@Encrypt>>> the SAF triggers an encryption operation on write-access and a decryption operation on read-access to that field (this will be explained more detailed in the Encryption Developer Guide). Encryption and decryption algorithms are provided by pluggable crypto providers. Crypto operations are, however, not triggered if the field access is made via reflection. If you use a persistence framework that can access fields via reflection (like {{{http://www.hibernate.org/}Hibernate}}) all fields annotated with <<<@Encrypt>>> are also stored in their encrypted form in a database. There's no need to write Hibernate-specific encryption and decryption interceptors. This is demonstrated in the {{{safr-sample-crypto/index.html}Encryption}} sample application. Similarly, you can configure {{{https://jaxb.dev.java.net/}JAXB}} to access fields via reflection and have annotated fields in their encrypted form in XML documents.
   
-* Architectural Context
+* {Architectural} Context
 
 ** Access Control
 
@@ -44,7 +58,7 @@ Security Annotation Framework
   
 [images/safr-overview-2a.jpg] Field Encryption via SAF
 
-* Access Control Developer Guide
+* {Access} Control Developer Guide
 
 ** Annotations
 
@@ -146,9 +160,11 @@ nb1 = new Notebook(...) // id == 1
 *--+--+--+
 |<<<access-manager>>>|accessManager|The name of the bean that implements the <<<AccessManager>>> interface|
 *--+--+--+
-|<<<proxy-target-class>>>|false|Controls what type of security proxy is created. If false a JDK dynamic proxy is created (interface-based proxy), otherwise, a class-based proxy will be created.|
+|<<<crypto-provider>>>| |The name of the bean that implements the <<<CryptoProvider>>> interface|
 *--+--+--+
-|<<<interceptor-order>>>|0|Order value of the created security interceptor. This attribute can be used to define the position of the security interceptor relative to other interceptors like Spring's transaction interceptor.|
+|<<<proxy-target-class>>>|false|Controls what type of security proxy is created. If false a JDK dynamic proxy is created (interface-based proxy), otherwise, a class-based proxy will be created. This is only relevant for Spring AOP.|
+*--+--+--+
+|<<<interceptor-order>>>|0|Order value of the created security interceptor. This attribute can be used to define the position of the security interceptor relative to other interceptors like Spring's transaction interceptor. This is only relevant for Spring AOP.|
 *--+--+--+
 |<<<support-aspectj>>>|true|Can be set to false if no security annotations are used on domain objects. It is safe to leave this attribute to true.|
 *--+--+--+
@@ -193,17 +209,101 @@ public class SampleAccessManager implements AccessManager {
 
 [images/safr-overview-4.jpg] AOP based Policy Enforcement with the SAF
 
-* Encryption Developer Guide
+* {Encryption} Developer Guide
 
-  ...
+** Annotations
 
-* Next Steps
+  <<<@Encrypt>>> annotations are recognized by the SAF when they are placed on fields of domain objects that are annotated with <<<@SecureObject>>>. In the following figure, the <<<creditCardNumber>>> field of the <<<Customer>>> domain object is annotated with <<<@Encrypt>>> (the annotation also allows to pass provider-specific hints like the encryption algorithm to use, for example). Fields annotated with <<<@Encrypt>>> store their values in some encrypted form in memory. 
+  
+[images/safr-overview-5.png] Encryption and decryption with the SAF.
+  
+** Crypto Provider
+  
+  Read-access to that field triggers a decryption operation on the configured <<<CryptoProvider>>> i.e. the SAF calls the <<<CryptoProvider>>>'s <<<decrypt()>>> method. The local variable <<<local>>> therefore contains the unencrypted field value. Write access to the field triggers an encryption operation i.e. the SAF calls the <<<CryptoProvider>>>'s <<<encrypt()>>> method.
+  
+  Both methods have three parameters:
+  
+  * <<<value>>>: the field value to be encrypted or decrypted.
+  
+  * <<<context>>>: the object containing the encrypted field.
+  
+  * <<<hints>>>: a map with hints that have been defined at the <<<@Encrypt>>> annotation.
+
+  []
+
+** Configuration
+
+  <<<CryptoProvider>>>s are also configured with the <<<\<sec:annotation-driven\>>>> element. Here's a sample configuration that uses a <<<CryptoProvider>>> only, without using an <<<AccessManager>>>:
+  
++---
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:sec="http://safr.sourceforge.net/schema/core"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://safr.sourceforge.net/schema/core 
+    http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
+
+    <sec:annotation-driven access-manager="" crypto-provider="cryptoProvider" />
+    
+    <bean id="cryptoProvider" class="...CryptoProviderImpl">
+        ...
+    </bean>
+
+</beans>
++---
+
+  You may also scan <<<CryptoProvider>>> implementations from the classpath using:
+  
++---
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:sec="http://safr.sourceforge.net/schema/core"
+    xmlns:ctx="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://safr.sourceforge.net/schema/core 
+    http://safr.sourceforge.net/schema/core/spring-safr-core-1.0.xsd">
+
+    <ctx:component-scan base-package="com.example"/>
+
+    <sec:annotation-driven access-manager="" crypto-provider="sampleProvider" />
+
+</beans>
++---
+
+  where the <<<CryptoProvider>>> implementation is annotated with
+  
++---
+package com.example.crypto;
+
+@CryptographicServiceProvider("sampleProvider")
+public class SampleCryptoProvider implements CryptoProvider {
+    
+    ...
+    
+}
++---
+
+* {OSGi} Support
+
+  The SAF modules {{{safr-core/index.html}SAF Core}}, {{{safr-jaas/index.html}SAF JAAS}} and {{{safr-crypto/index.html}SAF Crypto}} can be deployed to any OSGi R4-compliant container such as {{{http://www.eclipse.org/equinox/}Equinox}}, {{{http://felix.apache.org/}Felix}} or {{{http://www.knopflerfish.org/}Knopflerfish}}.
+
+* {Next} Steps
 
   * The {{{safr-sample-hellosaf/index.html}Hello SAF}} sample shows the basic steps for setting up the {{{safr-core/index.html}SAF Core}} module in {{{http://www.springframework.org}Spring}} applications.
      
-  * The {{{safr-sample-notebook/index.html}Notebook}} sample demonstrates how to set up {{{safr-core/index.html}SAF Core}} with the JAAS authorization provider from the {{{safr-jaas/index.html}SAF JAAS}} module. This sample is a web application for managing and sharing notebooks and addresses the following topics:  
+  * The {{{safr-sample-crypto/index.html}Encryption}} sample shows how to implement database encryption with the SAF. The sample application uses Hibernate for OR mapping (but any other persistence framework could have been used here as well).
+
+  * The {{{safr-sample-notebook/index.html}Notebook}} sample demonstrates how to set up {{{safr-core/index.html}SAF Core}} with an authorization provider from the {{{safr-jaas/index.html}SAF JAAS}} module. This sample is a web application for managing and sharing notebooks and addresses the following topics:  
      
-    * Instance-level access control with SAF and JAAS.
+    * Instance-level access control with SAF.
     
     * User- and role-based access control.
     

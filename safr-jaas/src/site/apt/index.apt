@@ -4,9 +4,13 @@
 
 SAF JAAS Module
 
-  <<This page is work in progress ...>>. 
+* Overview
+
+  The SAF JAAS module is a component that provides JAAS-based access control services for demonstration purposes. It is used by the {{{../safr-sample-notebook/index.html}Notebook}} sample application.   
   
-  For an introduction to the Security Annotation Framework (SAF) go to the {{{../index.html}SAF home page}}. 
+* Documentation
+
+  Refer to the {{{../index.html}Security Annotation Framework home page}}. 
 
 * Browse Sources
  

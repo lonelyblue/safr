@@ -4,9 +4,7 @@
 
 Notebook Sample
 
-  <<This page is work in progress ...>>. 
-  
-  For an introduction to the Security Annotation Framework (SAF) go to the {{{../index.html}SAF home page}}. The introduction also discusses some of the services and domain objects used in the Notebook sample application. On this page, a brief overview of the sample application is given by demonstrating the use case of sharing a notebook between two users (see {{{#Tutorial}Tutorial}} section below).
+  For an introduction to the Security Annotation Framework (SAF) refer to the {{{../index.html}SAF home page}}. The introduction also discusses some of the services and domain objects used in the Notebook sample application. On this page, a brief overview of the sample application is given by demonstrating the use case of sharing a notebook between two users (see {{{#Tutorial}Tutorial}} section below).
 
   For each notebook instance the following permissions can be assigned to individual users. Permissions lower in the table also imply permissions upper in the table (e.g. a WRITE permission also implies a READ permission).
 

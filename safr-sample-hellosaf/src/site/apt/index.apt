@@ -4,7 +4,7 @@
 
 Hello SAF Sample 
 
-  This tutorial shows the basic steps for setting up the {{{../safr-core/index.html}SAF Core}} module in {{{http://www.springframework.org}Spring}} applications. It shows how to configure the module within a Spring application context XML file and how to apply security annotations to domain objects and Spring beans. The sample application defines an <<<AccessManager>>> with very simple, static authorization decision rules that do not consider users or roles. For setting up an application with the {{{../safr-jaas/index.html}SAF JAAS}} authorization provider refer to the {{{../safr-sample-notebook/index.html}Notebook}} sample.
+  This tutorial shows the basic steps for setting up the {{{../safr-core/index.html}SAF Core}} module in {{{http://www.springframework.org}Spring}} applications. It shows how to configure the module within a Spring application context XML file and how to apply security annotations to domain objects and Spring beans. The sample application implements an <<<AccessManager>>> with over-simplified, static authorization decision rules that do not consider users or roles. For setting up an application with the {{{../safr-jaas/index.html}SAF JAAS}} authorization provider refer to the {{{../safr-sample-notebook/index.html}Notebook}} sample.
 
 * Browse Sources
  
