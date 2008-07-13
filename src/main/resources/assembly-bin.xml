@@ -8,6 +8,7 @@
     <moduleSet>
       <includes>
         <include>net.sourceforge.safr:safr-core</include>
+        <include>net.sourceforge.safr:safr-crypto</include>
         <include>net.sourceforge.safr:safr-jaas</include>
         <include>net.sourceforge.safr:safr-sample-notebook</include>
       </includes>
