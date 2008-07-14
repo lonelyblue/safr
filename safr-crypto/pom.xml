@@ -26,5 +26,10 @@
             <artifactId>jasypt</artifactId>
             <version>1.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>3.8</version>
+        </dependency>
     </dependencies>
 </project>
