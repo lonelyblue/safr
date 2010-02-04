@@ -95,7 +95,6 @@ public abstract class RequestWrapper extends HttpServletRequestWrapper {
         if (s == null) {
             return null;
         }
-        @SuppressWarnings("unchecked")
         Set<UserPrincipal> principals = s.getPrincipals(UserPrincipal.class);
         if (principals.isEmpty()) {
             return null;
@@ -109,7 +108,6 @@ public abstract class RequestWrapper extends HttpServletRequestWrapper {
         if (s == null) {
             return false;
         }
-        @SuppressWarnings("unchecked")
         Set<RolePrincipal> principals = s.getPrincipals(RolePrincipal.class);
         if (principals.isEmpty()) {
             return false;
