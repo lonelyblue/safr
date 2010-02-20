@@ -11,53 +11,32 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <dependencies>
+        <!-- main depdencies -->
         <dependency>
             <groupId>net.sourceforge.safr</groupId>
             <artifactId>safr-core</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.safr</groupId>
             <artifactId>safr-jaas</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${spring-version}</version>
         </dependency>        
         <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
-            <version>1.1.2</version>
         </dependency>
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.1.2</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.3</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.12</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>2.0.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.0.b2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -66,7 +45,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.0</version>
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
@@ -102,6 +80,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
+                <version>1.0-beta-1</version>
                 <configuration>
                     <server>tomcat</server>
                 </configuration>

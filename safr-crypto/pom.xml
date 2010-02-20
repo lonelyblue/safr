@@ -16,20 +16,19 @@
         </osgi.export.pkg>
     </properties>
     <dependencies>
+        <!-- main depdencies -->
         <dependency>
             <groupId>net.sourceforge.safr</groupId>
             <artifactId>safr-core</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jasypt</groupId>
             <artifactId>jasypt</artifactId>
-            <version>1.5</version>
         </dependency>
         <dependency>
             <groupId>com.ibm.icu</groupId>
             <artifactId>icu4j</artifactId>
-            <version>3.8</version>
         </dependency>
     </dependencies>
 </project>
